@@ -58,15 +58,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _controls = __webpack_require__(170);
+	var _controls = __webpack_require__(168);
 
 	var _controls2 = _interopRequireDefault(_controls);
 
-	var _timeline = __webpack_require__(168);
+	var _timeline = __webpack_require__(170);
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
-	var _generations = __webpack_require__(169);
+	var _generations = __webpack_require__(173);
+
+	var _modes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./modes\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+	var _modes2 = _interopRequireDefault(_modes);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -75,15 +79,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/**
-	 * 
-	 */
-	var mode = {
-	    forwards: 'forwards',
-	    backwards: 'backwards',
-	    middle: 'middle'
-	};
 
 	/**
 	 * Main page
@@ -102,7 +97,8 @@
 	            year: 1900,
 	            generations: [],
 	            overlap: 5,
-	            numberGenerations: 3
+	            numberGenerations: 3,
+	            mode: _modes2.default[Object.keys(_modes2.default)[0]]
 	        };
 	        return _this;
 	    }
@@ -129,6 +125,19 @@
 	            });
 	        }
 	    }, {
+	        key: 'onNumberGenerationsChange',
+	        value: function onNumberGenerationsChange(value) {
+	            this.setState({
+	                numberGenerations: value,
+	                generations: (0, _generations.getGenerations)(this.state.year, value, this.state.generationLength, this.state.overlap)
+	            });
+	        }
+	    }, {
+	        key: 'onModeChange',
+	        value: function onModeChange(mode) {
+	            this.setState({ mode: mode });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -136,7 +145,8 @@
 	                { id: 'main', className: 'container' },
 	                _react2.default.createElement(_controls2.default, _extends({}, this.state, {
 	                    onGenLengthChange: this.onGenLengthChange.bind(this),
-	                    onYearChange: this.onYearChange.bind(this) })),
+	                    onYearChange: this.onYearChange.bind(this),
+	                    onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this) })),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
 	            );
 	        }
@@ -20288,6 +20298,185 @@
 	    value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _mode = __webpack_require__(169);
+
+	var _mode2 = _interopRequireDefault(_mode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Selection of generation mode.
+	 */
+
+	var ModeSelector = function (_React$Component) {
+	    _inherits(ModeSelector, _React$Component);
+
+	    function ModeSelector() {
+	        _classCallCheck(this, ModeSelector);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(ModeSelector).apply(this, arguments));
+	    }
+
+	    _createClass(ModeSelector, [{
+	        key: 'onModeChange',
+	        value: function onModeChange(e) {
+	            var value = e.target.value;
+	            this.props.onModeChange(value);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var options = Object.keys(_mode2.default).map(function (mode) {
+	                return _react2.default.createElement(
+	                    'option',
+	                    { key: mode, value: mode },
+	                    _mode2.default[mode]
+	                );
+	            });
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'control-group' },
+	                _react2.default.createElement(
+	                    'select',
+	                    { value: this.props.mode,
+	                        onChange: this.onModeChange.bind(this) },
+	                    options
+	                )
+	            );
+	        }
+	    }]);
+
+	    return ModeSelector;
+	}(_react2.default.Component);
+
+	/**
+	 * 
+	 */
+
+
+	var Controls = function (_React$Component2) {
+	    _inherits(Controls, _React$Component2);
+
+	    function Controls() {
+	        _classCallCheck(this, Controls);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).apply(this, arguments));
+	    }
+
+	    _createClass(Controls, [{
+	        key: 'onGenLengthChange',
+	        value: function onGenLengthChange(e) {
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+	            this.props.onGenLengthChange(value);
+	        }
+	    }, {
+	        key: 'onYearChange',
+	        value: function onYearChange(e) {
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+	            this.props.onYearChange(value);
+	        }
+	    }, {
+	        key: 'onNumberGenerationsChange',
+	        value: function onNumberGenerationsChange(e) {
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+	            this.props.onNumberGenerationsChange(value);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'controls' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'control-group' },
+	                    'Generation Length: ',
+	                    _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'control-group' },
+	                    'Year: ',
+	                    _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.props.year })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'control-group' },
+	                    'Generations: ',
+	                    _react2.default.createElement('input', { type: 'number',
+	                        onChange: this.onNumberGenerationsChange.bind(this),
+	                        min: '1',
+	                        max: '500',
+	                        value: this.props.numberGenerations })
+	                ),
+	                _react2.default.createElement(ModeSelector, this.props)
+	            );
+	        }
+	    }]);
+
+	    return Controls;
+	}(_react2.default.Component);
+
+	exports.default = Controls;
+	;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 *  Mode of timeline
+	 */
+	exports.default = {
+	    forwards: 'forwards',
+	    backwards: 'backwards',
+	    middle: 'middle'
+	};
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -20473,6 +20662,16 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'timeline' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'start-label' },
+	                    this.state.range.start
+	                ),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'end-label' },
+	                    this.state.range.end
+	                ),
 	                generations,
 	                events
 	            );
@@ -20485,120 +20684,6 @@
 	exports.default = TimeLine;
 
 /***/ },
-/* 169 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var getGenerations = exports.getGenerations = function getGenerations(start, count, span) {
-	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
-
-	    var generations = [];
-	    for (var i = 0; i < count; ++i) {
-	        generations.push({
-	            start: start,
-	            end: start + span,
-	            span: span
-	        });
-	        start += span - overlap;
-	    }
-
-	    return generations;
-	};
-
-/***/ },
-/* 170 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/**
-	 * 
-	 */
-
-	var Controls = function (_React$Component) {
-	    _inherits(Controls, _React$Component);
-
-	    function Controls(props) {
-	        _classCallCheck(this, Controls);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
-	    }
-
-	    _createClass(Controls, [{
-	        key: 'onGenLengthChange',
-	        value: function onGenLengthChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
-	                // TODO: handle error
-	                return;
-	            }
-	            this.props.onGenLengthChange(value);
-	        }
-	    }, {
-	        key: 'onYearChange',
-	        value: function onYearChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
-	                // TODO: handle error
-	                return;
-	            }
-	            this.props.onYearChange(value);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'controls' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'control-group' },
-	                    'Generation Length: ',
-	                    _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'control-group' },
-	                    'Year: ',
-	                    _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.props.year })
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Controls;
-	}(_react2.default.Component);
-
-	exports.default = Controls;
-	;
-
-/***/ },
 /* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20608,7 +20693,7 @@
 	    value: true
 	});
 
-	var _events = __webpack_require__(173);
+	var _events = __webpack_require__(172);
 
 	var _events2 = _interopRequireDefault(_events);
 
@@ -20651,8 +20736,7 @@
 	};
 
 /***/ },
-/* 172 */,
-/* 173 */
+/* 172 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20931,6 +21015,31 @@
 	    "year": 1991,
 	    "description": "Breakup of Soviet Union; apartheid ends in South Africa"
 	}];
+
+/***/ },
+/* 173 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var getGenerations = exports.getGenerations = function getGenerations(start, count, span) {
+	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
+	    var generations = [];
+	    for (var i = 0; i < count; ++i) {
+	        generations.push({
+	            start: start,
+	            end: start + span,
+	            span: span
+	        });
+	        start += span - overlap;
+	    }
+
+	    return generations;
+	};
 
 /***/ }
 /******/ ]);

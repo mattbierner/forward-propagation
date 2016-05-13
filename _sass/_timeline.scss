@@ -5,6 +5,18 @@
     box-sizing: border-box;
     width: 100%;
     margin: 3em 0;
+    
+    .start-label {
+        position: absolute;
+        top: 2em;
+        left: 0;
+    }
+    
+    .end-label {
+        position: absolute;
+        right: 0;
+        top: 2em;
+    }
 }
 
 .generation {

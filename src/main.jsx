@@ -4,17 +4,9 @@ import ReactDOM from 'react-dom';
 
 import Controls from './controls';
 import Timeline from './timeline';
+
 import {getGenerations} from './generations';
-
-/**
- * 
- */
-const mode = {
-    forwards: 'forwards',
-    backwards: 'backwards',
-    middle: 'middle'
-};
-
+import modes from './modes';
 
 /**
  * Main page
@@ -28,7 +20,8 @@ class Main extends React.Component {
             year: 1900,
             generations: [],
             overlap: 5,
-            numberGenerations: 3
+            numberGenerations: 3,
+            mode: modes[Object.keys(modes)[0]]
         };
     }
     
@@ -49,13 +42,25 @@ class Main extends React.Component {
             generations: getGenerations(value,  this.state.numberGenerations, this.state.generationLength, this.state.overlap)
         });
     }
+    
+    onNumberGenerationsChange(value) {
+        this.setState({
+            numberGenerations: value,
+            generations: getGenerations(this.state.year, value, this.state.generationLength, this.state.overlap)
+        });
+    }
+    
+    onModeChange(mode) {
+        this.setState({ mode: mode });
+    }
 
     render() {
         return (
             <div id="main" className="container">
                 <Controls {...this.state}
                     onGenLengthChange={this.onGenLengthChange.bind(this)}
-                    onYearChange={this.onYearChange.bind(this)} />
+                    onYearChange={this.onYearChange.bind(this)}
+                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)} />
                 
                 <Timeline generations={this.state.generations} />
             </div>);

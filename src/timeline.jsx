@@ -82,6 +82,8 @@ export default class TimeLine extends React.Component {
         
         return (
             <div className="timeline">
+                <span className="start-label">{this.state.range.start}</span>
+                <span className="end-label">{this.state.range.end}</span>
                 {generations}
                 {events}
             </div>);

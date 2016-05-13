@@ -24,17 +24,20 @@ class Main extends React.Component {
             mode: modes[Object.keys(modes)[0]]
         };
     }
-    
+
     componentWillMount() {
         this.onGenLengthChange(this.state.generationLength);
     }
-    
+
     getGenerations(mode, data) {
         data = Object.assign({}, this.state, data);
         switch (mode) {
             case modes.backwards:
                 return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
-            
+
+            case modes.middle:
+                return generations.getMiddleGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
+
             case modes.forwards:
             default:
                 return generations.getGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
@@ -44,24 +47,24 @@ class Main extends React.Component {
     onGenLengthChange(value) {
         this.setState({
             generationLength: value,
-            generations: this.getGenerations(this.state.mode, {generationLength: value})
+            generations: this.getGenerations(this.state.mode, { generationLength: value })
         });
     }
-    
+
     onYearChange(value) {
         this.setState({
             year: value,
-            generations: this.getGenerations(this.state.mode, {year: value})
+            generations: this.getGenerations(this.state.mode, { year: value })
         });
     }
-    
+
     onNumberGenerationsChange(value) {
         this.setState({
             numberGenerations: value,
-            generations: this.getGenerations(this.state.mode, {numberGenerations: value})
+            generations: this.getGenerations(this.state.mode, { numberGenerations: value })
         });
     }
-    
+
     onModeChange(mode) {
         this.setState({
             mode: mode,
@@ -73,11 +76,11 @@ class Main extends React.Component {
         return (
             <div id="main" className="container">
                 <Controls {...this.state}
-                    onGenLengthChange={this.onGenLengthChange.bind(this)}
-                    onYearChange={this.onYearChange.bind(this)}
-                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)} 
-                    onModeChange={this.onModeChange.bind(this)}/>
-                
+                    onGenLengthChange={this.onGenLengthChange.bind(this) }
+                    onYearChange={this.onYearChange.bind(this) }
+                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this) }
+                    onModeChange={this.onModeChange.bind(this) }/>
+
                 <Timeline generations={this.state.generations} />
             </div>);
     }

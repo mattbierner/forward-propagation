@@ -120,6 +120,9 @@
 	                case _mode2.default.backwards:
 	                    return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
 
+	                case _mode2.default.middle:
+	                    return generations.getMiddleGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
+
 	                case _mode2.default.forwards:
 	                default:
 	                    return generations.getGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
@@ -20673,7 +20676,7 @@
 	            var _this4 = this;
 
 	            var generations = (this.props.generations || []).map(function (x) {
-	                return _react2.default.createElement(Generation, _extends({ key: x.start }, x, { range: _this4.state.range }));
+	                return _react2.default.createElement(Generation, _extends({ key: x.start + '-' + x.end }, x, { range: _this4.state.range }));
 	            });
 
 	            var events = this.state.events.map(function (x) {
@@ -21068,6 +21071,11 @@
 	var getBackwardsGenerations = exports.getBackwardsGenerations = function getBackwardsGenerations(start, count, span) {
 	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
 	    return getGenerationsImpl(-span, start - span, count, span, -overlap);
+	};
+
+	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span) {
+	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap), getGenerations(start, count, span, overlap));
 	};
 
 /***/ }

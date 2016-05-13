@@ -75,7 +75,7 @@ export default class TimeLine extends React.Component {
 
     render() {
         const generations = (this.props.generations || []).map(x =>
-            <Generation key={x.start} {...x} range={this.state.range} />);
+            <Generation key={`${x.start}-${x.end}`} {...x} range={this.state.range} />);
         
         const events = (this.state.events).map(x => 
             <Event key={x.year} {...x} range={this.state.range} />);

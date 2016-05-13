@@ -6,7 +6,7 @@ import Controls from './controls';
 import Timeline from './timeline';
 
 import {getGenerations} from './generations';
-import modes from './modes';
+import modes from './mode';
 
 /**
  * Main page

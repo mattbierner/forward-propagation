@@ -68,9 +68,9 @@
 
 	var _generations = __webpack_require__(173);
 
-	var _modes = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./modes\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _mode = __webpack_require__(169);
 
-	var _modes2 = _interopRequireDefault(_modes);
+	var _mode2 = _interopRequireDefault(_mode);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -98,7 +98,7 @@
 	            generations: [],
 	            overlap: 5,
 	            numberGenerations: 3,
-	            mode: _modes2.default[Object.keys(_modes2.default)[0]]
+	            mode: _mode2.default[Object.keys(_mode2.default)[0]]
 	        };
 	        return _this;
 	    }

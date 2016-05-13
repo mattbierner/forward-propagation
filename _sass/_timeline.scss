@@ -1,0 +1,42 @@
+
+
+.timeline {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 3em 0;
+}
+
+.generation {
+    position: absolute;
+    background: rgba(255, 0, 0, 0.5);
+    height: 10px;
+    
+    .year-label {
+        display: none;
+    }
+    
+    &:hover .year-label {
+        position: absolute;
+        display: block;
+        width: 100%;
+        top: -1.4em;
+        left: 0;
+    }
+}
+
+.event {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+
+    background: black;
+    
+    .event-label {
+        display: none;
+    }
+    
+    &:hover .event-label {
+        display: block;
+    }
+}

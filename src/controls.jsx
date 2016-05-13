@@ -30,10 +30,13 @@ export default class Controls extends React.Component {
 
     render() {
         return (
-            <div class="controls">
-                Generation Length: <input type="number" onChange={this.onGenLengthChange.bind(this)} value={this.props.generationLength} />
-                
-                Year: <input type="number" onChange={this.onYearChange.bind(this)} value={this.props.year} />
+            <div className="controls">
+                <div className="control-group">
+                    Generation Length: <input type="number" onChange={this.onGenLengthChange.bind(this)} value={this.props.generationLength} />
+                </div>
+                <div className="control-group">
+                    Year: <input type="number" onChange={this.onYearChange.bind(this)} value={this.props.year} />
+                </div>
             </div>);
     }
 };

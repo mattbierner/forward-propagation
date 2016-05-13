@@ -52,7 +52,7 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div id="main">
+            <div id="main" className="container">
                 <Controls {...this.state}
                     onGenLengthChange={this.onGenLengthChange.bind(this)}
                     onYearChange={this.onYearChange.bind(this)} />

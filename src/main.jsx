@@ -2,8 +2,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Controls from './controls';
 import Timeline from './timeline';
 import {getGenerations} from './generations';
+
+/**
+ * 
+ */
+const mode = {
+    forwards: 'forwards',
+    backwards: 'backwards',
+    middle: 'middle'
+};
+
 
 /**
  * Main page
@@ -21,28 +32,14 @@ class Main extends React.Component {
         };
     }
 
-    
-
-    onGenLengthChange(e) {
-        const value = +e.target.value;
-        if (isNaN(value)) {
-            // TODO: handle error
-            return;
-        }
-        
+    onGenLengthChange(value) {
         this.setState({
             generationLength: value,
             generations: getGenerations(this.state.year, this.state.numberGenerations, value, this.state.overlap)
         });
     }
     
-    onYearChange(e) {
-        const value = +e.target.value;
-        if (isNaN(value)) {
-            // TODO: handle error
-            return;
-        }
-        
+    onYearChange(value) {
         this.setState({
             year: value,
             generations: getGenerations(value,  this.state.numberGenerations, this.state.generationLength, this.state.overlap)
@@ -52,9 +49,9 @@ class Main extends React.Component {
     render() {
         return (
             <div id="main">
-                Generation Length: <input type="number" onChange={this.onGenLengthChange.bind(this)} value={this.state.generationLength} />
-                
-                Year: <input type="number" onChange={this.onYearChange.bind(this)} value={this.state.year} />
+                <Controls {...this.state}
+                    onGenLengthChange={this.onGenLengthChange.bind(this)}
+                    onYearChange={this.onYearChange.bind(this)} />
                 
                 <Timeline generations={this.state.generations} />
             </div>);

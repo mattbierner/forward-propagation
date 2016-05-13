@@ -46,6 +46,8 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -55,6 +57,10 @@
 	var _reactDom = __webpack_require__(33);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _controls = __webpack_require__(170);
+
+	var _controls2 = _interopRequireDefault(_controls);
 
 	var _timeline = __webpack_require__(168);
 
@@ -69,6 +75,15 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * 
+	 */
+	var mode = {
+	    forwards: 'forwards',
+	    backwards: 'backwards',
+	    middle: 'middle'
+	};
 
 	/**
 	 * Main page
@@ -94,13 +109,7 @@
 
 	    _createClass(Main, [{
 	        key: 'onGenLengthChange',
-	        value: function onGenLengthChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
-	                // TODO: handle error
-	                return;
-	            }
-
+	        value: function onGenLengthChange(value) {
 	            this.setState({
 	                generationLength: value,
 	                generations: (0, _generations.getGenerations)(this.state.year, this.state.numberGenerations, value, this.state.overlap)
@@ -108,13 +117,7 @@
 	        }
 	    }, {
 	        key: 'onYearChange',
-	        value: function onYearChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
-	                // TODO: handle error
-	                return;
-	            }
-
+	        value: function onYearChange(value) {
 	            this.setState({
 	                year: value,
 	                generations: (0, _generations.getGenerations)(value, this.state.numberGenerations, this.state.generationLength, this.state.overlap)
@@ -126,10 +129,9 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'main' },
-	                'Generation Length: ',
-	                _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.state.generationLength }),
-	                'Year: ',
-	                _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.state.year }),
+	                _react2.default.createElement(_controls2.default, _extends({}, this.state, {
+	                    onGenLengthChange: this.onGenLengthChange.bind(this),
+	                    onYearChange: this.onYearChange.bind(this) })),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
 	            );
 	        }
@@ -20388,6 +20390,87 @@
 
 	    return generations;
 	};
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * 
+	 */
+
+	var Controls = function (_React$Component) {
+	    _inherits(Controls, _React$Component);
+
+	    function Controls(props) {
+	        _classCallCheck(this, Controls);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
+	    }
+
+	    _createClass(Controls, [{
+	        key: 'onGenLengthChange',
+	        value: function onGenLengthChange(e) {
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+	            this.props.onGenLengthChange(value);
+	        }
+	    }, {
+	        key: 'onYearChange',
+	        value: function onYearChange(e) {
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+	            this.props.onYearChange(value);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { 'class': 'controls' },
+	                'Generation Length: ',
+	                _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength }),
+	                'Year: ',
+	                _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.props.year })
+	            );
+	        }
+	    }]);
+
+	    return Controls;
+	}(_react2.default.Component);
+
+	exports.default = Controls;
+	;
 
 /***/ }
 /******/ ]);

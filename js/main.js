@@ -68,9 +68,13 @@
 
 	var _generations = __webpack_require__(173);
 
+	var generations = _interopRequireWildcard(_generations);
+
 	var _mode = __webpack_require__(169);
 
 	var _mode2 = _interopRequireDefault(_mode);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -109,11 +113,24 @@
 	            this.onGenLengthChange(this.state.generationLength);
 	        }
 	    }, {
+	        key: 'getGenerations',
+	        value: function getGenerations(mode, data) {
+	            data = Object.assign({}, this.state, data);
+	            switch (mode) {
+	                case _mode2.default.backwards:
+	                    return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
+
+	                case _mode2.default.forwards:
+	                default:
+	                    return generations.getGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
+	            }
+	        }
+	    }, {
 	        key: 'onGenLengthChange',
 	        value: function onGenLengthChange(value) {
 	            this.setState({
 	                generationLength: value,
-	                generations: (0, _generations.getGenerations)(this.state.year, this.state.numberGenerations, value, this.state.overlap)
+	                generations: this.getGenerations(this.state.mode, { generationLength: value })
 	            });
 	        }
 	    }, {
@@ -121,7 +138,7 @@
 	        value: function onYearChange(value) {
 	            this.setState({
 	                year: value,
-	                generations: (0, _generations.getGenerations)(value, this.state.numberGenerations, this.state.generationLength, this.state.overlap)
+	                generations: this.getGenerations(this.state.mode, { year: value })
 	            });
 	        }
 	    }, {
@@ -129,13 +146,16 @@
 	        value: function onNumberGenerationsChange(value) {
 	            this.setState({
 	                numberGenerations: value,
-	                generations: (0, _generations.getGenerations)(this.state.year, value, this.state.generationLength, this.state.overlap)
+	                generations: this.getGenerations(this.state.mode, { numberGenerations: value })
 	            });
 	        }
 	    }, {
 	        key: 'onModeChange',
 	        value: function onModeChange(mode) {
-	            this.setState({ mode: mode });
+	            this.setState({
+	                mode: mode,
+	                generations: this.getGenerations(mode, {})
+	            });
 	        }
 	    }, {
 	        key: 'render',
@@ -146,7 +166,8 @@
 	                _react2.default.createElement(_controls2.default, _extends({}, this.state, {
 	                    onGenLengthChange: this.onGenLengthChange.bind(this),
 	                    onYearChange: this.onYearChange.bind(this),
-	                    onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this) })),
+	                    onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this),
+	                    onModeChange: this.onModeChange.bind(this) })),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
 	            );
 	        }
@@ -20462,9 +20483,9 @@
 	 *  Mode of timeline
 	 */
 	exports.default = {
-	    forwards: 'forwards',
-	    backwards: 'backwards',
-	    middle: 'middle'
+	    'forwards': 'forwards',
+	    'backwards': 'backwards',
+	    'middle': 'middle'
 	};
 
 /***/ },
@@ -21025,9 +21046,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var getGenerations = exports.getGenerations = function getGenerations(start, count, span) {
-	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
-
+	var getGenerationsImpl = function getGenerationsImpl(dx, start, count, span, overlap) {
 	    var generations = [];
 	    for (var i = 0; i < count; ++i) {
 	        generations.push({
@@ -21035,10 +21054,20 @@
 	            end: start + span,
 	            span: span
 	        });
-	        start += span - overlap;
+	        start += dx - overlap;
 	    }
 
 	    return generations;
+	};
+
+	var getGenerations = exports.getGenerations = function getGenerations(start, count, span) {
+	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+	    return getGenerationsImpl(span, start, count, span, overlap);
+	};
+
+	var getBackwardsGenerations = exports.getBackwardsGenerations = function getBackwardsGenerations(start, count, span) {
+	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+	    return getGenerationsImpl(-span, start - span, count, span, -overlap);
 	};
 
 /***/ }

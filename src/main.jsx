@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import Controls from './controls';
 import Timeline from './timeline';
 
-import {getGenerations} from './generations';
+import * as generations from './generations';
 import modes from './mode';
 
 /**
@@ -28,30 +28,45 @@ class Main extends React.Component {
     componentWillMount() {
         this.onGenLengthChange(this.state.generationLength);
     }
+    
+    getGenerations(mode, data) {
+        data = Object.assign({}, this.state, data);
+        switch (mode) {
+            case modes.backwards:
+                return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
+            
+            case modes.forwards:
+            default:
+                return generations.getGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
+        }
+    }
 
     onGenLengthChange(value) {
         this.setState({
             generationLength: value,
-            generations: getGenerations(this.state.year, this.state.numberGenerations, value, this.state.overlap)
+            generations: this.getGenerations(this.state.mode, {generationLength: value})
         });
     }
     
     onYearChange(value) {
         this.setState({
             year: value,
-            generations: getGenerations(value,  this.state.numberGenerations, this.state.generationLength, this.state.overlap)
+            generations: this.getGenerations(this.state.mode, {year: value})
         });
     }
     
     onNumberGenerationsChange(value) {
         this.setState({
             numberGenerations: value,
-            generations: getGenerations(this.state.year, value, this.state.generationLength, this.state.overlap)
+            generations: this.getGenerations(this.state.mode, {numberGenerations: value})
         });
     }
     
     onModeChange(mode) {
-        this.setState({ mode: mode });
+        this.setState({
+            mode: mode,
+            generations: this.getGenerations(mode, {})
+        });
     }
 
     render() {
@@ -60,7 +75,8 @@ class Main extends React.Component {
                 <Controls {...this.state}
                     onGenLengthChange={this.onGenLengthChange.bind(this)}
                     onYearChange={this.onYearChange.bind(this)}
-                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)} />
+                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)} 
+                    onModeChange={this.onModeChange.bind(this)}/>
                 
                 <Timeline generations={this.state.generations} />
             </div>);

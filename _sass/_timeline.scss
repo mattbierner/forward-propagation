@@ -1,6 +1,8 @@
 
 
 .timeline {
+    @extend %clearfix;
+    
     position: relative;
     box-sizing: border-box;
     width: 100%;

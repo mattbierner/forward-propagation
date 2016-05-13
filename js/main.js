@@ -64,31 +64,57 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Site = function (_React$Component) {
-	    _inherits(Site, _React$Component);
+	/**
+	 * Main page
+	 */
 
-	    function Site(props) {
-	        _classCallCheck(this, Site);
+	var Main = function (_React$Component) {
+	    _inherits(Main, _React$Component);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Site).call(this, props));
+	    function Main(props) {
+	        _classCallCheck(this, Main);
 
-	        _this.state = {};
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this, props));
+
+	        _this.state = {
+	            generationLength: 80,
+	            year: 1900
+	        };
 	        return _this;
 	    }
 
-	    _createClass(Site, [{
+	    _createClass(Main, [{
+	        key: 'onGenLengthChange',
+	        value: function onGenLengthChange(e) {
+	            var value = e.target.value;
+	            this.setState({ generationLength: value });
+	        }
+	    }, {
+	        key: 'onYearChange',
+	        value: function onYearChange(e) {
+	            var value = e.target.value;
+	            this.setState({ year: value });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('div', { id: 'main' });
+	            return _react2.default.createElement(
+	                'div',
+	                { id: 'main' },
+	                'Generation Length: ',
+	                _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.state.generationLength }),
+	                'Year: ',
+	                _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.state.year })
+	            );
 	        }
 	    }]);
 
-	    return Site;
+	    return Main;
 	}(_react2.default.Component);
 
 	;
 
-	_reactDom2.default.render(_react2.default.createElement(Site, { choices: texts }), document.getElementById('target'));
+	_reactDom2.default.render(_react2.default.createElement(Main, null), document.getElementById('target'));
 
 /***/ },
 /* 1 */

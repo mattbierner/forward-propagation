@@ -56,6 +56,12 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _timeline = __webpack_require__(168);
+
+	var _timeline2 = _interopRequireDefault(_timeline);
+
+	var _generations = __webpack_require__(169);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -78,7 +84,10 @@
 
 	        _this.state = {
 	            generationLength: 80,
-	            year: 1900
+	            year: 1900,
+	            generations: [],
+	            overlap: 5,
+	            numberGenerations: 3
 	        };
 	        return _this;
 	    }
@@ -86,14 +95,30 @@
 	    _createClass(Main, [{
 	        key: 'onGenLengthChange',
 	        value: function onGenLengthChange(e) {
-	            var value = e.target.value;
-	            this.setState({ generationLength: value });
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+
+	            this.setState({
+	                generationLength: value,
+	                generations: (0, _generations.getGenerations)(this.state.year, this.state.numberGenerations, value, this.state.overlap)
+	            });
 	        }
 	    }, {
 	        key: 'onYearChange',
 	        value: function onYearChange(e) {
-	            var value = e.target.value;
-	            this.setState({ year: value });
+	            var value = +e.target.value;
+	            if (isNaN(value)) {
+	                // TODO: handle error
+	                return;
+	            }
+
+	            this.setState({
+	                year: value,
+	                generations: (0, _generations.getGenerations)(value, this.state.numberGenerations, this.state.generationLength, this.state.overlap)
+	            });
 	        }
 	    }, {
 	        key: 'render',
@@ -104,7 +129,8 @@
 	                'Generation Length: ',
 	                _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.state.generationLength }),
 	                'Year: ',
-	                _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.state.year })
+	                _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.state.year }),
+	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
 	            );
 	        }
 	    }]);
@@ -20244,6 +20270,124 @@
 	var ReactMount = __webpack_require__(158);
 
 	module.exports = ReactMount.renderSubtreeIntoContainer;
+
+/***/ },
+/* 168 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * 
+	 */
+
+	var Generation = function (_React$Component) {
+	    _inherits(Generation, _React$Component);
+
+	    function Generation() {
+	        _classCallCheck(this, Generation);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Generation).apply(this, arguments));
+	    }
+
+	    _createClass(Generation, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { 'class': 'generation' },
+	                this.props.start,
+	                ' - ',
+	                this.props.end
+	            );
+	        }
+	    }]);
+
+	    return Generation;
+	}(_react2.default.Component);
+
+	/**
+	 * Timeline
+	 */
+
+
+	var TimeLine = function (_React$Component2) {
+	    _inherits(TimeLine, _React$Component2);
+
+	    function TimeLine(props) {
+	        _classCallCheck(this, TimeLine);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TimeLine).call(this, props));
+	    }
+
+	    _createClass(TimeLine, [{
+	        key: 'render',
+	        value: function render() {
+	            var generations = (this.props.generations || []).map(function (x) {
+	                return _react2.default.createElement(Generation, _extends({ key: x.start }, x));
+	            });
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'timeline' },
+	                generations
+	            );
+	        }
+	    }]);
+
+	    return TimeLine;
+	}(_react2.default.Component);
+
+	exports.default = TimeLine;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var getGenerations = exports.getGenerations = function getGenerations(start, count, span) {
+	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
+	    var generations = [];
+	    for (var i = 0; i < count; ++i) {
+	        generations.push({
+	            start: start,
+	            end: start + span,
+	            span: span
+	        });
+	        start += span - overlap;
+	    }
+
+	    return generations;
+	};
 
 /***/ }
 /******/ ]);

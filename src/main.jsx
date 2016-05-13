@@ -31,6 +31,10 @@ class Main extends React.Component {
             numberGenerations: 3
         };
     }
+    
+    componentWillMount() {
+        this.onGenLengthChange(this.state.generationLength);
+    }
 
     onGenLengthChange(value) {
         this.setState({

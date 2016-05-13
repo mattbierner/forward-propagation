@@ -108,6 +108,11 @@
 	    }
 
 	    _createClass(Main, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.onGenLengthChange(this.state.generationLength);
+	        }
+	    }, {
 	        key: 'onGenLengthChange',
 	        value: function onGenLengthChange(value) {
 	            this.setState({
@@ -20303,6 +20308,38 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var getRange = function getRange(generations) {
+	    var min = Infinity;
+	    var max = -Infinity;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	        for (var _iterator = generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var g = _step.value;
+
+	            min = Math.min(min, g.start);
+	            max = Math.max(max, g.end);
+	        }
+	    } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	                _iterator.return();
+	            }
+	        } finally {
+	            if (_didIteratorError) {
+	                throw _iteratorError;
+	            }
+	        }
+	    }
+
+	    return { start: min, max: max, span: max - min };
+	};
+
 	/**
 	 * 
 	 */
@@ -20319,9 +20356,13 @@
 	    _createClass(Generation, [{
 	        key: 'render',
 	        value: function render() {
+	            var style = {};
+	            style.width = this.props.span / this.props.range.span * 100 + '%';
+	            style.left = (this.props.start - this.props.range.start) / this.props.range.span * 100 + '%';
+
 	            return _react2.default.createElement(
 	                'div',
-	                { 'class': 'generation' },
+	                { className: 'generation', style: style },
 	                this.props.start,
 	                ' - ',
 	                this.props.end
@@ -20343,14 +20384,28 @@
 	    function TimeLine(props) {
 	        _classCallCheck(this, TimeLine);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TimeLine).call(this, props));
+	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(TimeLine).call(this, props));
+
+	        _this2.state = {
+	            range: getRange(_this2.props.generations || [])
+	        };
+	        return _this2;
 	    }
 
 	    _createClass(TimeLine, [{
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	            if (newProps.generations) {
+	                this.setState({ range: getRange(newProps.generations || []) });
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this3 = this;
+
 	            var generations = (this.props.generations || []).map(function (x) {
-	                return _react2.default.createElement(Generation, _extends({ key: x.start }, x));
+	                return _react2.default.createElement(Generation, _extends({ key: x.start }, x, { range: _this3.state.range }));
 	            });
 
 	            return _react2.default.createElement(

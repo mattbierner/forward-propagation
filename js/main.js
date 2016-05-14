@@ -117,15 +117,15 @@
 	        value: function getGenerations(mode, data) {
 	            data = Object.assign({}, this.state, data);
 	            switch (mode) {
-	                case _mode2.default.backwards:
-	                    return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
-
-	                case _mode2.default.middle:
+	                case 'middle':
 	                    return generations.getMiddleGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
 
-	                case _mode2.default.forwards:
-	                default:
+	                case 'forwards':
 	                    return generations.getGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
+
+	                case 'backwards':
+	                default:
+	                    return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
 	            }
 	        }
 	    }, {
@@ -153,6 +153,14 @@
 	            });
 	        }
 	    }, {
+	        key: 'onGenerationOverlapChange',
+	        value: function onGenerationOverlapChange(value) {
+	            this.setState({
+	                overlap: value,
+	                generations: this.getGenerations(this.state.mode, { overlap: value })
+	            });
+	        }
+	    }, {
 	        key: 'onModeChange',
 	        value: function onModeChange(mode) {
 	            this.setState({
@@ -170,6 +178,7 @@
 	                    onGenLengthChange: this.onGenLengthChange.bind(this),
 	                    onYearChange: this.onYearChange.bind(this),
 	                    onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this),
+	                    onGenerationOverlapChange: this.onGenerationOverlapChange.bind(this),
 	                    onModeChange: this.onModeChange.bind(this) })),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
 	            );
@@ -20440,6 +20449,21 @@
 	            this.props.onNumberGenerationsChange(value);
 	        }
 	    }, {
+	        key: 'onOverlapChange',
+	        value: function onOverlapChange(e) {
+	            var value = Math.round(e.target.value);
+	            if (isNaN(value) || value < 0) {
+	                // TODO: handle error
+	                return;
+	            }
+	            this.props.onGenerationOverlapChange(value);
+	        }
+	    }, {
+	        key: 'onCollapse',
+	        value: function onCollapse() {
+	            this.setState({ active: !this.state.active });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -20471,7 +20495,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'control-group' },
+	                    { className: 'control-group mode-control' },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'control-label' },
@@ -20480,8 +20504,13 @@
 	                    _react2.default.createElement(ModeSelector, this.props)
 	                ),
 	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'collapseButton', onClick: this.onCollapse.bind(this) },
+	                    'More Options'
+	                ),
+	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'collapsible' },
+	                    { className: "collapsible " + (this.state.active ? 'active' : '') },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'control-group' },
@@ -20491,6 +20520,16 @@
 	                            'Generation Length'
 	                        ),
 	                        _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'control-group' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'control-label' },
+	                            'Generation Overlap'
+	                        ),
+	                        _react2.default.createElement('input', { type: 'number', onChange: this.onOverlapChange.bind(this), value: this.props.overlap })
 	                    )
 	                )
 	            );
@@ -20516,9 +20555,9 @@
 	 *  Mode of timeline
 	 */
 	exports.default = {
-	    'forwards': 'forwards',
-	    'backwards': 'backwards',
-	    'middle': 'middle'
+	    'backwards': 'Backwards',
+	    'forwards': 'Forwards',
+	    'middle': 'Bidirectional'
 	};
 
 /***/ },
@@ -20547,6 +20586,10 @@
 
 	var _events2 = _interopRequireDefault(_events);
 
+	var _timeline_ticks = __webpack_require__(174);
+
+	var _timeline_ticks2 = _interopRequireDefault(_timeline_ticks);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20555,7 +20598,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var getRange = function getRange(generations) {
+	var getRange = function getRange(generations, padding, rounding) {
 	    var min = Infinity;
 	    var max = -Infinity;
 	    var _iteratorNormalCompletion = true;
@@ -20584,7 +20627,17 @@
 	        }
 	    }
 
-	    return { start: min, end: max, span: max - min };
+	    min -= padding;
+	    max += padding;
+
+	    min = Math.ceil(min / rounding) * rounding;
+	    max = Math.ceil(max / rounding) * rounding;
+
+	    return {
+	        start: min,
+	        end: max,
+	        span: max - min
+	    };
 	};
 
 	/**
@@ -20607,9 +20660,8 @@
 	            style.width = this.props.span / this.props.range.span * 100 + '%';
 	            style.left = (this.props.start - this.props.range.start) / this.props.range.span * 100 + '%';
 
-	            var overlapStyle = {
-	                width: this.props.overlap / this.props.span * 100 + '%'
-	            };
+	            var overlapStyle = {};
+	            overlapStyle.width = this.props.overlap / this.props.span * 100 + '%';
 
 	            return _react2.default.createElement(
 	                'div',
@@ -20687,7 +20739,9 @@
 
 	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(TimeLine).call(this, props));
 
-	        var range = getRange(_this3.props.generations || []);
+	        _this3.padding = _this3.rounding = 25;
+
+	        var range = getRange(_this3.props.generations || [], _this3.padding, _this3.rounding);
 	        _this3.state = {
 	            range: range,
 	            events: (0, _events2.default)(range.start, range.end)
@@ -20699,7 +20753,7 @@
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(newProps) {
 	            if (newProps.generations) {
-	                var range = getRange(newProps.generations || []);
+	                var range = getRange(newProps.generations || [], this.padding, this.rounding);
 	                this.setState({
 	                    range: range,
 	                    events: (0, _events2.default)(range.start, range.end)
@@ -20734,12 +20788,17 @@
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { classname: 'generations' },
-	                    generations
+	                    { className: 'timeline-body' },
+	                    _react2.default.createElement(_timeline_ticks2.default, { start: this.state.range.start, end: this.state.range.end }),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'generations' },
+	                        generations
+	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { classname: 'events' },
+	                    { className: 'events' },
 	                    events
 	                )
 	            );
@@ -21102,7 +21161,7 @@
 	            start: start,
 	            end: start + span,
 	            span: span,
-	            overlap: overlap,
+	            overlap: Math.abs(overlap),
 	            active: active && i === 0
 	        });
 	        start += dx - overlap;
@@ -21124,6 +21183,117 @@
 	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span, overlap) {
 	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false), getGenerations(start, count, span, overlap));
 	};
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * 
+	 */
+
+	var TimelineTicks = function (_React$Component) {
+	    _inherits(TimelineTicks, _React$Component);
+
+	    function TimelineTicks() {
+	        _classCallCheck(this, TimelineTicks);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TimelineTicks).apply(this, arguments));
+	    }
+
+	    _createClass(TimelineTicks, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            this.drawGrid(this.props.start, this.props.end);
+
+	            window.addEventListener('resize', function () {
+	                _this2.drawGrid(_this2.props.start, _this2.props.end);
+	            }, false);
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            this.drawGrid(nextProps.start, nextProps.end);
+	        }
+	    }, {
+	        key: 'drawGrid',
+	        value: function drawGrid(start, end) {
+	            var duration = Math.abs(start - end);
+
+	            var canvas = _reactDom2.default.findDOMNode(this);
+
+	            var _canvas$getBoundingCl = canvas.getBoundingClientRect();
+
+	            var width = _canvas$getBoundingCl.width;
+	            var height = _canvas$getBoundingCl.height;
+
+	            canvas.width = width;
+	            canvas.height = height;
+
+	            var context = canvas.getContext('2d');
+
+	            context.lineWidth = 1;
+	            context.strokeStyle = '#777';
+	            this.drawTicks(context, width, height, duration, start, height, 100.0);
+	            context.strokeStyle = '#aaa';
+
+	            this.drawTicks(context, width, height, duration, start, height / 4, 25.0);
+	        }
+	    }, {
+	        key: 'drawTicks',
+	        value: function drawTicks(context, width, height, duration, start, tickHeight, step) {
+	            var upper = height / 2 - tickHeight / 2;
+	            var lower = height / 2 + tickHeight / 2;
+
+	            var s = start % step;
+
+	            var stepSize = width / duration * step;
+	            if (stepSize <= 0) return;
+
+	            context.beginPath();
+	            for (var i = -s * (width / duration); i <= width; i += stepSize) {
+	                context.moveTo(i, upper);
+	                context.lineTo(i, lower);
+	            }
+	            context.stroke();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement('canvas', { className: 'timeline-ticks' });
+	        }
+	    }]);
+
+	    return TimelineTicks;
+	}(_react2.default.Component);
+
+	exports.default = TimelineTicks;
 
 /***/ }
 /******/ ]);

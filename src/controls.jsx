@@ -64,6 +64,19 @@ export default class Controls extends React.Component {
         }
         this.props.onNumberGenerationsChange(value);
     }
+    
+    onOverlapChange(e) {
+        const value = Math.round(e.target.value);
+        if (isNaN(value) || value < 0 ) {
+            // TODO: handle error
+            return;
+        }
+        this.props.onGenerationOverlapChange(value);
+    }
+
+    onCollapse() {
+        this.setState({ active: !this.state.active });
+    }
 
     render() {
         return (
@@ -80,15 +93,20 @@ export default class Controls extends React.Component {
                         max="500"
                         value={this.props.numberGenerations} />
                 </div>
-                <div className="control-group">
+                <div className="control-group mode-control">
                     <div className="control-label">Mode</div>
                     <ModeSelector {...this.props} />
                 </div>
                 
-                <div className="collapsible">
+                <button className="collapseButton" onClick={this.onCollapse.bind(this)}>More Options</button>
+                <div className={"collapsible " + (this.state.active ? 'active' : '')}>
                     <div className="control-group">
                         <div className="control-label">Generation Length</div>
                         <input type="number" onChange={this.onGenLengthChange.bind(this)} value={this.props.generationLength} />
+                    </div>
+                    <div className="control-group">
+                        <div className="control-label">Generation Overlap</div>
+                        <input type="number" onChange={this.onOverlapChange.bind(this)} value={this.props.overlap} />
                     </div>
                 </div>
             </div>);

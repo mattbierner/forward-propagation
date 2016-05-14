@@ -11,3 +11,75 @@
 .control-label {
     line-height: 1em;
 }
+
+.controls {
+    .collapsible {
+        @extend %clearfix;
+      
+        display: none;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .collapsible.active {
+        display: block;
+    }
+    
+    & > .control-group,
+    .collapsible > .control-group {
+        width: 50%;
+        float: left;
+    }
+    
+    & > .control-group.mode-control {
+        width: 100%;
+    }
+}
+
+
+.collapseButton {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 20px;
+    margin-bottom: 1.6em;
+    color: #aaa;
+    
+    &:focus {
+        outline: 0;
+    }
+    
+    &:before {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        display: block;
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #ccc;
+    }
+    
+    &:after  {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        display: block;
+        content: "";
+        width: 0;
+        height: 0;
+        margin-top: -1px;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid $background-color;
+    } 
+}

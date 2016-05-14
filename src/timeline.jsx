@@ -3,15 +3,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import events from './events';
+import TimelineTicks from './timeline_ticks';
 
-const getRange = (generations) => {
+const getRange = (generations, padding, rounding) => {
     let min = Infinity;
     let max = -Infinity;
     for (const g of generations) {
         min = Math.min(min, g.start);
         max = Math.max(max, g.end);
     }
-    return { start: min, end: max, span: max - min };
+    
+    min -= padding; 
+    max += padding;
+    
+    min = Math.ceil(min / rounding) * rounding;
+    max = Math.ceil(max / rounding) * rounding;
+    
+    return {
+        start: min,
+        end: max,
+        span: max - min
+    };
 };
 
 /**
@@ -23,9 +35,8 @@ class Generation extends React.Component {
         style.width = (this.props.span / this.props.range.span) * 100 + '%';
         style.left = ((this.props.start - this.props.range.start) / this.props.range.span) * 100 + '%';
         
-        const overlapStyle = {
-            width: (this.props.overlap / this.props.span) * 100 + '%'
-        };
+        const overlapStyle = {};
+        overlapStyle.width =(this.props.overlap / this.props.span) * 100 + '%';
         
         return (
             <div className={"generation " + (this.props.active ? "active" : '')}  style={style}>
@@ -62,7 +73,9 @@ export default class TimeLine extends React.Component {
     constructor(props) {
         super(props);
         
-        const range = getRange(this.props.generations || []);
+        this.padding = this.rounding = 25;
+        
+        const range = getRange(this.props.generations || [], this.padding, this.rounding);
         this.state = {
             range: range,
             events: events(range.start, range.end)
@@ -71,7 +84,7 @@ export default class TimeLine extends React.Component {
     
     componentWillReceiveProps(newProps) {
         if (newProps.generations) {
-            const range = getRange(newProps.generations || []);
+            const range = getRange(newProps.generations || [], this.padding, this.rounding);
             this.setState({
                 range: range,
                 events: events(range.start, range.end)
@@ -90,8 +103,11 @@ export default class TimeLine extends React.Component {
             <div className="timeline">
                 <span className="start-label">{this.state.range.start}</span>
                 <span className="end-label">{this.state.range.end}</span>
-                <div classname="generations">{generations}</div>
-                <div classname="events">{events}</div>
+                <div className="timeline-body">
+                    <TimelineTicks start={this.state.range.start} end={this.state.range.end} />
+                    <div className="generations">{generations}</div>
+                </div>
+                <div className="events">{events}</div>
             </div>);
     }
 }

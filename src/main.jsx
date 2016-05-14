@@ -32,15 +32,15 @@ class Main extends React.Component {
     getGenerations(mode, data) {
         data = Object.assign({}, this.state, data);
         switch (mode) {
-            case modes.backwards:
-                return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
-
-            case modes.middle:
+            case 'middle':
                 return generations.getMiddleGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap);
 
-            case modes.forwards:
-            default:
+            case 'forwards':
                 return generations.getGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
+           
+            case 'backwards':
+            default:
+                return generations.getBackwardsGenerations(data.year, data.numberGenerations, data.generationLength, data.overlap)
         }
     }
 
@@ -64,6 +64,13 @@ class Main extends React.Component {
             generations: this.getGenerations(this.state.mode, { numberGenerations: value })
         });
     }
+    
+    onGenerationOverlapChange(value) {
+        this.setState({
+            overlap: value,
+            generations: this.getGenerations(this.state.mode, { overlap: value })
+        });
+    }
 
     onModeChange(mode) {
         this.setState({
@@ -78,7 +85,8 @@ class Main extends React.Component {
                 <Controls {...this.state}
                     onGenLengthChange={this.onGenLengthChange.bind(this) }
                     onYearChange={this.onYearChange.bind(this) }
-                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this) }
+                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)}
+                    onGenerationOverlapChange={this.onGenerationOverlapChange.bind(this)}
                     onModeChange={this.onModeChange.bind(this) }/>
 
                 <Timeline generations={this.state.generations} />

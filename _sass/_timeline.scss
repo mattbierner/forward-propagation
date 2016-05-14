@@ -1,5 +1,3 @@
-
-
 .timeline {
     @extend %clearfix;
     
@@ -9,18 +7,31 @@
     
     .start-label {
         position: absolute;
-        top: 2em;
+        top: 3em;
         left: 0;
     }
     
     .end-label {
         position: absolute;
         right: 0;
-        top: 2em;
+        top: 3em;
     }
     
     .generations, events {
         width: 100%;
+        position: relative;
+    }
+    
+    .timeline-body {
+        position: relative;
+        height: 40px;
+    }
+    
+    .generations {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 20px;
     }
 }
 
@@ -31,6 +42,8 @@
     
     .year-label {
         display: none;
+        white-space: nowrap;
+        width: 20em;
     }
     
     &:hover .year-label {
@@ -68,16 +81,24 @@
 
 .event {
     position: absolute;
-    width: 2px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 100px;
 
     background: black;
     
     .event-label {
         display: none;
+        white-space: nowrap;
+        width: 20em;
     }
     
     &:hover .event-label {
         display: block;
     }
+}
+
+.timeline-ticks {
+    width: 100%;
+    height: 100%;
 }

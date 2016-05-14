@@ -1,12 +1,13 @@
 "use strict";
 
-const getGenerationsImpl = (dx, start, count, span, overlap) => {
+const getGenerationsImpl = (dx, start, count, span, overlap, active = false) => {
     const generations = [];
     for (let i = 0; i < count; ++i) {
         generations.push({
             start: start,
             end: start + span,
-            span: span
+            span: span,
+            active: active && i === 0
         });
         start += (dx - overlap);
     }
@@ -14,13 +15,13 @@ const getGenerationsImpl = (dx, start, count, span, overlap) => {
     return generations;
 };
 
-export const getGenerations = (start, count, span, overlap = 0) =>
-    getGenerationsImpl(span, start, count, span, overlap);
+export const getGenerations = (start, count, span, overlap, active = true) =>
+    getGenerationsImpl(span, start, count, span, overlap, active);
 
-export const getBackwardsGenerations = (start, count, span, overlap = 0) =>
-    getGenerationsImpl(-span, start - span, count, span, -overlap);
+export const getBackwardsGenerations = (start, count, span, overlap, active = true) =>
+    getGenerationsImpl(-span, start - span, count, span, -overlap, active);
 
-export const getMiddleGenerations = (start, count, span, overlap = 0) =>
+export const getMiddleGenerations = (start, count, span, overlap) =>
     [].concat(
-        getBackwardsGenerations(start + overlap, count, span, overlap),
+        getBackwardsGenerations(start + overlap, count, span, overlap, false),
         getGenerations(start, count, span, overlap));

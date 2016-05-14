@@ -20609,7 +20609,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'generation', style: style },
+	                { className: "generation " + (this.props.active ? "active" : ''), style: style },
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'year-label' },
@@ -20726,8 +20726,16 @@
 	                    { className: 'end-label' },
 	                    this.state.range.end
 	                ),
-	                generations,
-	                events
+	                _react2.default.createElement(
+	                    'div',
+	                    { classname: 'generations' },
+	                    generations
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { classname: 'events' },
+	                    events
+	                )
 	            );
 	        }
 	    }]);
@@ -21080,12 +21088,15 @@
 	    value: true
 	});
 	var getGenerationsImpl = function getGenerationsImpl(dx, start, count, span, overlap) {
+	    var active = arguments.length <= 5 || arguments[5] === undefined ? false : arguments[5];
+
 	    var generations = [];
 	    for (var i = 0; i < count; ++i) {
 	        generations.push({
 	            start: start,
 	            end: start + span,
-	            span: span
+	            span: span,
+	            active: active && i === 0
 	        });
 	        start += dx - overlap;
 	    }
@@ -21093,19 +21104,18 @@
 	    return generations;
 	};
 
-	var getGenerations = exports.getGenerations = function getGenerations(start, count, span) {
-	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
-	    return getGenerationsImpl(span, start, count, span, overlap);
+	var getGenerations = exports.getGenerations = function getGenerations(start, count, span, overlap) {
+	    var active = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
+	    return getGenerationsImpl(span, start, count, span, overlap, active);
 	};
 
-	var getBackwardsGenerations = exports.getBackwardsGenerations = function getBackwardsGenerations(start, count, span) {
-	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
-	    return getGenerationsImpl(-span, start - span, count, span, -overlap);
+	var getBackwardsGenerations = exports.getBackwardsGenerations = function getBackwardsGenerations(start, count, span, overlap) {
+	    var active = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
+	    return getGenerationsImpl(-span, start - span, count, span, -overlap, active);
 	};
 
-	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span) {
-	    var overlap = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
-	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap), getGenerations(start, count, span, overlap));
+	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span, overlap) {
+	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false), getGenerations(start, count, span, overlap));
 	};
 
 /***/ }

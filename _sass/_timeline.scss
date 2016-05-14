@@ -4,7 +4,6 @@
     @extend %clearfix;
     
     position: relative;
-    box-sizing: border-box;
     width: 100%;
     margin: 3em 0;
     
@@ -18,6 +17,10 @@
         position: absolute;
         right: 0;
         top: 2em;
+    }
+    
+    .generations, events {
+        width: 100%;
     }
 }
 
@@ -37,6 +40,14 @@
         top: -1.4em;
         left: 0;
     }
+    
+    &:nth-child(even) {
+        margin-top: -10px;
+    }
+    
+    &.active {
+        background: rgba(0, 0, 255, 0.5);
+    } 
 }
 
 .event {

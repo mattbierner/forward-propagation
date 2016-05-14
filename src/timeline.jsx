@@ -22,9 +22,10 @@ class Generation extends React.Component {
         const style = {};
         style.width = (this.props.span / this.props.range.span) * 100 + '%';
         style.left = ((this.props.start - this.props.range.start) / this.props.range.span) * 100 + '%';
-
+        
+        
         return (
-            <div className="generation" style={style}>
+            <div className={"generation " + (this.props.active ? "active" : '')}  style={style}>
                 <span className="year-label">{this.props.start} - {this.props.end}</span>
             </div>
         );
@@ -84,8 +85,8 @@ export default class TimeLine extends React.Component {
             <div className="timeline">
                 <span className="start-label">{this.state.range.start}</span>
                 <span className="end-label">{this.state.range.end}</span>
-                {generations}
-                {events}
+                <div classname="generations">{generations}</div>
+                <div classname="events">{events}</div>
             </div>);
     }
 }

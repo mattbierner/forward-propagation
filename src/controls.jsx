@@ -39,8 +39,8 @@ export default class Controls extends React.Component {
     }
     
     onGenLengthChange(e) {
-        const value = +e.target.value;
-        if (isNaN(value)) {
+        const value = Math.round(e.target.value);
+        if (isNaN(value) || value < 0) {
             // TODO: handle error
             return;
         }
@@ -48,8 +48,8 @@ export default class Controls extends React.Component {
     }
     
     onYearChange(e) {
-        const value = +e.target.value;
-        if (isNaN(value)) {
+        const value = Math.round(e.target.value);
+        if (isNaN(value) || value < 0) {
             // TODO: handle error
             return;
         }
@@ -57,8 +57,8 @@ export default class Controls extends React.Component {
     }
     
     onNumberGenerationsChange(e) {
-        const value = +e.target.value;
-        if (isNaN(value)) {
+        const value = Math.round(e.target.value);
+        if (isNaN(value) || value < 0 ) {
             // TODO: handle error
             return;
         }

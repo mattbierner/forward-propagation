@@ -7,6 +7,7 @@ const getGenerationsImpl = (dx, start, count, span, overlap, active = false) => 
             start: start,
             end: start + span,
             span: span,
+            overlap: overlap,
             active: active && i === 0
         });
         start += (dx - overlap);

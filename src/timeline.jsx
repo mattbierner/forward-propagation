@@ -23,9 +23,14 @@ class Generation extends React.Component {
         style.width = (this.props.span / this.props.range.span) * 100 + '%';
         style.left = ((this.props.start - this.props.range.start) / this.props.range.span) * 100 + '%';
         
+        const overlapStyle = {
+            width: (this.props.overlap / this.props.span) * 100 + '%'
+        };
         
         return (
             <div className={"generation " + (this.props.active ? "active" : '')}  style={style}>
+                <span className="overlap left-overlap" style={overlapStyle} />
+                <span className="overlap right-overlap" style={overlapStyle} />
                 <span className="year-label">{this.props.start} - {this.props.end}</span>
             </div>
         );

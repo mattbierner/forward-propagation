@@ -20412,8 +20412,8 @@
 	    _createClass(Controls, [{
 	        key: 'onGenLengthChange',
 	        value: function onGenLengthChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
+	            var value = Math.round(e.target.value);
+	            if (isNaN(value) || value < 0) {
 	                // TODO: handle error
 	                return;
 	            }
@@ -20422,8 +20422,8 @@
 	    }, {
 	        key: 'onYearChange',
 	        value: function onYearChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
+	            var value = Math.round(e.target.value);
+	            if (isNaN(value) || value < 0) {
 	                // TODO: handle error
 	                return;
 	            }
@@ -20432,8 +20432,8 @@
 	    }, {
 	        key: 'onNumberGenerationsChange',
 	        value: function onNumberGenerationsChange(e) {
-	            var value = +e.target.value;
-	            if (isNaN(value)) {
+	            var value = Math.round(e.target.value);
+	            if (isNaN(value) || value < 0) {
 	                // TODO: handle error
 	                return;
 	            }
@@ -20607,9 +20607,15 @@
 	            style.width = this.props.span / this.props.range.span * 100 + '%';
 	            style.left = (this.props.start - this.props.range.start) / this.props.range.span * 100 + '%';
 
+	            var overlapStyle = {
+	                width: this.props.overlap / this.props.span * 100 + '%'
+	            };
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: "generation " + (this.props.active ? "active" : ''), style: style },
+	                _react2.default.createElement('span', { className: 'overlap left-overlap', style: overlapStyle }),
+	                _react2.default.createElement('span', { className: 'overlap right-overlap', style: overlapStyle }),
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'year-label' },
@@ -21096,6 +21102,7 @@
 	            start: start,
 	            end: start + span,
 	            span: span,
+	            overlap: overlap,
 	            active: active && i === 0
 	        });
 	        start += dx - overlap;

@@ -21195,7 +21195,7 @@
 	};
 
 	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span, overlap) {
-	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false), getGenerations(start, count, span, overlap));
+	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false).reverse(), getGenerations(start, count, span, overlap));
 	};
 
 /***/ },
@@ -21225,6 +21225,10 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	Math.log10 = Math.log10 || function (x) {
+	    return Math.log(x) / Math.LN10;
+	};
 
 	/**
 	 * 
@@ -21274,7 +21278,9 @@
 	            context.imageSmoothingEnabled = true;
 
 	            context.lineWidth = 1;
-	            var lines = [{ scale: 100, height: 1, color: '#aaa', exclude: [] }, { scale: 25, height: 0.25, color: '#aaa', exclude: [100] }, { scale: 5, height: 0.1, color: '#aaa', exclude: [100, 25] }];
+	            var base = Math.max(100, Math.pow(10, Math.floor(Math.log10(duration))));
+	            console.log(base);
+	            var lines = [{ scale: base, height: 1, color: '#aaa', exclude: [] }, { scale: base / 4, height: 0.25, color: '#aaa', exclude: [base] }, { scale: base / 20, height: 0.1, color: '#aaa', exclude: [base, base / 4] }];
 
 	            var _iteratorNormalCompletion = true;
 	            var _didIteratorError = false;

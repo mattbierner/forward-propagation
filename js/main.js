@@ -173,13 +173,17 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { id: 'main', className: 'container' },
-	                _react2.default.createElement(_controls2.default, _extends({}, this.state, {
-	                    onGenLengthChange: this.onGenLengthChange.bind(this),
-	                    onYearChange: this.onYearChange.bind(this),
-	                    onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this),
-	                    onGenerationOverlapChange: this.onGenerationOverlapChange.bind(this),
-	                    onModeChange: this.onModeChange.bind(this) })),
+	                { id: 'main' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'container' },
+	                    _react2.default.createElement(_controls2.default, _extends({}, this.state, {
+	                        onGenLengthChange: this.onGenLengthChange.bind(this),
+	                        onYearChange: this.onYearChange.bind(this),
+	                        onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this),
+	                        onGenerationOverlapChange: this.onGenerationOverlapChange.bind(this),
+	                        onModeChange: this.onModeChange.bind(this) }))
+	                ),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
 	            );
 	        }
@@ -20468,7 +20472,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'controls' },
+	                { className: "controls " + (this.state.active ? 'active' : '') },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'control-group' },
@@ -20506,7 +20510,7 @@
 	                _react2.default.createElement(
 	                    'button',
 	                    { className: 'collapseButton', onClick: this.onCollapse.bind(this) },
-	                    'More Options'
+	                    this.state.active ? 'Hide Options' : 'More Options'
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -20789,12 +20793,12 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'timeline-body' },
-	                    _react2.default.createElement(_timeline_ticks2.default, { start: this.state.range.start, end: this.state.range.end }),
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'generations' },
 	                        generations
-	                    )
+	                    ),
+	                    _react2.default.createElement(_timeline_ticks2.default, { start: this.state.range.start, end: this.state.range.end })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -21257,17 +21261,42 @@
 	            canvas.height = height;
 
 	            var context = canvas.getContext('2d');
+	            context.imageSmoothingEnabled = true;
 
 	            context.lineWidth = 1;
-	            context.strokeStyle = '#777';
-	            this.drawTicks(context, width, height, duration, start, height, 100.0);
-	            context.strokeStyle = '#aaa';
+	            var lines = [{ scale: 100, height: 1, color: '#aaa', exclude: [] }, { scale: 25, height: 0.25, color: '#aaa', exclude: [100] }, { scale: 5, height: 0.1, color: '#aaa', exclude: [100, 25] }];
 
-	            this.drawTicks(context, width, height, duration, start, height / 4, 25.0);
+	            var _iteratorNormalCompletion = true;
+	            var _didIteratorError = false;
+	            var _iteratorError = undefined;
+
+	            try {
+	                for (var _iterator = lines[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                    var line = _step.value;
+
+	                    context.strokeStyle = line.color;
+	                    this.drawTicks(context, width, height, duration, start, height * line.height, line.scale, line.exclude);
+	                }
+	            } catch (err) {
+	                _didIteratorError = true;
+	                _iteratorError = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion && _iterator.return) {
+	                        _iterator.return();
+	                    }
+	                } finally {
+	                    if (_didIteratorError) {
+	                        throw _iteratorError;
+	                    }
+	                }
+	            }
 	        }
 	    }, {
 	        key: 'drawTicks',
 	        value: function drawTicks(context, width, height, duration, start, tickHeight, step) {
+	            var skip = arguments.length <= 7 || arguments[7] === undefined ? [] : arguments[7];
+
 	            var upper = height / 2 - tickHeight / 2;
 	            var lower = height / 2 + tickHeight / 2;
 
@@ -21277,9 +21306,15 @@
 	            if (stepSize <= 0) return;
 
 	            context.beginPath();
+	            var year = start - s;
 	            for (var i = -s * (width / duration); i <= width; i += stepSize) {
-	                context.moveTo(i, upper);
-	                context.lineTo(i, lower);
+	                if (skip.every(function (x) {
+	                    return year % x !== 0;
+	                })) {
+	                    context.moveTo(i, upper);
+	                    context.lineTo(i, lower);
+	                }
+	                year += step;
 	            }
 	            context.stroke();
 	        }

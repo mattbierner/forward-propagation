@@ -81,14 +81,15 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div id="main" className="container">
-                <Controls {...this.state}
-                    onGenLengthChange={this.onGenLengthChange.bind(this) }
-                    onYearChange={this.onYearChange.bind(this) }
-                    onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)}
-                    onGenerationOverlapChange={this.onGenerationOverlapChange.bind(this)}
-                    onModeChange={this.onModeChange.bind(this) }/>
-
+            <div id="main">
+                <div className="container">
+                    <Controls {...this.state}
+                        onGenLengthChange={this.onGenLengthChange.bind(this) }
+                        onYearChange={this.onYearChange.bind(this) }
+                        onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)}
+                        onGenerationOverlapChange={this.onGenerationOverlapChange.bind(this)}
+                        onModeChange={this.onModeChange.bind(this) }/>
+                </div>
                 <Timeline generations={this.state.generations} />
             </div>);
     }

@@ -80,7 +80,7 @@ export default class Controls extends React.Component {
 
     render() {
         return (
-            <div className="controls">
+            <div className={"controls " + (this.state.active ? 'active' : '')}>
                 <div className="control-group">
                     <div className="control-label">Year</div>
                     <input type="number" onChange={this.onYearChange.bind(this)} value={this.props.year} />
@@ -98,7 +98,7 @@ export default class Controls extends React.Component {
                     <ModeSelector {...this.props} />
                 </div>
                 
-                <button className="collapseButton" onClick={this.onCollapse.bind(this)}>More Options</button>
+                <button className="collapseButton" onClick={this.onCollapse.bind(this)}>{this.state.active ? 'Hide Options' : 'More Options'}</button>
                 <div className={"collapsible " + (this.state.active ? 'active' : '')}>
                     <div className="control-group">
                         <div className="control-label">Generation Length</div>

@@ -17,7 +17,7 @@
         @extend %clearfix;
       
         display: none;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #eee;
     }
     
     .collapsible.active {
@@ -40,17 +40,21 @@
     width: 100%;
     background: none;
     border: none;
-    border-bottom: 1px solid #ccc;
     position: relative;
     margin: 0;
     padding: 0;
     height: 20px;
     margin-bottom: 1.6em;
     color: #aaa;
-    
+    border-bottom: 1px solid transparent;
+
     &:focus {
         outline: 0;
     }
+}
+
+.controls.active .collapseButton {
+    border-color: #eee;
     
     &:before {
         position: absolute;
@@ -62,9 +66,10 @@
         content: "";
         width: 0;
         height: 0;
+        border-top: 10px solid #ccc;
+        border-color: inherit;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-top: 10px solid #ccc;
     }
     
     &:after  {

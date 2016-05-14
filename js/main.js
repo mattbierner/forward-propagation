@@ -20602,6 +20602,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	/**
+	 * Get timespan of a series of generations.
+	 */
 	var getRange = function getRange(generations, padding, rounding) {
 	    var min = Infinity;
 	    var max = -Infinity;
@@ -20645,6 +20648,13 @@
 	};
 
 	/**
+	 * Get readable year label
+	 */
+	var yearLabel = function yearLabel(year) {
+	    return year < 0 ? Math.abs(year) + ' BCE' : '' + year;
+	};
+
+	/**
 	 * 
 	 */
 
@@ -20675,9 +20685,9 @@
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'year-label' },
-	                    this.props.start,
+	                    yearLabel(this.props.start),
 	                    ' - ',
-	                    this.props.end
+	                    yearLabel(this.props.end)
 	                )
 	            );
 	        }
@@ -20783,12 +20793,12 @@
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'start-label' },
-	                    this.state.range.start
+	                    yearLabel(this.state.range.start)
 	                ),
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'end-label' },
-	                    this.state.range.end
+	                    yearLabel(this.state.range.end)
 	                ),
 	                _react2.default.createElement(
 	                    'div',

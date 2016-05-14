@@ -20398,10 +20398,15 @@
 	var Controls = function (_React$Component2) {
 	    _inherits(Controls, _React$Component2);
 
-	    function Controls() {
+	    function Controls(props) {
 	        _classCallCheck(this, Controls);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).apply(this, arguments));
+	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
+
+	        _this2.state = {
+	            active: false
+	        };
+	        return _this2;
 	    }
 
 	    _createClass(Controls, [{
@@ -20443,26 +20448,51 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'control-group' },
-	                    'Generation Length: ',
-	                    _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'control-group' },
-	                    'Year: ',
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'control-label' },
+	                        'Year'
+	                    ),
 	                    _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.props.year })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'control-group' },
-	                    'Generations: ',
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'control-label' },
+	                        'Generations'
+	                    ),
 	                    _react2.default.createElement('input', { type: 'number',
 	                        onChange: this.onNumberGenerationsChange.bind(this),
 	                        min: '1',
 	                        max: '500',
 	                        value: this.props.numberGenerations })
 	                ),
-	                _react2.default.createElement(ModeSelector, this.props)
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'control-group' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'control-label' },
+	                        'Mode'
+	                    ),
+	                    _react2.default.createElement(ModeSelector, this.props)
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'collapsible' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'control-group' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'control-label' },
+	                            'Generation Length'
+	                        ),
+	                        _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength })
+	                    )
+	                )
 	            );
 	        }
 	    }]);

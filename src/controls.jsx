@@ -30,6 +30,14 @@ class ModeSelector extends React.Component {
  * 
  */
 export default class Controls extends React.Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            active: false
+        };
+    }
+    
     onGenLengthChange(e) {
         const value = +e.target.value;
         if (isNaN(value)) {
@@ -61,19 +69,28 @@ export default class Controls extends React.Component {
         return (
             <div className="controls">
                 <div className="control-group">
-                    Generation Length: <input type="number" onChange={this.onGenLengthChange.bind(this)} value={this.props.generationLength} />
+                    <div className="control-label">Year</div>
+                    <input type="number" onChange={this.onYearChange.bind(this)} value={this.props.year} />
                 </div>
                 <div className="control-group">
-                    Year: <input type="number" onChange={this.onYearChange.bind(this)} value={this.props.year} />
-                </div>
-                <div className="control-group">
-                    Generations: <input type="number"
+                    <div className="control-label">Generations</div>
+                    <input type="number"
                         onChange={this.onNumberGenerationsChange.bind(this)}
                         min="1"
                         max="500"
                         value={this.props.numberGenerations} />
                 </div>
-                <ModeSelector {...this.props} />
+                <div className="control-group">
+                    <div className="control-label">Mode</div>
+                    <ModeSelector {...this.props} />
+                </div>
+                
+                <div className="collapsible">
+                    <div className="control-group">
+                        <div className="control-label">Generation Length</div>
+                        <input type="number" onChange={this.onGenLengthChange.bind(this)} value={this.props.generationLength} />
+                    </div>
+                </div>
             </div>);
     }
 };

@@ -21511,13 +21511,70 @@
 	    return Event;
 	}(_react2.default.Component);
 
+	var HeaderEvent = function (_React$Component2) {
+	    _inherits(HeaderEvent, _React$Component2);
+
+	    function HeaderEvent() {
+	        _classCallCheck(this, HeaderEvent);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(HeaderEvent).apply(this, arguments));
+	    }
+
+	    _createClass(HeaderEvent, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                this.props,
+	                _react2.default.createElement(_year_label2.default, { value: this.props.year }),
+	                ' - ',
+	                this.props.description
+	            );
+	        }
+	    }]);
+
+	    return HeaderEvent;
+	}(_react2.default.Component);
+
+	var EventRange = function (_React$Component3) {
+	    _inherits(EventRange, _React$Component3);
+
+	    function EventRange() {
+	        _classCallCheck(this, EventRange);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EventRange).apply(this, arguments));
+	    }
+
+	    _createClass(EventRange, [{
+	        key: 'render',
+	        value: function render() {
+	            var events = this.props.events;
+
+	            var firstEvent = void 0,
+	                lastEvent = void 0;
+	            if (events.length >= 2) {
+	                firstEvent = _react2.default.createElement(HeaderEvent, events[0]);
+	                lastEvent = _react2.default.createElement(HeaderEvent, events[events.length - 1]);
+	            }
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'event-range' },
+	                firstEvent,
+	                lastEvent
+	            );
+	        }
+	    }]);
+
+	    return EventRange;
+	}(_react2.default.Component);
+
 	/**
 	 * Displays list of events in range.
 	 */
 
 
-	var EventList = function (_React$Component2) {
-	    _inherits(EventList, _React$Component2);
+	var EventList = function (_React$Component4) {
+	    _inherits(EventList, _React$Component4);
 
 	    function EventList() {
 	        _classCallCheck(this, EventList);
@@ -21569,19 +21626,27 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
+	            var _this5 = this;
 
-	            var events = this.getEvents().map(function (x) {
-	                return _react2.default.createElement(Event, _extends({ key: x.i }, x, { generations: _this3.getGenerations(x.year) }));
+	            var events = this.getEvents();
+	            var eventItems = events.map(function (x) {
+	                return _react2.default.createElement(Event, _extends({ key: x.i }, x, { generations: _this5.getGenerations(x.year) }));
 	            });
 
+	            var firstEvent = void 0,
+	                lastEvent = void 0;
+	            if (events.length >= 2) {
+	                firstEvent = _react2.default.createElement(HeaderEvent, events[0]);
+	                lastEvent = _react2.default.createElement(HeaderEvent, events[events.length - 1]);
+	            }
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(EventRange, { events: events }),
 	                _react2.default.createElement(
 	                    'ul',
 	                    { className: 'event-list' },
-	                    events
+	                    eventItems
 	                )
 	            );
 	        }

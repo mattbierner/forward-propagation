@@ -10,11 +10,37 @@ class Event extends React.Component {
     render() {
         const even = this.props.generations.some(x => x % 2) ? 'even' : ' ';
         const odd = this.props.generations.some(x => !(x % 2)) ? 'odd' : ' ';
-        
+
         return (
             <li className={"event " + even + ' ' + odd}>
                 <YearLabel value={this.props.year} /> - {this.props.description}
             </li>);
+    }
+}
+
+class HeaderEvent extends React.Component {
+    render() {
+        return (
+            <div {...this.props}>
+                <YearLabel value={this.props.year} /> - {this.props.description}
+            </div>);
+    }
+}
+
+class EventRange extends React.Component {
+    render() {
+        const events = this.props.events;
+        
+        let firstEvent, lastEvent;
+        if (events.length >= 2) {
+            firstEvent = <HeaderEvent {...events[0]} />;
+            lastEvent = <HeaderEvent {...events[events.length - 1]} />;
+        }
+        return (
+            <div className="event-range">
+                {firstEvent}
+                {lastEvent}
+            </div>);
     }
 }
 
@@ -40,13 +66,21 @@ export default class EventList extends React.Component {
     }
 
     render() {
-        const events = this.getEvents().map(x =>
-            <Event key={x.i} {...x} generations={this.getGenerations(x.year)} />);
+        const events = this.getEvents();
+        const eventItems = events.map(x =>
+            <Event key={x.i} {...x} generations={this.getGenerations(x.year) } />);
 
+        let firstEvent, lastEvent;
+        if (events.length >= 2) {
+            firstEvent = <HeaderEvent {...events[0]} />;
+            lastEvent = <HeaderEvent {...events[events.length - 1]} />;
+        }
         return (
             <div>
+                <EventRange events={events} />
+                
                 <ul className="event-list">
-                    {events}
+                    {eventItems}
                 </ul>
             </div>);
     }

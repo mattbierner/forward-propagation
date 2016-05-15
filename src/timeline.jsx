@@ -17,12 +17,12 @@ class Generation extends React.Component {
         const style = {};
         style.width = (this.props.span / this.props.range.span) * 100 + '%';
         style.left = ((this.props.start - this.props.range.start) / this.props.range.span) * 100 + '%';
-        
+
         const overlapStyle = {};
-        overlapStyle.width =(this.props.overlap / this.props.span) * 100 + '%';
-        
+        overlapStyle.width = (this.props.overlap / this.props.span) * 100 + '%';
+
         return (
-            <div className={"generation " + (this.props.active ? "active" : '')}  style={style}>
+            <div className={"generation " + (this.props.active ? "active" : '') }  style={style}>
                 <span className="overlap left-overlap" style={overlapStyle} />
                 <span className="overlap right-overlap" style={overlapStyle} />
                 <span className="year-label">
@@ -56,16 +56,16 @@ class Event extends React.Component {
 export default class TimeLine extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.padding = this.rounding = 25;
-        
+
         const range = generations.getRange(this.props.generations || [], this.padding, this.rounding);
         this.state = {
             range: range,
             events: events(range.start, range.end)
         };
     }
-    
+
     componentWillReceiveProps(newProps) {
         if (newProps.generations) {
             const range = generations.getRange(newProps.generations || [], this.padding, this.rounding);
@@ -79,19 +79,24 @@ export default class TimeLine extends React.Component {
     render() {
         const generationsValues = (this.props.generations || []).map(x =>
             <Generation key={`${x.start}-${x.end}`} {...x} range={this.state.range} />);
-        
-        const events = (this.state.events).map(x => 
+
+        const events = (this.state.events).map(x =>
             <Event key={x.year} {...x} range={this.state.range} />);
-        
+
         const generationRange = generations.getRange(this.props.generations, 0, 1);
-        
+
         return (
             <div className="timeline">
                 <YearLabel className="start-label" value={generationRange.start} />
                 <YearLabel className="end-label" value={generationRange.end} />
                 <div className="timeline-body">
-                    <div className="generations">{generationsValues}</div>
-                    <TimelineTicks start={this.state.range.start} end={this.state.range.end} /> 
+                    <div className="generations">
+                        {generationsValues}
+                        <div className="current-year" style={{
+                            left: ((this.props.year - this.state.range.start) / this.state.range.span) * 100 + '%'
+                        }}></div>
+                    </div>
+                    <TimelineTicks start={this.state.range.start} end={this.state.range.end} />
                 </div>
                 <div className="events">{events}</div>
             </div>);

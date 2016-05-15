@@ -85,7 +85,6 @@ $timeline-height: 60px;
     width: 6px;
     height: 6px;
     border-radius: 100px;
-
     background: black;
     
     .event-label {
@@ -97,6 +96,14 @@ $timeline-height: 60px;
     &:hover .event-label {
         display: block;
     }
+}
+
+.current-year {
+    position: absolute;
+    top: 40px;
+    border: 5px solid transparent;
+    border-bottom-color:red;
+    margin-left: -5px;
 }
 
 .timeline-ticks {

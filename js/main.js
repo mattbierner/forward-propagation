@@ -188,7 +188,7 @@
 	                        onGenerationOverlapChange: this.onGenerationOverlapChange.bind(this),
 	                        onModeChange: this.onModeChange.bind(this) }))
 	                ),
-	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations }),
+	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations, year: this.state.year }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'container' },
@@ -20821,7 +20821,10 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'generations' },
-	                        generationsValues
+	                        generationsValues,
+	                        _react2.default.createElement('div', { className: 'current-year', style: {
+	                                left: (this.props.year - this.state.range.start) / this.state.range.span * 100 + '%'
+	                            } })
 	                    ),
 	                    _react2.default.createElement(_timeline_ticks2.default, { start: this.state.range.start, end: this.state.range.end })
 	                ),

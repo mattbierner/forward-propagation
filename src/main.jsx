@@ -91,7 +91,7 @@ class Main extends React.Component {
                         onGenerationOverlapChange={this.onGenerationOverlapChange.bind(this)}
                         onModeChange={this.onModeChange.bind(this) }/>
                 </div>
-                <Timeline generations={this.state.generations} />
+                <Timeline generations={this.state.generations} year={this.state.year} />
                 <div className="container">
                     <EventList  generations={this.state.generations} />
                 </div>

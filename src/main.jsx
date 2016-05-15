@@ -81,7 +81,6 @@ class Main extends React.Component {
     }
 
     render() {
-        const range = generations.getRange(this.state.generations, 0, 1);
         return (
             <div id="main">
                 <div className="container">
@@ -93,7 +92,9 @@ class Main extends React.Component {
                         onModeChange={this.onModeChange.bind(this) }/>
                 </div>
                 <Timeline generations={this.state.generations} />
-                <EventList start={range.start} end={range.end} />
+                <div className="container">
+                    <EventList  generations={this.state.generations} />
+                </div>
             </div>);
     }
 };

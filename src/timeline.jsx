@@ -2,40 +2,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import events from './events';
 import TimelineTicks from './timeline_ticks';
+import YearLabel from './year_label';
 
-/**
- * Get timespan of a series of generations.
- */
-const getRange = (generations, padding, rounding) => {
-    let min = Infinity;
-    let max = -Infinity;
-    for (const g of generations) {
-        min = Math.min(min, g.start);
-        max = Math.max(max, g.end);
-    }
-    
-    min -= padding; 
-    max += padding;
-    
-    min = Math.ceil(min / rounding) * rounding;
-    max = Math.ceil(max / rounding) * rounding;
-    
-    return {
-        start: min,
-        end: max,
-        span: max - min
-    };
-};
+import events from './events';
+import * as generations from './generations';
 
-/**
- * Get readable year label
- */
-const yearLabel = year =>
-    year < 0
-        ? `${Math.abs(year)} BCE`
-        : `${year}`;
 
 /**
  * 
@@ -53,7 +25,8 @@ class Generation extends React.Component {
             <div className={"generation " + (this.props.active ? "active" : '')}  style={style}>
                 <span className="overlap left-overlap" style={overlapStyle} />
                 <span className="overlap right-overlap" style={overlapStyle} />
-                <span className="year-label">{yearLabel(this.props.start)} - {yearLabel(this.props.end)}</span>
+                <span className="year-label">
+                    <YearLabel value={this.props.start} /> - <YearLabel value={this.props.end}/></span>
             </div>
         );
     }
@@ -86,7 +59,7 @@ export default class TimeLine extends React.Component {
         
         this.padding = this.rounding = 25;
         
-        const range = getRange(this.props.generations || [], this.padding, this.rounding);
+        const range = generations.getRange(this.props.generations || [], this.padding, this.rounding);
         this.state = {
             range: range,
             events: events(range.start, range.end)
@@ -95,7 +68,7 @@ export default class TimeLine extends React.Component {
     
     componentWillReceiveProps(newProps) {
         if (newProps.generations) {
-            const range = getRange(newProps.generations || [], this.padding, this.rounding);
+            const range = generations.getRange(newProps.generations || [], this.padding, this.rounding);
             this.setState({
                 range: range,
                 events: events(range.start, range.end)
@@ -104,20 +77,20 @@ export default class TimeLine extends React.Component {
     }
 
     render() {
-        const generations = (this.props.generations || []).map(x =>
+        const generationsValues = (this.props.generations || []).map(x =>
             <Generation key={`${x.start}-${x.end}`} {...x} range={this.state.range} />);
         
         const events = (this.state.events).map(x => 
             <Event key={x.year} {...x} range={this.state.range} />);
         
-        const generationRange = getRange(this.props.generations, 0, 1);
+        const generationRange = generations.getRange(this.props.generations, 0, 1);
         
         return (
             <div className="timeline">
-                <span className="start-label">{yearLabel(generationRange.start)}</span>
-                <span className="end-label">{yearLabel(generationRange.end)}</span>
+                <YearLabel className="start-label" value={generationRange.start} />
+                <YearLabel className="end-label" value={generationRange.end} />
                 <div className="timeline-body">
-                    <div className="generations">{generations}</div>
+                    <div className="generations">{generationsValues}</div>
                     <TimelineTicks start={this.state.range.start} end={this.state.range.end} /> 
                 </div>
                 <div className="events">{events}</div>

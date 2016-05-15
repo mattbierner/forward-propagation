@@ -175,7 +175,6 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var range = generations.getRange(this.state.generations, 0, 1);
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'main' },
@@ -190,7 +189,11 @@
 	                        onModeChange: this.onModeChange.bind(this) }))
 	                ),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations }),
-	                _react2.default.createElement(_event_list2.default, { start: range.start, end: range.end })
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'container' },
+	                    _react2.default.createElement(_event_list2.default, { generations: this.state.generations })
+	                )
 	            );
 	        }
 	    }]);
@@ -20646,13 +20649,23 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _timeline_ticks = __webpack_require__(174);
+
+	var _timeline_ticks2 = _interopRequireDefault(_timeline_ticks);
+
+	var _year_label = __webpack_require__(176);
+
+	var _year_label2 = _interopRequireDefault(_year_label);
+
 	var _events = __webpack_require__(171);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _timeline_ticks = __webpack_require__(174);
+	var _generations = __webpack_require__(173);
 
-	var _timeline_ticks2 = _interopRequireDefault(_timeline_ticks);
+	var generations = _interopRequireWildcard(_generations);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20661,58 +20674,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/**
-	 * Get timespan of a series of generations.
-	 */
-	var getRange = function getRange(generations, padding, rounding) {
-	    var min = Infinity;
-	    var max = -Infinity;
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	        for (var _iterator = generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var g = _step.value;
-
-	            min = Math.min(min, g.start);
-	            max = Math.max(max, g.end);
-	        }
-	    } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	                _iterator.return();
-	            }
-	        } finally {
-	            if (_didIteratorError) {
-	                throw _iteratorError;
-	            }
-	        }
-	    }
-
-	    min -= padding;
-	    max += padding;
-
-	    min = Math.ceil(min / rounding) * rounding;
-	    max = Math.ceil(max / rounding) * rounding;
-
-	    return {
-	        start: min,
-	        end: max,
-	        span: max - min
-	    };
-	};
-
-	/**
-	 * Get readable year label
-	 */
-	var yearLabel = function yearLabel(year) {
-	    return year < 0 ? Math.abs(year) + ' BCE' : '' + year;
-	};
 
 	/**
 	 * 
@@ -20745,9 +20706,9 @@
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'year-label' },
-	                    yearLabel(this.props.start),
+	                    _react2.default.createElement(_year_label2.default, { value: this.props.start }),
 	                    ' - ',
-	                    yearLabel(this.props.end)
+	                    _react2.default.createElement(_year_label2.default, { value: this.props.end })
 	                )
 	            );
 	        }
@@ -20815,7 +20776,7 @@
 
 	        _this3.padding = _this3.rounding = 25;
 
-	        var range = getRange(_this3.props.generations || [], _this3.padding, _this3.rounding);
+	        var range = generations.getRange(_this3.props.generations || [], _this3.padding, _this3.rounding);
 	        _this3.state = {
 	            range: range,
 	            events: (0, _events2.default)(range.start, range.end)
@@ -20827,7 +20788,7 @@
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(newProps) {
 	            if (newProps.generations) {
-	                var range = getRange(newProps.generations || [], this.padding, this.rounding);
+	                var range = generations.getRange(newProps.generations || [], this.padding, this.rounding);
 	                this.setState({
 	                    range: range,
 	                    events: (0, _events2.default)(range.start, range.end)
@@ -20839,7 +20800,7 @@
 	        value: function render() {
 	            var _this4 = this;
 
-	            var generations = (this.props.generations || []).map(function (x) {
+	            var generationsValues = (this.props.generations || []).map(function (x) {
 	                return _react2.default.createElement(Generation, _extends({ key: x.start + '-' + x.end }, x, { range: _this4.state.range }));
 	            });
 
@@ -20847,28 +20808,20 @@
 	                return _react2.default.createElement(Event, _extends({ key: x.year }, x, { range: _this4.state.range }));
 	            });
 
-	            var generationRange = getRange(this.props.generations, 0, 1);
+	            var generationRange = generations.getRange(this.props.generations, 0, 1);
 
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'timeline' },
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'start-label' },
-	                    yearLabel(generationRange.start)
-	                ),
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'end-label' },
-	                    yearLabel(generationRange.end)
-	                ),
+	                _react2.default.createElement(_year_label2.default, { className: 'start-label', value: generationRange.start }),
+	                _react2.default.createElement(_year_label2.default, { className: 'end-label', value: generationRange.end }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'timeline-body' },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'generations' },
-	                        generations
+	                        generationsValues
 	                    ),
 	                    _react2.default.createElement(_timeline_ticks2.default, { start: this.state.range.start, end: this.state.range.end })
 	                ),
@@ -21504,9 +21457,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _year_label = __webpack_require__(176);
+
+	var _year_label2 = _interopRequireDefault(_year_label);
+
 	var _events = __webpack_require__(171);
 
 	var _events2 = _interopRequireDefault(_events);
+
+	var _generations = __webpack_require__(173);
+
+	var generations = _interopRequireWildcard(_generations);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21528,10 +21491,17 @@
 	    _createClass(Event, [{
 	        key: 'render',
 	        value: function render() {
+	            var even = this.props.generations.some(function (x) {
+	                return x % 2;
+	            }) ? 'even' : ' ';
+	            var odd = this.props.generations.some(function (x) {
+	                return !(x % 2);
+	            }) ? 'odd' : ' ';
+
 	            return _react2.default.createElement(
 	                'li',
-	                { className: 'event' },
-	                this.props.year,
+	                { className: "event " + even + ' ' + odd },
+	                _react2.default.createElement(_year_label2.default, { value: this.props.year }),
 	                ' - ',
 	                this.props.description
 	            );
@@ -21558,19 +21528,61 @@
 	    _createClass(EventList, [{
 	        key: 'getEvents',
 	        value: function getEvents() {
-	            return (0, _events2.default)(this.props.start, this.props.end);
+	            var range = generations.getRange(this.props.generations, 0, 1);
+	            return (0, _events2.default)(range.start, range.end);
+	        }
+	    }, {
+	        key: 'getGenerations',
+	        value: function getGenerations(year) {
+	            var out = [];
+	            var i = 0;
+	            var _iteratorNormalCompletion = true;
+	            var _didIteratorError = false;
+	            var _iteratorError = undefined;
+
+	            try {
+	                for (var _iterator = this.props.generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                    var g = _step.value;
+
+	                    if (year >= g.start && year <= g.end) {
+	                        out.push(i);
+	                    }
+	                    ++i;
+	                }
+	            } catch (err) {
+	                _didIteratorError = true;
+	                _iteratorError = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion && _iterator.return) {
+	                        _iterator.return();
+	                    }
+	                } finally {
+	                    if (_didIteratorError) {
+	                        throw _iteratorError;
+	                    }
+	                }
+	            }
+
+	            return out;
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this3 = this;
+
 	            var events = this.getEvents().map(function (x) {
-	                return _react2.default.createElement(Event, _extends({ key: x.i }, x));
+	                return _react2.default.createElement(Event, _extends({ key: x.i }, x, { generations: _this3.getGenerations(x.year) }));
 	            });
 
 	            return _react2.default.createElement(
-	                'ul',
-	                { className: 'event-list' },
-	                events
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: 'event-list' },
+	                    events
+	                )
 	            );
 	        }
 	    }]);
@@ -21579,6 +21591,66 @@
 	}(_react2.default.Component);
 
 	exports.default = EventList;
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Get readable year label
+	 */
+	var yearLabel = function yearLabel(year) {
+	    return year < 0 ? Math.abs(year) + ' BCE' : '' + year;
+	};
+
+	var YearLabel = function (_React$Component) {
+	    _inherits(YearLabel, _React$Component);
+
+	    function YearLabel() {
+	        _classCallCheck(this, YearLabel);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(YearLabel).apply(this, arguments));
+	    }
+
+	    _createClass(YearLabel, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'span',
+	                this.props,
+	                yearLabel(this.props.value)
+	            );
+	        }
+	    }]);
+
+	    return YearLabel;
+	}(_react2.default.Component);
+
+	exports.default = YearLabel;
 
 /***/ }
 /******/ ]);

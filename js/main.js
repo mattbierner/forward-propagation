@@ -20493,7 +20493,7 @@
 	}(_react2.default.Component);
 
 	/**
-	 * 
+	 * Settings for generations.
 	 */
 
 
@@ -20512,36 +20512,6 @@
 	    }
 
 	    _createClass(Controls, [{
-	        key: 'onGenLengthChange',
-	        value: function onGenLengthChange(e) {
-	            var value = Math.round(e.target.value);
-	            if (isNaN(value) || value < 0) {
-	                // TODO: handle error
-	                return;
-	            }
-	            this.props.onGenLengthChange(value);
-	        }
-	    }, {
-	        key: 'onNumberGenerationsChange',
-	        value: function onNumberGenerationsChange(e) {
-	            var value = Math.round(e.target.value);
-	            if (isNaN(value) || value < 0) {
-	                // TODO: handle error
-	                return;
-	            }
-	            this.props.onNumberGenerationsChange(value);
-	        }
-	    }, {
-	        key: 'onOverlapChange',
-	        value: function onOverlapChange(e) {
-	            var value = Math.round(e.target.value);
-	            if (isNaN(value) || value < 0) {
-	                // TODO: handle error
-	                return;
-	            }
-	            this.props.onGenerationOverlapChange(value);
-	        }
-	    }, {
 	        key: 'onCollapse',
 	        value: function onCollapse() {
 	            this.setState({ active: !this.state.active });
@@ -20578,26 +20548,14 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: "collapsible " + (this.state.active ? 'active' : '') },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'control-group' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'control-label' },
-	                            'Generation Length'
-	                        ),
-	                        _react2.default.createElement('input', { type: 'number', onChange: this.onGenLengthChange.bind(this), value: this.props.generationLength })
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'control-group' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'control-label' },
-	                            'Generation Overlap'
-	                        ),
-	                        _react2.default.createElement('input', { type: 'number', onChange: this.onOverlapChange.bind(this), value: this.props.overlap })
-	                    )
+	                    _react2.default.createElement(NumberSelector, { label: 'Generation Length',
+	                        onChange: this.props.onGenLengthChange,
+	                        value: this.props.generationLength,
+	                        min: '1' }),
+	                    _react2.default.createElement(NumberSelector, { label: 'Generation Overlap',
+	                        onChange: this.props.onOverlapChange,
+	                        value: this.props.overlap,
+	                        min: '1' })
 	                )
 	            );
 	        }

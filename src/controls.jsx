@@ -86,7 +86,7 @@ class NumberSelector extends React.Component {
 }
 
 /**
- * 
+ * Settings for generations.
  */
 export default class Controls extends React.Component {
     constructor(props) {
@@ -95,33 +95,6 @@ export default class Controls extends React.Component {
         this.state = {
             active: false
         };
-    }
-
-    onGenLengthChange(e) {
-        const value = Math.round(e.target.value);
-        if (isNaN(value) || value < 0) {
-            // TODO: handle error
-            return;
-        }
-        this.props.onGenLengthChange(value);
-    }
-
-    onNumberGenerationsChange(e) {
-        const value = Math.round(e.target.value);
-        if (isNaN(value) || value < 0) {
-            // TODO: handle error
-            return;
-        }
-        this.props.onNumberGenerationsChange(value);
-    }
-
-    onOverlapChange(e) {
-        const value = Math.round(e.target.value);
-        if (isNaN(value) || value < 0) {
-            // TODO: handle error
-            return;
-        }
-        this.props.onGenerationOverlapChange(value);
     }
 
     onCollapse() {
@@ -141,7 +114,6 @@ export default class Controls extends React.Component {
                     max="500"
                     value={this.props.numberGenerations} />
 
-
                 <div className="control-group mode-control">
                     <div className="control-label">Mode</div>
                     <ModeSelector {...this.props} />
@@ -149,14 +121,15 @@ export default class Controls extends React.Component {
 
                 <button className="collapseButton" onClick={this.onCollapse.bind(this) }>{this.state.active ? 'Hide Options' : 'More Options'}</button>
                 <div className={"collapsible " + (this.state.active ? 'active' : '') }>
-                    <div className="control-group">
-                        <div className="control-label">Generation Length</div>
-                        <input type="number" onChange={this.onGenLengthChange.bind(this) } value={this.props.generationLength} />
-                    </div>
-                    <div className="control-group">
-                        <div className="control-label">Generation Overlap</div>
-                        <input type="number" onChange={this.onOverlapChange.bind(this) } value={this.props.overlap} />
-                    </div>
+                    <NumberSelector label="Generation Length"
+                        onChange={this.props.onGenLengthChange}
+                        value={this.props.generationLength}
+                        min="1" />
+
+                    <NumberSelector label="Generation Overlap"
+                        onChange={this.props.onOverlapChange}
+                        value={this.props.overlap}
+                        min="1" />
                 </div>
             </div>);
     }

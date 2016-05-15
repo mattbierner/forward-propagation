@@ -110,10 +110,12 @@ export default class TimeLine extends React.Component {
         const events = (this.state.events).map(x => 
             <Event key={x.year} {...x} range={this.state.range} />);
         
+        const generationRange = getRange(this.props.generations, 0, 1);
+        
         return (
             <div className="timeline">
-                <span className="start-label">{yearLabel(this.state.range.start)}</span>
-                <span className="end-label">{yearLabel(this.state.range.end)}</span>
+                <span className="start-label">{yearLabel(generationRange.start)}</span>
+                <span className="end-label">{yearLabel(generationRange.end)}</span>
                 <div className="timeline-body">
                     <div className="generations">{generations}</div>
                     <TimelineTicks start={this.state.range.start} end={this.state.range.end} /> 

@@ -12,7 +12,7 @@ const getGenerationsImpl = (dx, start, count, span, overlap, active = false) => 
         });
         start += (dx - overlap);
     }
-    
+
     return generations;
 };
 
@@ -26,3 +26,25 @@ export const getMiddleGenerations = (start, count, span, overlap) =>
     [].concat(
         getBackwardsGenerations(start + overlap, count, span, overlap, false).reverse(),
         getGenerations(start, count, span, overlap));
+
+
+export const getRange = (generations, padding, rounding) => {
+    let min = Infinity;
+    let max = -Infinity;
+    for (const g of generations) {
+        min = Math.min(min, g.start);
+        max = Math.max(max, g.end);
+    }
+
+    min -= padding;
+    max += padding;
+
+    min = Math.ceil(min / rounding) * rounding;
+    max = Math.ceil(max / rounding) * rounding;
+
+    return {
+        start: min,
+        end: max,
+        span: max - min
+    };
+};

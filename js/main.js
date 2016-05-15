@@ -66,6 +66,10 @@
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
+	var _event_list = __webpack_require__(175);
+
+	var _event_list2 = _interopRequireDefault(_event_list);
+
 	var _generations = __webpack_require__(173);
 
 	var generations = _interopRequireWildcard(_generations);
@@ -98,7 +102,7 @@
 
 	        _this.state = {
 	            generationLength: 80,
-	            year: 1900,
+	            year: new Date().getFullYear(),
 	            generations: [],
 	            overlap: 5,
 	            numberGenerations: 3,
@@ -171,6 +175,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var range = generations.getRange(this.state.generations, 0, 1);
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'main' },
@@ -184,7 +189,8 @@
 	                        onGenerationOverlapChange: this.onGenerationOverlapChange.bind(this),
 	                        onModeChange: this.onModeChange.bind(this) }))
 	                ),
-	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations })
+	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations }),
+	                _react2.default.createElement(_event_list2.default, { start: range.start, end: range.end })
 	            );
 	        }
 	    }]);
@@ -20841,18 +20847,20 @@
 	                return _react2.default.createElement(Event, _extends({ key: x.year }, x, { range: _this4.state.range }));
 	            });
 
+	            var generationRange = getRange(this.props.generations, 0, 1);
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'timeline' },
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'start-label' },
-	                    yearLabel(this.state.range.start)
+	                    yearLabel(generationRange.start)
 	                ),
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'end-label' },
-	                    yearLabel(this.state.range.end)
+	                    yearLabel(generationRange.end)
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -20900,6 +20908,7 @@
 
 	exports.default = function (start, end) {
 	    var out = [];
+	    var i = 0;
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -20909,8 +20918,9 @@
 	            var e = _step.value;
 
 	            if (e.year >= start && e.year <= end) {
-	                out.push(e);
+	                out.push(Object.assign({}, e, { i: i }));
 	            }
+	            ++i;
 	        }
 	    } catch (err) {
 	        _didIteratorError = true;
@@ -21252,6 +21262,48 @@
 	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false).reverse(), getGenerations(start, count, span, overlap));
 	};
 
+	var getRange = exports.getRange = function getRange(generations, padding, rounding) {
+	    var min = Infinity;
+	    var max = -Infinity;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	        for (var _iterator = generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var g = _step.value;
+
+	            min = Math.min(min, g.start);
+	            max = Math.max(max, g.end);
+	        }
+	    } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	                _iterator.return();
+	            }
+	        } finally {
+	            if (_didIteratorError) {
+	                throw _iteratorError;
+	            }
+	        }
+	    }
+
+	    min -= padding;
+	    max += padding;
+
+	    min = Math.ceil(min / rounding) * rounding;
+	    max = Math.ceil(max / rounding) * rounding;
+
+	    return {
+	        start: min,
+	        end: max,
+	        span: max - min
+	    };
+	};
+
 /***/ },
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
@@ -21429,6 +21481,104 @@
 	}(_react2.default.Component);
 
 	exports.default = TimelineTicks;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _events = __webpack_require__(171);
+
+	var _events2 = _interopRequireDefault(_events);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Event = function (_React$Component) {
+	    _inherits(Event, _React$Component);
+
+	    function Event() {
+	        _classCallCheck(this, Event);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Event).apply(this, arguments));
+	    }
+
+	    _createClass(Event, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'li',
+	                { className: 'event' },
+	                this.props.year,
+	                ' - ',
+	                this.props.description
+	            );
+	        }
+	    }]);
+
+	    return Event;
+	}(_react2.default.Component);
+
+	/**
+	 * Displays list of events in range.
+	 */
+
+
+	var EventList = function (_React$Component2) {
+	    _inherits(EventList, _React$Component2);
+
+	    function EventList() {
+	        _classCallCheck(this, EventList);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EventList).apply(this, arguments));
+	    }
+
+	    _createClass(EventList, [{
+	        key: 'getEvents',
+	        value: function getEvents() {
+	            return (0, _events2.default)(this.props.start, this.props.end);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var events = this.getEvents().map(function (x) {
+	                return _react2.default.createElement(Event, _extends({ key: x.i }, x));
+	            });
+
+	            return _react2.default.createElement(
+	                'ul',
+	                { className: 'event-list' },
+	                events
+	            );
+	        }
+	    }]);
+
+	    return EventList;
+	}(_react2.default.Component);
+
+	exports.default = EventList;
 
 /***/ }
 /******/ ]);

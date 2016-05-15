@@ -36,9 +36,9 @@ $timeline-height: 60px;
     }
 }
 
-.generation {
+.timeline .generation {
     position: absolute;
-    background: #74CEB7;
+    background: #a4c8a6;
     border-radius: 100px;
     height: 10px;
     top: $timeline-height / 2;
@@ -46,7 +46,8 @@ $timeline-height: 60px;
     .year-label {
         display: none;
         white-space: nowrap;
-        width: 20em;
+        width: 100%;
+        text-align: center;
     }
     
     &:hover .year-label {
@@ -62,7 +63,7 @@ $timeline-height: 60px;
     }
     
     &.active {
-        background: #ef6f56;
+        background: #ed9270;
     }
     
     .overlap {
@@ -79,7 +80,7 @@ $timeline-height: 60px;
     }
 }
 
-.event {
+.timeline .event {
     position: absolute;
     width: 6px;
     height: 6px;

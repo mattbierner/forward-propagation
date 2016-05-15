@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 import Controls from './controls';
 import Timeline from './timeline';
+import EventList from './event_list';
 
 import * as generations from './generations';
 import modes from './mode';
@@ -17,7 +18,7 @@ class Main extends React.Component {
 
         this.state = {
             generationLength: 80,
-            year: 1900,
+            year: new Date().getFullYear(),
             generations: [],
             overlap: 5,
             numberGenerations: 3,
@@ -80,6 +81,7 @@ class Main extends React.Component {
     }
 
     render() {
+        const range = generations.getRange(this.state.generations, 0, 1);
         return (
             <div id="main">
                 <div className="container">
@@ -91,6 +93,7 @@ class Main extends React.Component {
                         onModeChange={this.onModeChange.bind(this) }/>
                 </div>
                 <Timeline generations={this.state.generations} />
+                <EventList start={range.start} end={range.end} />
             </div>);
     }
 };

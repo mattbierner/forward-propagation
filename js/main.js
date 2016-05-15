@@ -20408,18 +20408,98 @@
 	 */
 
 
-	var Controls = function (_React$Component2) {
-	    _inherits(Controls, _React$Component2);
+	var NumberSelector = function (_React$Component2) {
+	    _inherits(NumberSelector, _React$Component2);
+
+	    function NumberSelector(props) {
+	        _classCallCheck(this, NumberSelector);
+
+	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(NumberSelector).call(this, props));
+
+	        _this2.state = {
+	            workingValue: props.value,
+	            error: null
+	        };
+	        return _this2;
+	    }
+
+	    _createClass(NumberSelector, [{
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	            if (!isNaN(newProps.value)) {
+	                this.setState({
+	                    workingValue: newProps.value,
+	                    error: null
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'onChange',
+	        value: function onChange(e) {
+	            var value = Math.round(e.target.value);
+	            if (isNaN(value) || e.target.value === '') {
+	                this.setState({
+	                    workingValue: e.target.value,
+	                    error: 'Invalid number'
+	                });
+	                return;
+	            }
+
+	            if (!isNaN(this.props.min)) {
+	                value = Math.max(this.props.min, value);
+	            }
+
+	            if (!isNaN(this.props.max)) {
+	                value = Math.min(this.props.max, value);
+	            }
+
+	            this.props.onChange(value);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'control-group' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'control-label' },
+	                    this.props.label
+	                ),
+	                _react2.default.createElement('input', { type: 'number',
+	                    min: this.props.min || '',
+	                    max: this.props.max || '',
+	                    onChange: this.onChange.bind(this),
+	                    value: this.state.workingValue }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: 'field-error', style: { display: this.state.error ? 'block' : 'none' } },
+	                    this.state.error
+	                )
+	            );
+	        }
+	    }]);
+
+	    return NumberSelector;
+	}(_react2.default.Component);
+
+	/**
+	 * 
+	 */
+
+
+	var Controls = function (_React$Component3) {
+	    _inherits(Controls, _React$Component3);
 
 	    function Controls(props) {
 	        _classCallCheck(this, Controls);
 
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
+	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
 
-	        _this2.state = {
+	        _this3.state = {
 	            active: false
 	        };
-	        return _this2;
+	        return _this3;
 	    }
 
 	    _createClass(Controls, [{
@@ -20431,16 +20511,6 @@
 	                return;
 	            }
 	            this.props.onGenLengthChange(value);
-	        }
-	    }, {
-	        key: 'onYearChange',
-	        value: function onYearChange(e) {
-	            var value = Math.round(e.target.value);
-	            if (isNaN(value) || value < 0) {
-	                // TODO: handle error
-	                return;
-	            }
-	            this.props.onYearChange(value);
 	        }
 	    }, {
 	        key: 'onNumberGenerationsChange',
@@ -20473,30 +20543,14 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { className: "controls " + (this.state.active ? 'active' : '') },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'control-group' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'control-label' },
-	                        'Year'
-	                    ),
-	                    _react2.default.createElement('input', { type: 'number', onChange: this.onYearChange.bind(this), value: this.props.year })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'control-group' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'control-label' },
-	                        'Generations'
-	                    ),
-	                    _react2.default.createElement('input', { type: 'number',
-	                        onChange: this.onNumberGenerationsChange.bind(this),
-	                        min: '1',
-	                        max: '500',
-	                        value: this.props.numberGenerations })
-	                ),
+	                _react2.default.createElement(NumberSelector, { label: 'Year',
+	                    onChange: this.props.onYearChange,
+	                    value: this.props.year }),
+	                _react2.default.createElement(NumberSelector, { label: 'Generations',
+	                    onChange: this.props.onNumberGenerationsChange,
+	                    min: '1',
+	                    max: '500',
+	                    value: this.props.numberGenerations }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'control-group mode-control' },
@@ -21231,7 +21285,7 @@
 	};
 
 	/**
-	 * 
+	 * Displays ticks on the timeline
 	 */
 
 	var TimelineTicks = function (_React$Component) {
@@ -21260,11 +21314,17 @@
 	            this.drawGrid(nextProps.start, nextProps.end);
 	        }
 	    }, {
+	        key: 'getScale',
+	        value: function getScale(start, end) {
+	            var duration = Math.abs(start - end);
+	            return Math.max(100, Math.pow(10, Math.floor(Math.log10(duration))));
+	        }
+	    }, {
 	        key: 'drawGrid',
 	        value: function drawGrid(start, end) {
 	            var duration = Math.abs(start - end);
 
-	            var canvas = _reactDom2.default.findDOMNode(this);
+	            var canvas = _reactDom2.default.findDOMNode(this).getElementsByTagName('canvas')[0];
 
 	            var _canvas$getBoundingCl = canvas.getBoundingClientRect();
 
@@ -21278,8 +21338,8 @@
 	            context.imageSmoothingEnabled = true;
 
 	            context.lineWidth = 1;
-	            var base = Math.max(100, Math.pow(10, Math.floor(Math.log10(duration))));
-	            console.log(base);
+	            var base = this.getScale(start, end);
+
 	            var lines = [{ scale: base, height: 1, color: '#aaa', exclude: [] }, { scale: base / 4, height: 0.25, color: '#aaa', exclude: [base] }, { scale: base / 20, height: 0.1, color: '#aaa', exclude: [base, base / 4] }];
 
 	            var _iteratorNormalCompletion = true;
@@ -21337,7 +21397,31 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('canvas', { className: 'timeline-ticks' });
+	            var scale = this.getScale(this.props.start, this.props.end);
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'timeline-ticks' },
+	                _react2.default.createElement('canvas', null),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'scale' },
+	                    'Large marks: ',
+	                    _react2.default.createElement(
+	                        'i',
+	                        null,
+	                        scale,
+	                        ' years'
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    'Small marks: ',
+	                    _react2.default.createElement(
+	                        'i',
+	                        null,
+	                        scale / 20,
+	                        ' years'
+	                    )
+	                )
+	            );
 	        }
 	    }]);
 

@@ -66,6 +66,18 @@ class NumberSelector extends React.Component {
             value = Math.min(this.props.max, value);
         }
 
+        if (this.props.validation) {
+            const result = this.props.validation(value);
+            if (result && result.error) {
+                this.setState({
+                    workingValue: value,
+                    error: result.error
+                });
+                return;
+            }
+        }
+
+
         this.props.onChange(value);
     }
 
@@ -97,6 +109,18 @@ export default class Controls extends React.Component {
         };
     }
 
+    validateGeneration(length) {
+        if (length <= this.props.overlap)
+            return { error: "Must be greater than overlap" };
+        return length;
+    }
+
+    validateOverlap(length) {
+        if (length >= this.props.generationLength)
+            return { error: "Must be less than generation length" };
+        return length;
+    }
+
     onCollapse() {
         this.setState({ active: !this.state.active });
     }
@@ -124,12 +148,14 @@ export default class Controls extends React.Component {
                     <NumberSelector label="Generation Length"
                         onChange={this.props.onGenLengthChange}
                         value={this.props.generationLength}
-                        min="1" />
+                        min="1"
+                        validation={this.validateGeneration.bind(this) }/>
 
                     <NumberSelector label="Generation Overlap"
-                        onChange={this.props.onOverlapChange}
+                        onChange={this.props.onGenerationOverlapChange}
                         value={this.props.overlap}
-                        min="1" />
+                        min="1"
+                        validation={this.validateOverlap.bind(this) }/>
                 </div>
             </div>);
     }

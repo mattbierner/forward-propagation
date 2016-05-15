@@ -10,7 +10,7 @@ $timeline-height: 60px;
     
     .start-label, .end-label {
         position: absolute;
-        top: $timeline-height + 20px;
+        bottom: -30px;
     }
     
     .start-label {
@@ -23,6 +23,7 @@ $timeline-height: 60px;
     
     .generations, events {
         width: 100%;
+        min-height: 100%;
         position: relative;
         z-index: 10;
     }
@@ -33,21 +34,25 @@ $timeline-height: 60px;
     
     .timeline-body {
         height: $timeline-height;
+        margin-bottom: 1em;
     }
 }
 
 .timeline .generation {
     position: absolute;
-    background: #a4c8a6;
     border-radius: 100px;
-    height: 10px;
-    top: $timeline-height / 2;
+    border: 1px solid white;
+    height: 8px;
+    top: calc(50% + 10px);
+    bottom: 0;
+    margin: auto;
 
     .year-label {
         display: none;
         white-space: nowrap;
         width: 100%;
         text-align: center;
+        background: white;
     }
     
     &:hover .year-label {
@@ -58,25 +63,8 @@ $timeline-height: 60px;
         left: 0;
     }
     
-    &:nth-child(even) {
-        margin-top: -10px;
-    }
-    
     &.active {
         background: #ed9270;
-    }
-    
-    .overlap {
-        display: block;
-        position: absolute;
-        top: 0;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 100px;
-    }
-    
-    .right-overlap {
-        right: 0;
     }
 }
 
@@ -100,7 +88,9 @@ $timeline-height: 60px;
 
 .current-year {
     position: absolute;
-    top: 40px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
     border: 5px solid transparent;
     border-bottom-color:red;
     margin-left: -5px;
@@ -110,6 +100,9 @@ $timeline-height: 60px;
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
+    margin: auto;
+    
     width: 100%;
     height: $timeline-height;
     pointer-events: none;

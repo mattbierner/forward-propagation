@@ -20,11 +20,11 @@ export const getGenerations = (start, count, span, overlap, active = true) =>
     getGenerationsImpl(span, start, count, span, overlap, active);
 
 export const getBackwardsGenerations = (start, count, span, overlap, active = true) =>
-    getGenerationsImpl(-span, start - span, count, span, -overlap, active);
+    getGenerationsImpl(-span, start - span, count, span, -overlap, active).reverse();
 
 export const getMiddleGenerations = (start, count, span, overlap) =>
     [].concat(
-        getBackwardsGenerations(start + overlap, count, span, overlap, false).reverse(),
+        getBackwardsGenerations(start + overlap, count, span, overlap, false),
         getGenerations(start, count, span, overlap));
 
 

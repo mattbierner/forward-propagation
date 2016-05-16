@@ -41,9 +41,9 @@ export default class TimelineTicks extends React.Component {
         let base = this.getScale(start, end);
 
         const lines = [
-            { scale: base, height: 1, color: '#aaa', exclude: [] },
-            { scale: base / 4, height: 0.25, color: '#aaa', exclude: [base] },
-            { scale: base / 20, height: 0.1, color: '#aaa', exclude: [base, base / 4] },
+            { scale: base, height: 1, color: '#777', exclude: [] },
+            { scale: base / 4, height: 0.25, color: '#777', exclude: [base] },
+            { scale: base / 20, height: 0.1, color: '#777', exclude: [base, base / 4] },
         ];
 
         for (const line of lines) {

@@ -1,11 +1,10 @@
-"use strict";
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import modes from './mode';
 
 /**
- * Selection of generation mode.
+ * Propagation mode input selector.
  */
 class ModeSelector extends React.Component {
     onModeChange(e) {
@@ -27,7 +26,7 @@ class ModeSelector extends React.Component {
 }
 
 /**
- * 
+ * Simple number input with validation and error display.
  */
 class NumberSelector extends React.Component {
     constructor(props) {
@@ -77,7 +76,6 @@ class NumberSelector extends React.Component {
             }
         }
 
-
         this.props.onChange(value);
     }
 
@@ -98,7 +96,7 @@ class NumberSelector extends React.Component {
 }
 
 /**
- * Settings for generations.
+ * Settings for controlling generations.
  */
 export default class Controls extends React.Component {
     constructor(props) {
@@ -110,15 +108,15 @@ export default class Controls extends React.Component {
     }
 
     validateGeneration(length) {
-        if (length <= this.props.overlap)
-            return { error: "Must be greater than overlap" };
-        return length;
+        return length <= this.props.overlap
+            ? { error: "Must be greater than overlap" }
+            : length;
     }
 
     validateOverlap(length) {
-        if (length >= this.props.generationLength)
-            return { error: "Must be less than generation length" };
-        return length;
+        return length >= this.props.generationLength
+            ? { error: "Must be less than generation length" }
+            : length;
     }
 
     onCollapse() {

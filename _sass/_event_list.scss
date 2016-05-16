@@ -1,29 +1,10 @@
 .event-list {
     list-style: none;
+    margin-left: 0;
     
     li {
-        padding-left: 2em;
-        position: relative;
-    }
-    
-    li.even:before,
-    li.odd:after {
-        position: absolute;
-        left: 0;
-        top: 0;
-        display: block;
-        content: '';
-        width: 6px;
-        height: 100%;
-    }
-    
-    li.even:before {
-        background: #a4c8a6;
-        margin-left: 6px;
-    }
-    
-    li.odd:after {
-        background: #a4c8a6;
+        padding-left: 0;
+        margin-left: 0;
     }
 }
 

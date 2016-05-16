@@ -48,8 +48,8 @@ class EventRange extends React.Component {
         if (events.length >= 2) {
             return (
                 <div className="event-range">
-                    <HeaderEvent label="earliest" {...events[0]} />
-                    <HeaderEvent label="latest" {...events[events.length - 1]} />
+                    <HeaderEvent label="earliest event" {...events[0]} />
+                    <HeaderEvent label="latest event" {...events[events.length - 1]} />
                 </div>);
         }
         const minYear = this.getMinYear();
@@ -84,7 +84,7 @@ class EventList extends React.Component {
 
     getPre(events, used) {
         const out = [];
-        for (let i = 0; i <= this.sampleSize; ++i) {
+        for (let i = 0; i < this.sampleSize; ++i) {
             if (!used[i] && events[i]) {
                 used[i] = true;
                 out.push(events[i]);
@@ -122,7 +122,7 @@ class EventList extends React.Component {
 
             let mid = [];
             if (events.length > pre.length + post.length)
-                mid = (<li className="expand-button">
+                mid = (<li className="expand-button" key="expand-button">
                     <span/>
                     <button onClick={this.onExpand.bind(this) }>Show all events</button>
                     <span/>
@@ -134,7 +134,6 @@ class EventList extends React.Component {
         return (<ul className="event-list">{items}</ul>);
     }
 }
-
 
 /**
  * Displays information about events in range.

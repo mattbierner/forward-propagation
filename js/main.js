@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -69,6 +69,10 @@
 	var _event_list = __webpack_require__(179);
 
 	var _event_list2 = _interopRequireDefault(_event_list);
+
+	var _summary = __webpack_require__(182);
+
+	var _summary2 = _interopRequireDefault(_summary);
 
 	var _generations = __webpack_require__(178);
 
@@ -186,7 +190,8 @@
 	                        onYearChange: this.onYearChange.bind(this),
 	                        onNumberGenerationsChange: this.onNumberGenerationsChange.bind(this),
 	                        onGenerationOverlapChange: this.onGenerationOverlapChange.bind(this),
-	                        onModeChange: this.onModeChange.bind(this) }))
+	                        onModeChange: this.onModeChange.bind(this) })),
+	                    _react2.default.createElement(_summary2.default, this.state)
 	                ),
 	                _react2.default.createElement(_timeline2.default, { generations: this.state.generations, year: this.state.year }),
 	                _react2.default.createElement(
@@ -20338,7 +20343,7 @@
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -20367,7 +20372,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	/**
-	 * Selection of generation mode.
+	 * Propagation mode input selector.
 	 */
 
 	var ModeSelector = function (_React$Component) {
@@ -20413,7 +20418,7 @@
 	}(_react2.default.Component);
 
 	/**
-	 * 
+	 * Simple number input with validation and error display.
 	 */
 
 
@@ -20504,7 +20509,7 @@
 	}(_react2.default.Component);
 
 	/**
-	 * Settings for generations.
+	 * Settings for controlling generations.
 	 */
 
 
@@ -20525,14 +20530,12 @@
 	    _createClass(Controls, [{
 	        key: 'validateGeneration',
 	        value: function validateGeneration(length) {
-	            if (length <= this.props.overlap) return { error: "Must be greater than overlap" };
-	            return length;
+	            return length <= this.props.overlap ? { error: "Must be greater than overlap" } : length;
 	        }
 	    }, {
 	        key: 'validateOverlap',
 	        value: function validateOverlap(length) {
-	            if (length >= this.props.generationLength) return { error: "Must be less than generation length" };
-	            return length;
+	            return length >= this.props.generationLength ? { error: "Must be less than generation length" } : length;
 	        }
 	    }, {
 	        key: 'onCollapse',
@@ -20665,7 +20668,7 @@
 	var scale = _chromaJs2.default.scale(['#74ceb7', '#86fffb']);
 
 	/**
-	 * 
+	 * Generation span on the timeline.
 	 */
 
 	var Generation = function (_React$Component) {
@@ -20681,21 +20684,14 @@
 	        key: 'render',
 	        value: function render() {
 	            var style = {};
-
 	            style.width = this.props.span / this.props.range.span * 100 + '%';
 	            style.left = (this.props.start - this.props.range.start) / this.props.range.span * 100 + '%';
 	            style.marginTop = +this.props.shift * 10 + 'px';
-
 	            style.background = scale((this.props.start - this.props.generationRange.start) / (this.props.generationRange.span - this.props.span)).hex();
-
-	            var overlapStyle = {};
-	            overlapStyle.width = this.props.overlap / this.props.span * 100 + '%';
 
 	            return _react2.default.createElement(
 	                'div',
 	                { className: "generation " + (this.props.active ? "active" : ''), style: style },
-	                _react2.default.createElement('span', { className: 'overlap left-overlap', style: overlapStyle }),
-	                _react2.default.createElement('span', { className: 'overlap right-overlap', style: overlapStyle }),
 	                _react2.default.createElement(
 	                    'span',
 	                    { className: 'generation-range-label' },
@@ -20711,7 +20707,7 @@
 	}(_react2.default.Component);
 
 	/**
-	 * 
+	 * Evernt mark on the timeline.
 	 */
 
 
@@ -20749,6 +20745,14 @@
 
 	    return Event;
 	}(_react2.default.Component);
+
+	/**
+	 * Try placing generations in a timeline.
+	 * 
+	 * Placement starts at center and works outwards to find first unoccupied row
+	 * of the timeline.
+	 */
+
 
 	var getShifts = function getShifts(generations) {
 	    var i = 1;
@@ -23554,7 +23558,7 @@
 	            context.lineWidth = 1;
 	            var base = this.getScale(start, end);
 
-	            var lines = [{ scale: base, height: 1, color: '#aaa', exclude: [] }, { scale: base / 4, height: 0.25, color: '#aaa', exclude: [base] }, { scale: base / 20, height: 0.1, color: '#aaa', exclude: [base, base / 4] }];
+	            var lines = [{ scale: base, height: 1, color: '#777', exclude: [] }, { scale: base / 4, height: 0.25, color: '#777', exclude: [base] }, { scale: base / 20, height: 0.1, color: '#777', exclude: [base, base / 4] }];
 
 	            var _iteratorNormalCompletion = true;
 	            var _didIteratorError = false;
@@ -24576,8 +24580,8 @@
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'event-range' },
-	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'earliest' }, events[0])),
-	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'latest' }, events[events.length - 1]))
+	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'earliest event' }, events[0])),
+	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'latest event' }, events[events.length - 1]))
 	                );
 	            }
 	            var minYear = this.getMinYear();
@@ -24632,7 +24636,7 @@
 	        key: 'getPre',
 	        value: function getPre(events, used) {
 	            var out = [];
-	            for (var i = 0; i <= this.sampleSize; ++i) {
+	            for (var i = 0; i < this.sampleSize; ++i) {
 	                if (!used[i] && events[i]) {
 	                    used[i] = true;
 	                    out.push(events[i]);
@@ -24676,7 +24680,7 @@
 	                var mid = [];
 	                if (events.length > pre.length + post.length) mid = _react2.default.createElement(
 	                    'li',
-	                    { className: 'expand-button' },
+	                    { className: 'expand-button', key: 'expand-button' },
 	                    _react2.default.createElement('span', null),
 	                    _react2.default.createElement(
 	                        'button',
@@ -25517,6 +25521,105 @@
 	    value: true
 	});
 	exports.default = [{ "year": 70, "description": "Kandake Amanikhatashan sends Kushite cavalry to aid Roman Emperor in Jerusalem revolt" }, { "year": 100, "description": "rise of the Aksum" }, { "year": 100, "description": "Khoekhoe reach southern coast of Africa" }, { "year": 50, "description": "Pyramid of the Sun began" }, { "year": 25, "description": "Han Dynasty reestablished under Guangwu" }, { "year": 33, "description": "Christianity begins" }, { "year": 47, "description": "London founded" }, { "year": 79, "description": "Pompeii destroyed" }, { "year": 150, "description": "Rhapta, hint of pre-Swahili, Periplus of the Erythraean Sea" }, { "year": 200, "description": "Bantu reach east Africa" }, { "year": 200, "description": "Nok culture ends" }, { "year": 150, "description": "Cahuachi becomes dominant ceremonial site in southern Peru" }, { "year": 184, "description": "Yellow Turban Rebellion" }, { "year": 106, "description": "Dacia becomes a Roman province" }, { "year": 166, "description": "Siege of Aquileia" }, { "year": 180, "description": "End of the Macromannic Wars" }, { "year": 212, "description": "Egyptians granted Roman citizenship" }, { "year": 230, "description": "Aksum wars with Himyar and Saba alliance" }, { "year": 300, "description": "Aksum prints own coins" }, { "year": 250, "description": "Rise of Laguna de los Cerros" }, { "year": 300, "description": "Tikàl conquers El Mirador" }, { "year": 208, "description": "Battle of Red Cliffs during the decline of the Han Dynasty" }, { "year": 280, "description": "Jin reunifies China" }, { "year": 212, "description": "Roman citizenship extended to all free people in the empire" }, { "year": 214, "description": "Hispania divided into Gallaecia, Tarraconensis, Baetica and Lusitania" }, { "year": 286, "description": "Diocletian divides the empire East and West" }, { "year": 300, "description": "Eastern Polynesian culture develops" }, { "year": 350, "description": "Meroe comes to an end" }, { "year": 378, "description": "Teotihuacan conquers Waka, Tikal, and Uaxactun, the beginning of its conquest of the Maya" }, { "year": 319, "description": "Rise of Gupta Empire in South Asia" }, { "year": 383, "description": "Battle of Fei River" }, { "year": 393, "description": "Last Olympic Games" }, { "year": 313, "description": "Edict of Milan" }, { "year": 370, "description": "Huns invade Eastern Europe" }, { "year": 396, "description": "Alaric and the Visigoths invade Greece" }, { "year": 401, "description": "c. camel main transport for trans-Sahara" }, { "year": 429, "description": "Vandal invasion" }, { "year": 500, "description": "Nubia split into Nobadia, Makuria, Alodia" }, { "year": 420, "description": "Southern and Northern Dynasties period begins" }, { "year": 407, "description": "Vandals enter Iberia" }, { "year": 421, "description": "Romans defeat Persians" }, { "year": 476, "description": "Fall of Roman Empire" }, { "year": 500, "description": "Settlement of Hawaii, Easter Island, Society Islands, Tuamotus and Mangareva" }, { "year": 520, "description": "Kaleb attacks Yemen" }, { "year": 533, "description": "Belisarius invades Africa" }, { "year": 540, "description": "Nubia converts to monophysite Christianity" }, { "year": 600, "description": "Wari' conquer Peru" }, { "year": 600, "description": "Construction of Palenque" }, { "year": 538, "description": "Buddhism introduced in Japan." }, { "year": 570, "description": "Birth of the Islamic prophet Muhammad" }, { "year": 507, "description": "Battle of Vouillé" }, { "year": 535, "description": "Byzantine army invades Italy" }, { "year": 585, "description": "Visigoths conquer Suevi kingdom" }, { "year": 641, "description": "Muslims invade Africa" }, { "year": 690, "description": "Za Dynasty founded" }, { "year": 697, "description": "Carthage destroyed" }, { "year": 650, "description": "Settlement of Xochitecatl and Cacaxtla" }, { "year": 700, "description": "Teotihuacan destroyed" }, { "year": 618, "description": "Tang Dynasty established" }, { "year": 632, "description": "Rise of Islam" }, { "year": 651, "description": "Islamic conquest of Persiac." }, { "year": 680, "description": "Bulgarian Empire was founded" }, { "year": 700, "description": "Settlement of the Cook Islands" }, { "year": 702, "description": "Aksum attacks Arabia" }, { "year": 706, "description": "Arabic in Egypt" }, { "year": 789, "description": "Independent Morocco" }, { "year": 738, "description": "Quiriguá becomes independent of Copan" }, { "year": 750, "description": "Sacred Cenote built at Chichén Itzá" }, { "year": 780, "description": "Murals at Bonampak abandoned" }, { "year": 738, "description": "Battle of Rajasthan and invasion of India by Umayyad Caliphate was averted" }, { "year": 755, "description": "An Shi Rebellion" }, { "year": 717, "description": "Siege of Constantinople" }, { "year": 718, "description": "Islamic conquest of Spain" }, { "year": 801, "description": "c. Kanem Empire founded" }, { "year": 835, "description": "Ganlu Incident" }, { "year": 872, "description": "Norway unites" }, { "year": 874, "description": "Settlement of Iceland" }, { "year": 896, "description": "Hungarians invade Carpathia" }, { "year": 900, "description": "Settlement of New Zealand" }, { "year": 905, "description": "Tulunids ejected" }, { "year": 909, "description": "Fatimid established" }, { "year": 969, "description": "Fustat captured" }, { "year": 950, "description": "Great Serpent Mound constructed" }, { "year": 990, "description": "Toltecs conquer Chichén Itzá" }, { "year": 907, "description": "Political upheaval of the Five Dynasties begins" }, { "year": 960, "description": "Song dynasty established" }, { "year": 958, "description": "Denmark unites" }, { "year": 985, "description": "Erik the Red founds colony in Greenland" }, { "year": 1000, "description": "Polynesians build stone temples" }];
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _year_label = __webpack_require__(174);
+
+	var _year_label2 = _interopRequireDefault(_year_label);
+
+	var _generations = __webpack_require__(178);
+
+	var generations = _interopRequireWildcard(_generations);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Summary of settings.
+	 */
+
+	var Summary = function (_React$Component) {
+	    _inherits(Summary, _React$Component);
+
+	    function Summary() {
+	        _classCallCheck(this, Summary);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Summary).apply(this, arguments));
+	    }
+
+	    _createClass(Summary, [{
+	        key: 'render',
+	        value: function render() {
+	            var range = generations.getRange(this.props.generations, 0, 1);
+	            return _react2.default.createElement(
+	                'span',
+	                { className: 'summary' },
+	                this.props.generations.length,
+	                ' generations ',
+	                _react2.default.createElement(
+	                    'i',
+	                    null,
+	                    'of'
+	                ),
+	                ' ',
+	                this.props.generationLength,
+	                ' years ',
+	                _react2.default.createElement(
+	                    'i',
+	                    null,
+	                    'with'
+	                ),
+	                ' ',
+	                this.props.overlap,
+	                ' year overlaps',
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                    'i',
+	                    null,
+	                    'spanning'
+	                ),
+	                ' ',
+	                _react2.default.createElement(_year_label2.default, { value: range.start }),
+	                _react2.default.createElement(
+	                    'i',
+	                    null,
+	                    'to'
+	                ),
+	                _react2.default.createElement(_year_label2.default, { value: range.end })
+	            );
+	        }
+	    }]);
+
+	    return Summary;
+	}(_react2.default.Component);
+
+	exports.default = Summary;
 
 /***/ }
 /******/ ]);

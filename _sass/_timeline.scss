@@ -6,7 +6,7 @@ $timeline-height: 60px;
     position: relative;
     width: 100%;
     margin-top: 2em;
-    margin-bottom: 3em;
+    margin-bottom: 3.6em;
     
     .start-label, .end-label {
         position: absolute;
@@ -72,7 +72,7 @@ $timeline-height: 60px;
     width: 6px;
     height: 6px;
     border-radius: 100px;
-    background: black;
+    background: rgba(0, 0, 0, 0.4);
     
     .event-label {
         display: none;
@@ -91,7 +91,7 @@ $timeline-height: 60px;
     bottom: 0;
     margin: auto;
     border: 5px solid transparent;
-    border-bottom-color:red;
+    border-bottom-color:$text-color;
     margin-left: -5px;
 }
 

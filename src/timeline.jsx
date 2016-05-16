@@ -13,25 +13,18 @@ import * as generations from './generations';
 const scale = chroma.scale(['#74ceb7', '#86fffb']);
 
 /**
- * 
+ * Generation span on the timeline.
  */
 class Generation extends React.Component {
     render() {
         const style = {};
-        
         style.width = (this.props.span / this.props.range.span) * 100 + '%';
         style.left = (this.props.start - this.props.range.start) / this.props.range.span * 100 + '%';
         style.marginTop = (+this.props.shift) * 10 + 'px';
-        
         style.background = scale((this.props.start - this.props.generationRange.start) / (this.props.generationRange.span - this.props.span)).hex();
 
-        const overlapStyle = {};
-        overlapStyle.width = (this.props.overlap / this.props.span) * 100 + '%';
-
         return (
-            <div className={"generation " + (this.props.active ? "active" : '') }  style={style}>
-                <span className="overlap left-overlap" style={overlapStyle} />
-                <span className="overlap right-overlap" style={overlapStyle} />
+            <div className={"generation " + (this.props.active ? "active" : '') } style={style}>
                 <span className="generation-range-label">
                     <YearLabel value={this.props.start} /> - <YearLabel value={this.props.end}/>
                 </span>
@@ -41,7 +34,7 @@ class Generation extends React.Component {
 }
 
 /**
- * 
+ * Evernt mark on the timeline.
  */
 class Event extends React.Component {
     render() {
@@ -58,7 +51,12 @@ class Event extends React.Component {
     }
 }
 
-
+/**
+ * Try placing generations in a timeline.
+ * 
+ * Placement starts at center and works outwards to find first unoccupied row
+ * of the timeline.
+ */
 const getShifts = (generations) => {
     let i = 1;
     

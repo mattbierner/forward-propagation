@@ -1,10 +1,10 @@
-"use strict";
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Controls from './controls';
 import Timeline from './timeline';
 import EventList from './event_list';
+import Summary from './summary';
 
 import * as generations from './generations';
 import modes from './mode';
@@ -90,10 +90,11 @@ class Main extends React.Component {
                         onNumberGenerationsChange={this.onNumberGenerationsChange.bind(this)}
                         onGenerationOverlapChange={this.onGenerationOverlapChange.bind(this)}
                         onModeChange={this.onModeChange.bind(this) }/>
+                    <Summary {...this.state} />
                 </div>
                 <Timeline generations={this.state.generations} year={this.state.year} />
                 <div className="container">
-                    <EventList  generations={this.state.generations} />
+                    <EventList generations={this.state.generations}/>
                 </div>
             </div>);
     }

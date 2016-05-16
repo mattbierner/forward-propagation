@@ -1,5 +1,4 @@
 .event-list {
-    text-align: left;
     list-style: none;
     
     li {
@@ -29,8 +28,43 @@
 }
 
 .event-list .event {
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    
+    h4 {
+        margin-bottom: 0;
+        font-weight: 600;
+    }
+}
+
+.event-list .expand-button {
+    padding-bottom: 1em;
+    
+    & > * {
+        width: 100%;
+        display: inline-block;
+    }
+    
+    button {
+        color: $mid-gray;
+        border: none;
+        background: none;
+    }
+    
+    button:hover {
+        text-decoration: underline;
+    }
+    
+    span {
+        color: $mid-gray;
+        
+        &::before {
+            content: "\25CB\25CB\25CB";
+            font-size: 8px;
+            letter-spacing: 1.1em;
+            margin-right: -1.1em;
+        }
+    }
 }
 
 .event-range {
@@ -46,7 +80,7 @@
     h3 {
         text-transform: uppercase;
         font-size: 0.8rem;
-        color: #777;
+        color: $mid-gray;
         margin-bottom: -0.2em;
     }
     

@@ -24482,9 +24482,16 @@
 	            return _react2.default.createElement(
 	                'li',
 	                { className: 'event' },
-	                _react2.default.createElement(_year_label2.default, { value: this.props.year }),
-	                ' - ',
-	                this.props.description
+	                _react2.default.createElement(
+	                    'h4',
+	                    null,
+	                    _react2.default.createElement(_year_label2.default, { value: this.props.year })
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    this.props.description
+	                )
 	            );
 	        }
 	    }]);
@@ -24601,7 +24608,7 @@
 	    function EventList(props) {
 	        _classCallCheck(this, EventList);
 
-	        // Number of
+	        // Number of events at start and end to grab for preview.
 
 	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(EventList).call(this, props));
 
@@ -24614,6 +24621,11 @@
 	    }
 
 	    _createClass(EventList, [{
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	            this.setState({ expanded: false });
+	        }
+	    }, {
 	        key: 'getPre',
 	        value: function getPre(events, used) {
 	            var out = [];
@@ -24650,7 +24662,6 @@
 	            };
 
 	            var events = this.props.events;
-
 	            var items = void 0;
 	            if (this.state.expanded) {
 	                items = events.map(toItem);
@@ -24662,12 +24673,14 @@
 	                var mid = [];
 	                if (events.length > pre.length + post.length) mid = _react2.default.createElement(
 	                    'li',
-	                    null,
+	                    { className: 'expand-button' },
+	                    _react2.default.createElement('span', null),
 	                    _react2.default.createElement(
 	                        'button',
 	                        { onClick: this.onExpand.bind(this) },
 	                        'Show all events'
-	                    )
+	                    ),
+	                    _react2.default.createElement('span', null)
 	                );
 
 	                items = [].concat(pre, mid, post);
@@ -24685,7 +24698,7 @@
 	}(_react2.default.Component);
 
 	/**
-	 * Displays information about events.
+	 * Displays information about events in range.
 	 */
 
 

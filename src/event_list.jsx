@@ -13,7 +13,8 @@ class Event extends React.Component {
     render() {
         return (
             <li className="event">
-                <YearLabel value={this.props.year} /> - {this.props.description}
+                <h4><YearLabel value={this.props.year} /></h4>
+                <p>{this.props.description}</p>
             </li>);
     }
 }
@@ -69,12 +70,16 @@ class EventList extends React.Component {
     constructor(props) {
         super(props);
 
-        // Number of 
+        // Number of events at start and end to grab for preview.
         this.sampleSize = 5;
 
         this.state = {
             expanded: false
         }
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({ expanded: false });
     }
 
     getPre(events, used) {
@@ -107,7 +112,6 @@ class EventList extends React.Component {
         const toItem = x => (<Event key={x.i} {...x} />);
 
         const events = this.props.events;
-
         let items;
         if (this.state.expanded) {
             items = events.map(toItem);
@@ -118,19 +122,22 @@ class EventList extends React.Component {
 
             let mid = [];
             if (events.length > pre.length + post.length)
-                mid = (<li><button onClick={this.onExpand.bind(this) }>Show all events</button></li>);
+                mid = (<li className="expand-button">
+                    <span/>
+                    <button onClick={this.onExpand.bind(this) }>Show all events</button>
+                    <span/>
+                </li>);
 
             items = [].concat(pre, mid, post);
         }
 
-        return (
-            <ul className="event-list">{items}</ul>);
+        return (<ul className="event-list">{items}</ul>);
     }
 }
 
 
 /**
- * Displays information about events.
+ * Displays information about events in range.
  */
 export default class EventDisplay extends React.Component {
     getEvents() {

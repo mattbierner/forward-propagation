@@ -8,7 +8,8 @@ description: >
 markdown: kramdown
 
 exclude: [
-    "node_modules",
+    "documentation",
     "design",
+    "node_modules",
     "src"
 ]

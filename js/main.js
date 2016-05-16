@@ -23720,6 +23720,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.allEvents = undefined;
 
 	var _events = __webpack_require__(176);
 
@@ -23746,7 +23747,11 @@
 	/**
 	 * Set of all events.
 	 */
-	var allEvents = [].concat(_events2.default, normalizeHistory(__webpack_require__(177)), normalizeHistory(__webpack_require__(180)), _first_millennium2.default).sort(function (a, b) {
+	var allEvents = exports.allEvents = [].concat(_events2.default, normalizeHistory(__webpack_require__(177)), normalizeHistory(__webpack_require__(180)), _first_millennium2.default, {
+	    year: Math.min(2016, new Date().getFullYear()),
+	    description: "Present day",
+	    meta: true
+	}).sort(function (a, b) {
 	    return a.year - b.year;
 	});
 
@@ -24570,6 +24575,35 @@
 	            }));
 	        }
 	    }, {
+	        key: 'getMaxYear',
+	        value: function getMaxYear() {
+	            return Math.max.apply(Math, this.props.generations.map(function (x) {
+	                return x.end;
+	            }));
+	        }
+	    }, {
+	        key: 'getLastEvent',
+	        value: function getLastEvent(events) {
+	            var max = this.getMaxYear();
+	            if (max >= new Date().getFullYear() + 10) return {
+	                year: max,
+	                description: "The future!!!"
+	            };
+	            return events[events.length - 1];
+	        }
+	    }, {
+	        key: 'getFirstEvent',
+	        value: function getFirstEvent(events) {
+	            var min = this.getMinYear();
+	            if (min <= _events.allEvents[0].year - 10000) {
+	                return {
+	                    year: min,
+	                    description: "Something happened!!!"
+	                };
+	            }
+	            return events[0];
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var events = this.props.events;
@@ -24580,15 +24614,15 @@
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'event-range' },
-	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'earliest event' }, events[0])),
-	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'latest event' }, events[events.length - 1]))
+	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'earliest event' }, this.getFirstEvent(events))),
+	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'latest event' }, this.getLastEvent(events)))
 	                );
 	            }
 	            var minYear = this.getMinYear();
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'event-range' },
-	                events.length === 0 ? minYear >= 2016 ? _react2.default.createElement(
+	                events.length === 0 ? minYear >= new Date().getFullYear() ? _react2.default.createElement(
 	                    'p',
 	                    null,
 	                    'Out of history'

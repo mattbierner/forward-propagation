@@ -14,11 +14,16 @@ const normalizeHistory = events =>
 /**
  * Set of all events.
  */
-const allEvents = [].concat(
+export const allEvents = [].concat(
     events,
     normalizeHistory(require('json!all-of-human-history/data/bronze_age.json')),
     normalizeHistory(require('json!all-of-human-history/data/antiquity.json')),
-    first_millennium
+    first_millennium,
+    {
+        year: Math.min(2016, new Date().getFullYear()),
+        description: "Present day",
+        meta: true
+    }
 ).sort((a, b) => a.year - b.year);
 
 /**

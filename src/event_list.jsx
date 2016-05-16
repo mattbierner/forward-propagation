@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import YearLabel from './year_label';
 
 import events from './events';
+import {allEvents} from './events';
+
 import * as generations from './generations';
 
 /**
@@ -41,6 +43,31 @@ class EventRange extends React.Component {
         return Math.min.apply(Math, this.props.generations.map(x => x.start));
     }
 
+    getMaxYear() {
+        return Math.max.apply(Math, this.props.generations.map(x => x.end));
+    }
+
+    getLastEvent(events) {
+        const max = this.getMaxYear();
+        if (max >= new Date().getFullYear() + 10)
+            return {
+                year: max,
+                description: "The future!!!"
+            };
+        return events[events.length - 1];
+    }
+
+    getFirstEvent(events) {
+        const min = this.getMinYear();
+        if (min <= allEvents[0].year - 10000) {
+            return {
+                year: min,
+                description: "Something happened!!!"
+            };
+        }
+        return events[0];
+    }
+
     render() {
         const events = this.props.events;
 
@@ -48,15 +75,15 @@ class EventRange extends React.Component {
         if (events.length >= 2) {
             return (
                 <div className="event-range">
-                    <HeaderEvent label="earliest event" {...events[0]} />
-                    <HeaderEvent label="latest event" {...events[events.length - 1]} />
+                    <HeaderEvent label="earliest event" {...this.getFirstEvent(events)} />
+                    <HeaderEvent label="latest event" {...this.getLastEvent(events) } />
                 </div>);
         }
         const minYear = this.getMinYear();
         return (
             <div className="event-range">
                 {events.length === 0
-                    ? (minYear >= 2016 ? <p>Out of history</p> : <p>No events found</p>)
+                    ? (minYear >= new Date().getFullYear() ? <p>Out of history</p> : <p>No events found</p>)
                     : ''}
             </div>
         );

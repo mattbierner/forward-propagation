@@ -139,7 +139,7 @@ export default class Controls extends React.Component {
                     value={this.props.numberGenerations} />
 
                 <div className="control-group mode-control">
-                    <div className="control-label">Mode</div>
+                    <div className="control-label">Propagation</div>
                     <ModeSelector {...this.props} />
                 </div>
 

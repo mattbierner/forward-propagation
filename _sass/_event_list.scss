@@ -33,3 +33,22 @@
     padding-top: 0.2em;
     padding-bottom: 0.2em;
 }
+
+.event-range {
+    @extend %clearfix;
+    padding-bottom: 2em;
+}
+
+.header-event {
+    width: 50%;
+    float: left;
+    text-align: center;
+    
+    .year-label {
+        font-weight: lighter;
+    }
+    
+    p {
+        padding: 0.4em;
+    }
+}

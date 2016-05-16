@@ -32,8 +32,9 @@ class Generation extends React.Component {
             <div className={"generation " + (this.props.active ? "active" : '') }  style={style}>
                 <span className="overlap left-overlap" style={overlapStyle} />
                 <span className="overlap right-overlap" style={overlapStyle} />
-                <span className="year-label">
-                    <YearLabel value={this.props.start} /> - <YearLabel value={this.props.end}/></span>
+                <span className="generation-range-label">
+                    <YearLabel value={this.props.start} /> - <YearLabel value={this.props.end}/>
+                </span>
             </div>
         );
     }
@@ -50,7 +51,7 @@ class Event extends React.Component {
         return (
             <div className="event" style={style}>
                 <div className="event-label">
-                    <span>{this.props.year}</span>
+                    <YearLabel value={this.props.year} />
                     <div>{this.props.description}</div>
                 </div>
             </div>);

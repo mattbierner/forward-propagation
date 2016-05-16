@@ -21,9 +21,11 @@
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.3.0",
     "babel-preset-react": "^6.5.0",
+    "json-loader": "^0.5.4",
     "webpack": "^1.13.0"
   },
   "dependencies": {
+    "all-of-human-history": "0.0.2",
     "chroma-js": "^1.1.1",
     "react": "^15.0.2",
     "react-dom": "^15.0.2"

@@ -66,11 +66,11 @@
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
-	var _event_list = __webpack_require__(171);
+	var _event_list = __webpack_require__(179);
 
 	var _event_list2 = _interopRequireDefault(_event_list);
 
-	var _generations = __webpack_require__(175);
+	var _generations = __webpack_require__(178);
 
 	var generations = _interopRequireWildcard(_generations);
 
@@ -20559,7 +20559,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'control-label' },
-	                        'Mode'
+	                        'Propagation'
 	                    ),
 	                    _react2.default.createElement(ModeSelector, this.props)
 	                ),
@@ -20632,23 +20632,23 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _chromaJs = __webpack_require__(177);
+	var _chromaJs = __webpack_require__(171);
 
 	var _chromaJs2 = _interopRequireDefault(_chromaJs);
 
-	var _timeline_ticks = __webpack_require__(176);
+	var _timeline_ticks = __webpack_require__(173);
 
 	var _timeline_ticks2 = _interopRequireDefault(_timeline_ticks);
 
-	var _year_label = __webpack_require__(172);
+	var _year_label = __webpack_require__(174);
 
 	var _year_label2 = _interopRequireDefault(_year_label);
 
-	var _events = __webpack_require__(173);
+	var _events = __webpack_require__(175);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _generations = __webpack_require__(175);
+	var _generations = __webpack_require__(178);
 
 	var generations = _interopRequireWildcard(_generations);
 
@@ -20698,7 +20698,7 @@
 	                _react2.default.createElement('span', { className: 'overlap right-overlap', style: overlapStyle }),
 	                _react2.default.createElement(
 	                    'span',
-	                    { className: 'year-label' },
+	                    { className: 'generation-range-label' },
 	                    _react2.default.createElement(_year_label2.default, { value: this.props.start }),
 	                    ' - ',
 	                    _react2.default.createElement(_year_label2.default, { value: this.props.end })
@@ -20736,11 +20736,7 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'event-label' },
-	                    _react2.default.createElement(
-	                        'span',
-	                        null,
-	                        this.props.year
-	                    ),
+	                    _react2.default.createElement(_year_label2.default, { value: this.props.year }),
 	                    _react2.default.createElement(
 	                        'div',
 	                        null,
@@ -20900,884 +20896,6 @@
 
 /***/ },
 /* 171 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _year_label = __webpack_require__(172);
-
-	var _year_label2 = _interopRequireDefault(_year_label);
-
-	var _events = __webpack_require__(173);
-
-	var _events2 = _interopRequireDefault(_events);
-
-	var _generations = __webpack_require__(175);
-
-	var generations = _interopRequireWildcard(_generations);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Event = function (_React$Component) {
-	    _inherits(Event, _React$Component);
-
-	    function Event() {
-	        _classCallCheck(this, Event);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Event).apply(this, arguments));
-	    }
-
-	    _createClass(Event, [{
-	        key: 'render',
-	        value: function render() {
-	            var even = this.props.generations.some(function (x) {
-	                return x % 2;
-	            }) ? 'even' : ' ';
-	            var odd = this.props.generations.some(function (x) {
-	                return !(x % 2);
-	            }) ? 'odd' : ' ';
-
-	            return _react2.default.createElement(
-	                'li',
-	                { className: "event " + even + ' ' + odd },
-	                _react2.default.createElement(_year_label2.default, { value: this.props.year }),
-	                ' - ',
-	                this.props.description
-	            );
-	        }
-	    }]);
-
-	    return Event;
-	}(_react2.default.Component);
-
-	var HeaderEvent = function (_React$Component2) {
-	    _inherits(HeaderEvent, _React$Component2);
-
-	    function HeaderEvent() {
-	        _classCallCheck(this, HeaderEvent);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(HeaderEvent).apply(this, arguments));
-	    }
-
-	    _createClass(HeaderEvent, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                this.props,
-	                _react2.default.createElement(_year_label2.default, { value: this.props.year }),
-	                ' - ',
-	                this.props.description
-	            );
-	        }
-	    }]);
-
-	    return HeaderEvent;
-	}(_react2.default.Component);
-
-	var EventRange = function (_React$Component3) {
-	    _inherits(EventRange, _React$Component3);
-
-	    function EventRange() {
-	        _classCallCheck(this, EventRange);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EventRange).apply(this, arguments));
-	    }
-
-	    _createClass(EventRange, [{
-	        key: 'render',
-	        value: function render() {
-	            var events = this.props.events;
-
-	            var firstEvent = void 0,
-	                lastEvent = void 0;
-	            if (events.length >= 2) {
-	                firstEvent = _react2.default.createElement(HeaderEvent, events[0]);
-	                lastEvent = _react2.default.createElement(HeaderEvent, events[events.length - 1]);
-	            }
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'event-range' },
-	                firstEvent,
-	                lastEvent
-	            );
-	        }
-	    }]);
-
-	    return EventRange;
-	}(_react2.default.Component);
-
-	/**
-	 * Displays list of events in range.
-	 */
-
-
-	var EventList = function (_React$Component4) {
-	    _inherits(EventList, _React$Component4);
-
-	    function EventList() {
-	        _classCallCheck(this, EventList);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EventList).apply(this, arguments));
-	    }
-
-	    _createClass(EventList, [{
-	        key: 'getEvents',
-	        value: function getEvents() {
-	            var range = generations.getRange(this.props.generations, 0, 1);
-	            return (0, _events2.default)(range.start, range.end);
-	        }
-	    }, {
-	        key: 'getGenerations',
-	        value: function getGenerations(year) {
-	            var out = [];
-	            var i = 0;
-	            var _iteratorNormalCompletion = true;
-	            var _didIteratorError = false;
-	            var _iteratorError = undefined;
-
-	            try {
-	                for (var _iterator = this.props.generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                    var g = _step.value;
-
-	                    if (year >= g.start && year <= g.end) {
-	                        out.push(i);
-	                    }
-	                    ++i;
-	                }
-	            } catch (err) {
-	                _didIteratorError = true;
-	                _iteratorError = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion && _iterator.return) {
-	                        _iterator.return();
-	                    }
-	                } finally {
-	                    if (_didIteratorError) {
-	                        throw _iteratorError;
-	                    }
-	                }
-	            }
-
-	            return out;
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _this5 = this;
-
-	            var events = this.getEvents();
-	            var eventItems = events.map(function (x) {
-	                return _react2.default.createElement(Event, _extends({ key: x.i }, x, { generations: _this5.getGenerations(x.year) }));
-	            });
-
-	            var firstEvent = void 0,
-	                lastEvent = void 0;
-	            if (events.length >= 2) {
-	                firstEvent = _react2.default.createElement(HeaderEvent, events[0]);
-	                lastEvent = _react2.default.createElement(HeaderEvent, events[events.length - 1]);
-	            }
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(EventRange, { events: events }),
-	                _react2.default.createElement(
-	                    'ul',
-	                    { className: 'event-list' },
-	                    eventItems
-	                )
-	            );
-	        }
-	    }]);
-
-	    return EventList;
-	}(_react2.default.Component);
-
-	exports.default = EventList;
-
-/***/ },
-/* 172 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/**
-	 * Get readable year label
-	 */
-	var yearLabel = function yearLabel(year) {
-	    return year < 0 ? Math.abs(year) + ' BCE' : '' + year;
-	};
-
-	var YearLabel = function (_React$Component) {
-	    _inherits(YearLabel, _React$Component);
-
-	    function YearLabel() {
-	        _classCallCheck(this, YearLabel);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(YearLabel).apply(this, arguments));
-	    }
-
-	    _createClass(YearLabel, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'span',
-	                this.props,
-	                yearLabel(this.props.value)
-	            );
-	        }
-	    }]);
-
-	    return YearLabel;
-	}(_react2.default.Component);
-
-	exports.default = YearLabel;
-
-/***/ },
-/* 173 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _events = __webpack_require__(174);
-
-	var _events2 = _interopRequireDefault(_events);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * Get all events in a given range.
-	 */
-
-	exports.default = function (start, end) {
-	    var out = [];
-	    var i = 0;
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	        for (var _iterator = _events2.default[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var e = _step.value;
-
-	            if (e.year >= start && e.year <= end) {
-	                out.push(Object.assign({}, e, { i: i }));
-	            }
-	            ++i;
-	        }
-	    } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	                _iterator.return();
-	            }
-	        } finally {
-	            if (_didIteratorError) {
-	                throw _iteratorError;
-	            }
-	        }
-	    }
-
-	    return out;
-	};
-
-/***/ },
-/* 174 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = [{
-	    "year": 1066,
-	    "description": "Norman Conquest of Britain"
-	}, {
-	    "year": 1095,
-	    "description": "Pope Urban II calls for the Crusades"
-	}, {
-	    "year": 1100,
-	    "description": "Angkor Wat is built"
-	}, {
-	    "year": 1206,
-	    "description": "Genghis Khan begins creation of largest land empire in history"
-	}, {
-	    "year": 1215,
-	    "description": "Magna Carta signed"
-	}, {
-	    "year": 1260,
-	    "description": "Chartres Cathedral consecrated"
-	}, {
-	    "year": 1271,
-	    "description": "Marco Polo begins travels to Asia"
-	}, {
-	    "year": 1273,
-	    "description": "Thomas Aquinas's Summa theologica"
-	}, {
-	    "year": 1300,
-	    "description": "Renaissance begins in Italy"
-	}, {
-	    "year": 1347,
-	    "description": "Bubonic plague (Black Death) spreads in Europe"
-	}, {
-	    "year": 1387,
-	    "description": "Chaucer's Canterbury Tales"
-	}, {
-	    "year": 1399,
-	    "description": "Tamerlane begins last great conquest"
-	}, {
-	    "year": 1438,
-	    "description": "Incan Empire formed in Peru"
-	}, {
-	    "year": 1455,
-	    "description": "Gutenberg's movable-type printing press produces the Bible"
-	}, {
-	    "year": 1492,
-	    "description": "Columbus reaches the New World"
-	}, {
-	    "year": 1509,
-	    "description": "Michelangelo begins painting Sistine Chapel"
-	}, {
-	    "year": 1513,
-	    "description": "Machiavelli's The Prince"
-	}, {
-	    "year": 1517,
-	    "description": "Martin Luther initiates Reformation"
-	}, {
-	    "year": 1519,
-	    "description": "Aztec Empire at height as Spanish arrive"
-	}, {
-	    "year": 1520,
-	    "description": "Suleiman I “the Magnificent” presides over the Ottoman Empire's greatest period"
-	}, {
-	    "year": 1522,
-	    "description": "Magellan's expedition circumnavigates the globe"
-	}, {
-	    "year": 1543,
-	    "description": "Copernicus postulates a heliocentric universe"
-	}, {
-	    "year": 1582,
-	    "description": "Pope Gregory XIII reforms calendar"
-	}, {
-	    "year": 1603,
-	    "description": "Shakespeare's Hamlet"
-	}, {
-	    "year": 1605,
-	    "description": "Cervantes's Don Quixote, first modern novel"
-	}, {
-	    "year": 1609,
-	    "description": "Galileo makes first astronomical observations with a telescope"
-	}, {
-	    "year": 1637,
-	    "description": "Descartes publishes Discours de la méthode"
-	}, {
-	    "year": 1643,
-	    "description": "Taj Mahal completed"
-	}, {
-	    "year": 1664,
-	    "description": "Newton's theory of universal gravitation"
-	}, {
-	    "year": 1667,
-	    "description": "Milton's Paradise Lost"
-	}, {
-	    "year": 1684,
-	    "description": "Leibniz's calculus published"
-	}, {
-	    "year": 1690,
-	    "description": "Locke's Essay Concerning Human Understanding"
-	}, {
-	    "year": 1721,
-	    "description": "Bach completes the Brandenburg Concertos"
-	}, {
-	    "year": 1755,
-	    "description": "Johnson's Dictionary of the English Language"
-	}, {
-	    "year": 1760,
-	    "description": "Industrial Revolution begins in England"
-	}, {
-	    "year": 1762,
-	    "description": "Rousseau's The Social Contract"
-	}, {
-	    "year": 1764,
-	    "description": "Mozart (aged eight) writes first symphony"
-	}, {
-	    "year": 1769,
-	    "description": "Watt patents first practical steam engine"
-	}, {
-	    "year": 1776,
-	    "description": "U.S. Declaration of Independence; Adam Smith's Wealth of Nations"
-	}, {
-	    "year": 1787,
-	    "description": "U.S. Constitution signed"
-	}, {
-	    "year": 1789,
-	    "description": "French Revolution begins"
-	}, {
-	    "year": 1792,
-	    "description": "Wollstonecraft's Vindication of the Rights of Woman"
-	}, {
-	    "year": 1796,
-	    "description": "Jenner discovers smallpox vaccine"
-	}, {
-	    "year": 1808,
-	    "description": "Beethoven's Fifth Symphony"
-	}, {
-	    "year": 1815,
-	    "description": "Battle of Waterloo crushes Napoleon"
-	}, {
-	    "year": 1819,
-	    "description": "Bolívar defeats Spanish forces at Boyacá"
-	}, {
-	    "year": 1826,
-	    "description": "Niepce takes first photograph"
-	}, {
-	    "year": 1833,
-	    "description": "Slavery abolished in British Empire"
-	}, {
-	    "year": 1842,
-	    "description": "Long uses first anesthetic (ether)"
-	}, {
-	    "year": 1859,
-	    "description": "Darwin's On the Origin of Species; Lenoir builds first practical internal-combustion engine"
-	}, {
-	    "year": 1862,
-	    "description": "Pasteur's experiments lead to germ theory; Salon des Refusés introduces impressionism"
-	}, {
-	    "year": 1867,
-	    "description": "Japan ends 675-year shogun rule"
-	}, {
-	    "year": 1876,
-	    "description": "Bell patents the telephone"
-	}, {
-	    "year": 1879,
-	    "description": "Edison invents electric light"
-	}, {
-	    "year": 1880,
-	    "description": "Europe colonizes African continent"
-	}, {
-	    "year": 1885,
-	    "description": "World's first skyscraper built in Chicago"
-	}, {
-	    "year": 1893,
-	    "description": "New Zealand becomes first country in the world to grant women the vote"
-	}, {
-	    "year": 1895,
-	    "description": "Lumiére brothers introduce motion pictures; Marconi sends first radio signals"
-	}, {
-	    "year": 1897,
-	    "description": "Herzl launches Zionist movement"
-	}, {
-	    "year": 1900,
-	    "description": "Freud's Interpretation of Dreams"
-	}, {
-	    "year": 1903,
-	    "description": "Wright brothers fly first motorized airplane"
-	}, {
-	    "year": 1905,
-	    "description": "Einstein announces theory of relativity"
-	}, {
-	    "year": 1907,
-	    "description": "Picasso's Les Demoiselles d'Avignon introduces cubism"
-	}, {
-	    "year": 1911,
-	    "description": "Rutherford discovers structure of atom"
-	}, {
-	    "year": 1913,
-	    "description": "Ford develops first moving assembly line"
-	}, {
-	    "year": 1914,
-	    "description": "World War I begins"
-	}, {
-	    "year": 1916,
-	    "description": "Sanger founds international birth control movement"
-	}, {
-	    "year": 1917,
-	    "description": "Lenin leads the Bolshevik Revolution"
-	}, {
-	    "year": 1918,
-	    "description": "Global “Spanish flu” epidemic"
-	}, {
-	    "year": 1922,
-	    "description": "Joyce's Ulysses published"
-	}, {
-	    "year": 1927,
-	    "description": "Farnsworth demonstrates working model of a television; Lemaitre proposes big bang theory"
-	}, {
-	    "year": 1928,
-	    "description": "Fleming discovers penicillin"
-	}, {
-	    "year": 1929,
-	    "description": "Hubble proposes theory of expanding universe; U.S. stock market crash precipitates global depression"
-	}, {
-	    "year": 1936,
-	    "description": "Keynes's The General Theory of Employment, Interest, and Money"
-	}, {
-	    "year": 1939,
-	    "description": "Hitler invades Poland; World War II begins"
-	}, {
-	    "year": 1942,
-	    "description": "Nazi leaders at Wannsee Conference coordinate “final solution to the Jewish question”"
-	}, {
-	    "year": 1945,
-	    "description": "Atomic bombs are dropped on Hiroshima and Nagasaki; first electronic computer, ENIAC, is built; Arab League launches modern pan-Arabism"
-	}, {
-	    "year": 1946,
-	    "description": "First meeting of U.N. General Assembly; Churchill's “Iron Curtain” speech marks beginning of cold war"
-	}, {
-	    "year": 1947,
-	    "description": "Gandhi's civil disobedience movement leads to an independent India"
-	}, {
-	    "year": 1949,
-	    "description": "Communist victory in China under Mao Zedong"
-	}, {
-	    "year": 1950,
-	    "description": "Abstract expressionism introduced"
-	}, {
-	    "year": 1953,
-	    "description": "Watson, Crick, and Franklin discover DNA's structure"
-	}, {
-	    "year": 1954,
-	    "description": "Brown v. Board of Education begins unraveling of U.S. racial segregation"
-	}, {
-	    "year": 1957,
-	    "description": "Russia launches first satellite, Sputnik I"
-	}, {
-	    "year": 1959,
-	    "description": "Mary and Louis Leakey uncover hominid fossils"
-	}, {
-	    "year": 1969,
-	    "description": "Armstrong and Aldrin walk on the Moon; Internet (ARPA) goes online"
-	}, {
-	    "year": 1980,
-	    "description": "Smallpox eradicated"
-	}, {
-	    "year": 1981,
-	    "description": "Scientists identify AIDS"
-	}, {
-	    "year": 1989,
-	    "description": "Fall of Communism in Eastern Europe"
-	}, {
-	    "year": 1991,
-	    "description": "Breakup of Soviet Union; apartheid ends in South Africa"
-	}];
-
-/***/ },
-/* 175 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var getGenerationsImpl = function getGenerationsImpl(dx, start, count, span, overlap) {
-	    var active = arguments.length <= 5 || arguments[5] === undefined ? false : arguments[5];
-
-	    var generations = [];
-	    for (var i = 0; i < count; ++i) {
-	        generations.push({
-	            start: start,
-	            end: start + span,
-	            span: span,
-	            overlap: Math.abs(overlap),
-	            active: active && i === 0
-	        });
-	        start += dx - overlap;
-	    }
-
-	    return generations;
-	};
-
-	var getGenerations = exports.getGenerations = function getGenerations(start, count, span, overlap) {
-	    var active = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
-	    return getGenerationsImpl(span, start, count, span, overlap, active);
-	};
-
-	var getBackwardsGenerations = exports.getBackwardsGenerations = function getBackwardsGenerations(start, count, span, overlap) {
-	    var active = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
-	    return getGenerationsImpl(-span, start - span, count, span, -overlap, active).reverse();
-	};
-
-	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span, overlap) {
-	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false), getGenerations(start, count, span, overlap));
-	};
-
-	var getRange = exports.getRange = function getRange(generations, padding, rounding) {
-	    var min = Infinity;
-	    var max = -Infinity;
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-
-	    try {
-	        for (var _iterator = generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	            var g = _step.value;
-
-	            min = Math.min(min, g.start);
-	            max = Math.max(max, g.end);
-	        }
-	    } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	    } finally {
-	        try {
-	            if (!_iteratorNormalCompletion && _iterator.return) {
-	                _iterator.return();
-	            }
-	        } finally {
-	            if (_didIteratorError) {
-	                throw _iteratorError;
-	            }
-	        }
-	    }
-
-	    min -= padding;
-	    max += padding;
-
-	    min = Math.ceil(min / rounding) * rounding;
-	    max = Math.ceil(max / rounding) * rounding;
-
-	    return {
-	        start: min,
-	        end: max,
-	        span: max - min
-	    };
-	};
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	Math.log10 = Math.log10 || function (x) {
-	    return Math.log(x) / Math.LN10;
-	};
-
-	/**
-	 * Displays ticks on the timeline
-	 */
-
-	var TimelineTicks = function (_React$Component) {
-	    _inherits(TimelineTicks, _React$Component);
-
-	    function TimelineTicks() {
-	        _classCallCheck(this, TimelineTicks);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TimelineTicks).apply(this, arguments));
-	    }
-
-	    _createClass(TimelineTicks, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var _this2 = this;
-
-	            this.drawGrid(this.props.start, this.props.end);
-
-	            window.addEventListener('resize', function () {
-	                _this2.drawGrid(_this2.props.start, _this2.props.end);
-	            }, false);
-	        }
-	    }, {
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	            this.drawGrid(nextProps.start, nextProps.end);
-	        }
-	    }, {
-	        key: 'getScale',
-	        value: function getScale(start, end) {
-	            var duration = Math.abs(start - end);
-	            return Math.max(100, Math.pow(10, Math.floor(Math.log10(duration))));
-	        }
-	    }, {
-	        key: 'drawGrid',
-	        value: function drawGrid(start, end) {
-	            var duration = Math.abs(start - end);
-
-	            var canvas = _reactDom2.default.findDOMNode(this).getElementsByTagName('canvas')[0];
-
-	            var _canvas$getBoundingCl = canvas.getBoundingClientRect();
-
-	            var width = _canvas$getBoundingCl.width;
-	            var height = _canvas$getBoundingCl.height;
-
-	            canvas.width = width;
-	            canvas.height = height;
-
-	            var context = canvas.getContext('2d');
-	            context.imageSmoothingEnabled = true;
-
-	            context.lineWidth = 1;
-	            var base = this.getScale(start, end);
-
-	            var lines = [{ scale: base, height: 1, color: '#aaa', exclude: [] }, { scale: base / 4, height: 0.25, color: '#aaa', exclude: [base] }, { scale: base / 20, height: 0.1, color: '#aaa', exclude: [base, base / 4] }];
-
-	            var _iteratorNormalCompletion = true;
-	            var _didIteratorError = false;
-	            var _iteratorError = undefined;
-
-	            try {
-	                for (var _iterator = lines[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                    var line = _step.value;
-
-	                    context.strokeStyle = line.color;
-	                    this.drawTicks(context, width, height, duration, start, height * line.height, line.scale, line.exclude);
-	                }
-	            } catch (err) {
-	                _didIteratorError = true;
-	                _iteratorError = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion && _iterator.return) {
-	                        _iterator.return();
-	                    }
-	                } finally {
-	                    if (_didIteratorError) {
-	                        throw _iteratorError;
-	                    }
-	                }
-	            }
-	        }
-	    }, {
-	        key: 'drawTicks',
-	        value: function drawTicks(context, width, height, duration, start, tickHeight, step) {
-	            var skip = arguments.length <= 7 || arguments[7] === undefined ? [] : arguments[7];
-
-	            var upper = height / 2 - tickHeight / 2;
-	            var lower = height / 2 + tickHeight / 2;
-
-	            var s = start % step;
-
-	            var stepSize = width / duration * step;
-	            if (stepSize <= 0) return;
-
-	            context.beginPath();
-	            var year = start - s;
-	            for (var i = -s * (width / duration); i <= width; i += stepSize) {
-	                if (skip.every(function (x) {
-	                    return year % x !== 0;
-	                })) {
-	                    context.moveTo(i, upper);
-	                    context.lineTo(i, lower);
-	                }
-	                year += step;
-	            }
-	            context.stroke();
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var scale = this.getScale(this.props.start, this.props.end);
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'timeline-ticks' },
-	                _react2.default.createElement('canvas', null),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'scale' },
-	                    'Large marks: ',
-	                    _react2.default.createElement(
-	                        'i',
-	                        null,
-	                        scale,
-	                        ' years'
-	                    ),
-	                    _react2.default.createElement('br', null),
-	                    'Small marks: ',
-	                    _react2.default.createElement(
-	                        'i',
-	                        null,
-	                        scale / 20,
-	                        ' years'
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TimelineTicks;
-	}(_react2.default.Component);
-
-	exports.default = TimelineTicks;
-
-/***/ },
-/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {"use strict";
@@ -24329,10 +23447,10 @@
 
 	  _interpolators.push(['lab', interpolate_lab]);
 	}).call(undefined);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(178)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(172)(module)))
 
 /***/ },
-/* 178 */
+/* 172 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24347,6 +23465,1968 @@
 		}
 		return module;
 	};
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	Math.log10 = Math.log10 || function (x) {
+	    return Math.log(x) / Math.LN10;
+	};
+
+	/**
+	 * Displays ticks on the timeline
+	 */
+
+	var TimelineTicks = function (_React$Component) {
+	    _inherits(TimelineTicks, _React$Component);
+
+	    function TimelineTicks() {
+	        _classCallCheck(this, TimelineTicks);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TimelineTicks).apply(this, arguments));
+	    }
+
+	    _createClass(TimelineTicks, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            this.drawGrid(this.props.start, this.props.end);
+
+	            window.addEventListener('resize', function () {
+	                _this2.drawGrid(_this2.props.start, _this2.props.end);
+	            }, false);
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            this.drawGrid(nextProps.start, nextProps.end);
+	        }
+	    }, {
+	        key: 'getScale',
+	        value: function getScale(start, end) {
+	            var duration = Math.abs(start - end);
+	            return Math.max(100, Math.pow(10, Math.floor(Math.log10(duration))));
+	        }
+	    }, {
+	        key: 'drawGrid',
+	        value: function drawGrid(start, end) {
+	            var duration = Math.abs(start - end);
+
+	            var canvas = _reactDom2.default.findDOMNode(this).getElementsByTagName('canvas')[0];
+
+	            var _canvas$getBoundingCl = canvas.getBoundingClientRect();
+
+	            var width = _canvas$getBoundingCl.width;
+	            var height = _canvas$getBoundingCl.height;
+
+	            canvas.width = width;
+	            canvas.height = height;
+
+	            var context = canvas.getContext('2d');
+	            context.imageSmoothingEnabled = true;
+
+	            context.lineWidth = 1;
+	            var base = this.getScale(start, end);
+
+	            var lines = [{ scale: base, height: 1, color: '#aaa', exclude: [] }, { scale: base / 4, height: 0.25, color: '#aaa', exclude: [base] }, { scale: base / 20, height: 0.1, color: '#aaa', exclude: [base, base / 4] }];
+
+	            var _iteratorNormalCompletion = true;
+	            var _didIteratorError = false;
+	            var _iteratorError = undefined;
+
+	            try {
+	                for (var _iterator = lines[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                    var line = _step.value;
+
+	                    context.strokeStyle = line.color;
+	                    this.drawTicks(context, width, height, duration, start, height * line.height, line.scale, line.exclude);
+	                }
+	            } catch (err) {
+	                _didIteratorError = true;
+	                _iteratorError = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion && _iterator.return) {
+	                        _iterator.return();
+	                    }
+	                } finally {
+	                    if (_didIteratorError) {
+	                        throw _iteratorError;
+	                    }
+	                }
+	            }
+	        }
+	    }, {
+	        key: 'drawTicks',
+	        value: function drawTicks(context, width, height, duration, start, tickHeight, step) {
+	            var skip = arguments.length <= 7 || arguments[7] === undefined ? [] : arguments[7];
+
+	            var upper = height / 2 - tickHeight / 2;
+	            var lower = height / 2 + tickHeight / 2;
+
+	            var s = start % step;
+
+	            var stepSize = width / duration * step;
+	            if (stepSize <= 0) return;
+
+	            context.beginPath();
+	            var year = start - s;
+	            for (var i = -s * (width / duration); i <= width; i += stepSize) {
+	                if (skip.every(function (x) {
+	                    return year % x !== 0;
+	                })) {
+	                    context.moveTo(i, upper);
+	                    context.lineTo(i, lower);
+	                }
+	                year += step;
+	            }
+	            context.stroke();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var scale = this.getScale(this.props.start, this.props.end);
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'timeline-ticks' },
+	                _react2.default.createElement('canvas', null),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'scale' },
+	                    'Large marks: ',
+	                    _react2.default.createElement(
+	                        'i',
+	                        null,
+	                        scale,
+	                        ' years'
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    'Small marks: ',
+	                    _react2.default.createElement(
+	                        'i',
+	                        null,
+	                        scale / 20,
+	                        ' years'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TimelineTicks;
+	}(_react2.default.Component);
+
+	exports.default = TimelineTicks;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Get readable year label
+	 */
+	var yearLabel = function yearLabel(year) {
+	    return year < 0 ? Math.abs(year) + ' BCE' : '' + year;
+	};
+
+	var YearLabel = function (_React$Component) {
+	    _inherits(YearLabel, _React$Component);
+
+	    function YearLabel() {
+	        _classCallCheck(this, YearLabel);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(YearLabel).apply(this, arguments));
+	    }
+
+	    _createClass(YearLabel, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'span',
+	                _extends({}, this.props, {
+	                    className: "year-label " + (this.props.className || '') }),
+	                yearLabel(this.props.value)
+	            );
+	        }
+	    }]);
+
+	    return YearLabel;
+	}(_react2.default.Component);
+
+	exports.default = YearLabel;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _events = __webpack_require__(176);
+
+	var _events2 = _interopRequireDefault(_events);
+
+	var _first_millennium = __webpack_require__(181);
+
+	var _first_millennium2 = _interopRequireDefault(_first_millennium);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 * Convert `all-of-human-history-events` to expected format.
+	 */
+	var normalizeHistory = function normalizeHistory(events) {
+	    return events.map(function (x) {
+	        return {
+	            year: x.start.year,
+	            description: x.event
+	        };
+	    });
+	};
+
+	/**
+	 * Set of all events.
+	 */
+	var allEvents = [].concat(_events2.default, normalizeHistory(__webpack_require__(177)), normalizeHistory(__webpack_require__(180)), _first_millennium2.default).sort(function (a, b) {
+	    return a.year - b.year;
+	});
+
+	/**
+	 * Get all events in a given range.
+	 */
+
+	exports.default = function (start, end) {
+	    var out = [];
+	    var i = 0;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	        for (var _iterator = allEvents[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var e = _step.value;
+
+	            if (e.year >= start && e.year <= end) {
+	                out.push(Object.assign({}, e, { i: i }));
+	            }
+	            ++i;
+	        }
+	    } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	                _iterator.return();
+	            }
+	        } finally {
+	            if (_didIteratorError) {
+	                throw _iteratorError;
+	            }
+	        }
+	    }
+
+	    return out;
+	};
+
+/***/ },
+/* 176 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = [{
+	    "year": 1066,
+	    "description": "Norman Conquest of Britain"
+	}, {
+	    "year": 1095,
+	    "description": "Pope Urban II calls for the Crusades"
+	}, {
+	    "year": 1100,
+	    "description": "Angkor Wat is built"
+	}, {
+	    "year": 1206,
+	    "description": "Genghis Khan begins creation of largest land empire in history"
+	}, {
+	    "year": 1215,
+	    "description": "Magna Carta signed"
+	}, {
+	    "year": 1260,
+	    "description": "Chartres Cathedral consecrated"
+	}, {
+	    "year": 1271,
+	    "description": "Marco Polo begins travels to Asia"
+	}, {
+	    "year": 1273,
+	    "description": "Thomas Aquinas's Summa theologica"
+	}, {
+	    "year": 1300,
+	    "description": "Renaissance begins in Italy"
+	}, {
+	    "year": 1347,
+	    "description": "Bubonic plague (Black Death) spreads in Europe"
+	}, {
+	    "year": 1387,
+	    "description": "Chaucer's Canterbury Tales"
+	}, {
+	    "year": 1399,
+	    "description": "Tamerlane begins last great conquest"
+	}, {
+	    "year": 1438,
+	    "description": "Incan Empire formed in Peru"
+	}, {
+	    "year": 1455,
+	    "description": "Gutenberg's movable-type printing press produces the Bible"
+	}, {
+	    "year": 1492,
+	    "description": "Columbus reaches the New World"
+	}, {
+	    "year": 1509,
+	    "description": "Michelangelo begins painting Sistine Chapel"
+	}, {
+	    "year": 1513,
+	    "description": "Machiavelli's The Prince"
+	}, {
+	    "year": 1517,
+	    "description": "Martin Luther initiates Reformation"
+	}, {
+	    "year": 1519,
+	    "description": "Aztec Empire at height as Spanish arrive"
+	}, {
+	    "year": 1520,
+	    "description": "Suleiman I “the Magnificent” presides over the Ottoman Empire's greatest period"
+	}, {
+	    "year": 1522,
+	    "description": "Magellan's expedition circumnavigates the globe"
+	}, {
+	    "year": 1543,
+	    "description": "Copernicus postulates a heliocentric universe"
+	}, {
+	    "year": 1582,
+	    "description": "Pope Gregory XIII reforms calendar"
+	}, {
+	    "year": 1603,
+	    "description": "Shakespeare's Hamlet"
+	}, {
+	    "year": 1605,
+	    "description": "Cervantes's Don Quixote, first modern novel"
+	}, {
+	    "year": 1609,
+	    "description": "Galileo makes first astronomical observations with a telescope"
+	}, {
+	    "year": 1637,
+	    "description": "Descartes publishes Discours de la méthode"
+	}, {
+	    "year": 1643,
+	    "description": "Taj Mahal completed"
+	}, {
+	    "year": 1664,
+	    "description": "Newton's theory of universal gravitation"
+	}, {
+	    "year": 1667,
+	    "description": "Milton's Paradise Lost"
+	}, {
+	    "year": 1684,
+	    "description": "Leibniz's calculus published"
+	}, {
+	    "year": 1690,
+	    "description": "Locke's Essay Concerning Human Understanding"
+	}, {
+	    "year": 1721,
+	    "description": "Bach completes the Brandenburg Concertos"
+	}, {
+	    "year": 1755,
+	    "description": "Johnson's Dictionary of the English Language"
+	}, {
+	    "year": 1760,
+	    "description": "Industrial Revolution begins in England"
+	}, {
+	    "year": 1762,
+	    "description": "Rousseau's The Social Contract"
+	}, {
+	    "year": 1764,
+	    "description": "Mozart (aged eight) writes first symphony"
+	}, {
+	    "year": 1769,
+	    "description": "Watt patents first practical steam engine"
+	}, {
+	    "year": 1776,
+	    "description": "U.S. Declaration of Independence; Adam Smith's Wealth of Nations"
+	}, {
+	    "year": 1787,
+	    "description": "U.S. Constitution signed"
+	}, {
+	    "year": 1789,
+	    "description": "French Revolution begins"
+	}, {
+	    "year": 1792,
+	    "description": "Wollstonecraft's Vindication of the Rights of Woman"
+	}, {
+	    "year": 1796,
+	    "description": "Jenner discovers smallpox vaccine"
+	}, {
+	    "year": 1808,
+	    "description": "Beethoven's Fifth Symphony"
+	}, {
+	    "year": 1815,
+	    "description": "Battle of Waterloo crushes Napoleon"
+	}, {
+	    "year": 1819,
+	    "description": "Bolívar defeats Spanish forces at Boyacá"
+	}, {
+	    "year": 1826,
+	    "description": "Niepce takes first photograph"
+	}, {
+	    "year": 1833,
+	    "description": "Slavery abolished in British Empire"
+	}, {
+	    "year": 1842,
+	    "description": "Long uses first anesthetic (ether)"
+	}, {
+	    "year": 1859,
+	    "description": "Darwin's On the Origin of Species; Lenoir builds first practical internal-combustion engine"
+	}, {
+	    "year": 1862,
+	    "description": "Pasteur's experiments lead to germ theory; Salon des Refusés introduces impressionism"
+	}, {
+	    "year": 1867,
+	    "description": "Japan ends 675-year shogun rule"
+	}, {
+	    "year": 1876,
+	    "description": "Bell patents the telephone"
+	}, {
+	    "year": 1879,
+	    "description": "Edison invents electric light"
+	}, {
+	    "year": 1880,
+	    "description": "Europe colonizes African continent"
+	}, {
+	    "year": 1885,
+	    "description": "World's first skyscraper built in Chicago"
+	}, {
+	    "year": 1893,
+	    "description": "New Zealand becomes first country in the world to grant women the vote"
+	}, {
+	    "year": 1895,
+	    "description": "Lumiére brothers introduce motion pictures; Marconi sends first radio signals"
+	}, {
+	    "year": 1897,
+	    "description": "Herzl launches Zionist movement"
+	}, {
+	    "year": 1900,
+	    "description": "Freud's Interpretation of Dreams"
+	}, {
+	    "year": 1903,
+	    "description": "Wright brothers fly first motorized airplane"
+	}, {
+	    "year": 1905,
+	    "description": "Einstein announces theory of relativity"
+	}, {
+	    "year": 1907,
+	    "description": "Picasso's Les Demoiselles d'Avignon introduces cubism"
+	}, {
+	    "year": 1911,
+	    "description": "Rutherford discovers structure of atom"
+	}, {
+	    "year": 1913,
+	    "description": "Ford develops first moving assembly line"
+	}, {
+	    "year": 1914,
+	    "description": "World War I begins"
+	}, {
+	    "year": 1916,
+	    "description": "Sanger founds international birth control movement"
+	}, {
+	    "year": 1917,
+	    "description": "Lenin leads the Bolshevik Revolution"
+	}, {
+	    "year": 1918,
+	    "description": "Global “Spanish flu” epidemic"
+	}, {
+	    "year": 1922,
+	    "description": "Joyce's Ulysses published"
+	}, {
+	    "year": 1927,
+	    "description": "Farnsworth demonstrates working model of a television; Lemaitre proposes big bang theory"
+	}, {
+	    "year": 1928,
+	    "description": "Fleming discovers penicillin"
+	}, {
+	    "year": 1929,
+	    "description": "Hubble proposes theory of expanding universe; U.S. stock market crash precipitates global depression"
+	}, {
+	    "year": 1936,
+	    "description": "Keynes's The General Theory of Employment, Interest, and Money"
+	}, {
+	    "year": 1939,
+	    "description": "Hitler invades Poland; World War II begins"
+	}, {
+	    "year": 1942,
+	    "description": "Nazi leaders at Wannsee Conference coordinate “final solution to the Jewish question”"
+	}, {
+	    "year": 1945,
+	    "description": "Atomic bombs are dropped on Hiroshima and Nagasaki; first electronic computer, ENIAC, is built; Arab League launches modern pan-Arabism"
+	}, {
+	    "year": 1946,
+	    "description": "First meeting of U.N. General Assembly; Churchill's “Iron Curtain” speech marks beginning of cold war"
+	}, {
+	    "year": 1947,
+	    "description": "Gandhi's civil disobedience movement leads to an independent India"
+	}, {
+	    "year": 1949,
+	    "description": "Communist victory in China under Mao Zedong"
+	}, {
+	    "year": 1950,
+	    "description": "Abstract expressionism introduced"
+	}, {
+	    "year": 1953,
+	    "description": "Watson, Crick, and Franklin discover DNA's structure"
+	}, {
+	    "year": 1954,
+	    "description": "Brown v. Board of Education begins unraveling of U.S. racial segregation"
+	}, {
+	    "year": 1957,
+	    "description": "Russia launches first satellite, Sputnik I"
+	}, {
+	    "year": 1959,
+	    "description": "Mary and Louis Leakey uncover hominid fossils"
+	}, {
+	    "year": 1969,
+	    "description": "Armstrong and Aldrin walk on the Moon; Internet (ARPA) goes online"
+	}, {
+	    "year": 1980,
+	    "description": "Smallpox eradicated"
+	}, {
+	    "year": 1981,
+	    "description": "Scientists identify AIDS"
+	}, {
+	    "year": 1989,
+	    "description": "Fall of Communism in Eastern Europe"
+	}, {
+	    "year": 1991,
+	    "description": "Breakup of Soviet Union; apartheid ends in South Africa"
+	}];
+
+/***/ },
+/* 177 */
+/***/ function(module, exports) {
+
+	module.exports = [
+		{
+			"start": {
+				"year": -3200
+			},
+			"event": "Sumerian cuneiform writing system"
+		},
+		{
+			"start": {
+				"year": -3200
+			},
+			"event": "Cycladic civilization in Greece"
+		},
+		{
+			"start": {
+				"year": -3200
+			},
+			"event": "Norte Chico civilization begins in Peru"
+		},
+		{
+			"start": {
+				"year": -3200
+			},
+			"event": "Rise of Proto-Elamite Civilization in Iran"
+		},
+		{
+			"start": {
+				"year": -3100
+			},
+			"event": "Skara Brae Scotland"
+		},
+		{
+			"start": {
+				"year": -3100
+			},
+			"event": "First dynasty of Egypt"
+		},
+		{
+			"start": {
+				"year": -3000
+			},
+			"event": "Egyptian calendar"
+		},
+		{
+			"start": {
+				"year": -3000
+			},
+			"event": "Stonehenge construction begins. In its first version, it consisted of a circular ditch and bank, with 56 wooden posts"
+		},
+		{
+			"start": {
+				"year": -3000
+			},
+			"event": "Cucuteni-Trypillian culture in Romania and the Ukraine"
+		},
+		{
+			"start": {
+				"year": -3000
+			},
+			"event": "Jiroft civilization begins in Iran"
+		},
+		{
+			"start": {
+				"year": -3000
+			},
+			"event": "First known use of papyrus by Egyptians"
+		},
+		{
+			"start": {
+				"year": -2800
+			},
+			"event": "Kot Diji phase of the Indus Valley Civilization begins"
+		},
+		{
+			"start": {
+				"year": -2800
+			},
+			"event": "Three Sovereigns and Five Emperors period in China"
+		},
+		{
+			"start": {
+				"year": -2700
+			},
+			"event": "Minoan Civilization ancient palace city Knossos reach 80,000 inhabitants"
+		},
+		{
+			"start": {
+				"year": -2700
+			},
+			"event": "Rise of Elam in Iran"
+		},
+		{
+			"start": {
+				"year": -2700
+			},
+			"event": "The Old Kingdom begins in Egypt"
+		},
+		{
+			"start": {
+				"year": -2600
+			},
+			"event": "Oldest known surviving literature: Sumerian texts from Abu Salabikh, including the Instructions of Shuruppak and the Kesh temple hymn"
+		},
+		{
+			"start": {
+				"year": -2600
+			},
+			"event": "Mature Harappan phase of the Indus Valley civilization (in present-day Pakistan and India) begins"
+		},
+		{
+			"start": {
+				"year": -2600
+			},
+			"event": "Emergence of Maya culture in the Yucatán Peninsula"
+		},
+		{
+			"start": {
+				"year": -2560
+			},
+			"event": "King Khufu completes the Great Pyramid of Giza"
+		},
+		{
+			"start": {
+				"year": -2500
+			},
+			"event": "The mammoth goes extinct"
+		},
+		{
+			"start": {
+				"year": -2200
+			},
+			"event": "completion of Stonehenge"
+		},
+		{
+			"start": {
+				"year": -2070
+			},
+			"event": "Yu the Great established the Xia Dynasty in China"
+		},
+		{
+			"start": {
+				"year": -2000
+			},
+			"event": "Believed birth year of Abraham in Ur of the Chaldeans, Mesopotamia, who is the father of Abrahamic Religions"
+		},
+		{
+			"start": {
+				"year": -2000
+			},
+			"event": "Domestication of the horse"
+		},
+		{
+			"start": {
+				"year": -1800
+			},
+			"event": "alphabetic writing emerges"
+		},
+		{
+			"start": {
+				"year": -1700
+			},
+			"event": "Indus Valley Civilization comes to an end but is continued by the Cemetery H culture"
+		},
+		{
+			"start": {
+				"year": -1700
+			},
+			"event": "The beginning of Poverty Point Civilization in North America"
+		},
+		{
+			"start": {
+				"year": -1600
+			},
+			"event": "Minoan civilization on Crete is destroyed by the Minoan eruption of Santorini island"
+		},
+		{
+			"start": {
+				"year": -1600
+			},
+			"event": "Mycenaean Greece"
+		},
+		{
+			"start": {
+				"year": -1600
+			},
+			"event": "The beginning of Shang Dynasty in China, evidence of a fully developed Chinese writing system"
+		},
+		{
+			"start": {
+				"year": -1600
+			},
+			"event": "Beginning of Hittite dominance of the Eastern Mediterranean region"
+		},
+		{
+			"start": {
+				"year": -1500
+			},
+			"event": "Composition of the Rigveda is completed"
+		},
+		{
+			"start": {
+				"year": -1400
+			},
+			"end": {
+				"year": -400
+			},
+			"event": "Olmec civilization flourishes in Pre-Columbian Mexico, during Mesoamerica's Formative period"
+		},
+		{
+			"start": {
+				"year": -1496
+			},
+			"event": "Traditional date for giving of the Ten Commandments to Moses at Mount Sinai ushering in monotheistic religion"
+		},
+		{
+			"start": {
+				"year": -1200
+			},
+			"event": "The Hallstatt culture"
+		},
+		{
+			"start": {
+				"year": -1200
+			},
+			"end": {
+				"year": -1150
+			},
+			"event": "Bronze Age collapse in Southwestern Asia and in the Eastern Mediterranean region"
+		},
+		{
+			"start": {
+				"year": -1180
+			},
+			"event": "Disintegration of Hittite Empire"
+		},
+		{
+			"start": {
+				"year": -1100
+			},
+			"event": "Use of Iron spreads"
+		},
+		{
+			"start": {
+				"year": -1046
+			},
+			"event": "The Zhou force (led by King Wu of Zhou) overthrow the last king of Shang Dynasty; Zhou Dynasty established in China"
+		},
+		{
+			"start": {
+				"year": -1000
+			},
+			"event": "The beginning of the Kingdom of Israel"
+		},
+		{
+			"start": {
+				"year": -890
+			},
+			"event": "Approximate date for the composition of the Iliad and the Odyssey"
+		},
+		{
+			"start": {
+				"year": -800
+			},
+			"event": "Rise of Greek city-states"
+		}
+	];
+
+/***/ },
+/* 178 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var getGenerationsImpl = function getGenerationsImpl(dx, start, count, span, overlap) {
+	    var active = arguments.length <= 5 || arguments[5] === undefined ? false : arguments[5];
+
+	    var generations = [];
+	    for (var i = 0; i < count; ++i) {
+	        generations.push({
+	            start: start,
+	            end: start + span,
+	            span: span,
+	            overlap: Math.abs(overlap),
+	            active: active && i === 0
+	        });
+	        start += dx - overlap;
+	    }
+
+	    return generations;
+	};
+
+	var getGenerations = exports.getGenerations = function getGenerations(start, count, span, overlap) {
+	    var active = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
+	    return getGenerationsImpl(span, start, count, span, overlap, active);
+	};
+
+	var getBackwardsGenerations = exports.getBackwardsGenerations = function getBackwardsGenerations(start, count, span, overlap) {
+	    var active = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
+	    return getGenerationsImpl(-span, start - span, count, span, -overlap, active).reverse();
+	};
+
+	var getMiddleGenerations = exports.getMiddleGenerations = function getMiddleGenerations(start, count, span, overlap) {
+	    return [].concat(getBackwardsGenerations(start + overlap, count, span, overlap, false), getGenerations(start, count, span, overlap));
+	};
+
+	var getRange = exports.getRange = function getRange(generations, padding, rounding) {
+	    var min = Infinity;
+	    var max = -Infinity;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	        for (var _iterator = generations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var g = _step.value;
+
+	            min = Math.min(min, g.start);
+	            max = Math.max(max, g.end);
+	        }
+	    } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	                _iterator.return();
+	            }
+	        } finally {
+	            if (_didIteratorError) {
+	                throw _iteratorError;
+	            }
+	        }
+	    }
+
+	    min -= padding;
+	    max += padding;
+
+	    min = Math.ceil(min / rounding) * rounding;
+	    max = Math.ceil(max / rounding) * rounding;
+
+	    return {
+	        start: min,
+	        end: max,
+	        span: max - min
+	    };
+	};
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _year_label = __webpack_require__(174);
+
+	var _year_label2 = _interopRequireDefault(_year_label);
+
+	var _events = __webpack_require__(175);
+
+	var _events2 = _interopRequireDefault(_events);
+
+	var _generations = __webpack_require__(178);
+
+	var generations = _interopRequireWildcard(_generations);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Event = function (_React$Component) {
+	    _inherits(Event, _React$Component);
+
+	    function Event() {
+	        _classCallCheck(this, Event);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Event).apply(this, arguments));
+	    }
+
+	    _createClass(Event, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'li',
+	                { className: 'event' },
+	                _react2.default.createElement(_year_label2.default, { value: this.props.year }),
+	                ' - ',
+	                this.props.description
+	            );
+	        }
+	    }]);
+
+	    return Event;
+	}(_react2.default.Component);
+
+	var HeaderEvent = function (_React$Component2) {
+	    _inherits(HeaderEvent, _React$Component2);
+
+	    function HeaderEvent() {
+	        _classCallCheck(this, HeaderEvent);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(HeaderEvent).apply(this, arguments));
+	    }
+
+	    _createClass(HeaderEvent, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                _extends({}, this.props, { className: 'header-event' }),
+	                _react2.default.createElement(
+	                    'h2',
+	                    null,
+	                    _react2.default.createElement(_year_label2.default, { value: this.props.year })
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    this.props.description
+	                )
+	            );
+	        }
+	    }]);
+
+	    return HeaderEvent;
+	}(_react2.default.Component);
+
+	/**
+	 * Displays first and last event in range.
+	 */
+
+
+	var EventRange = function (_React$Component3) {
+	    _inherits(EventRange, _React$Component3);
+
+	    function EventRange() {
+	        _classCallCheck(this, EventRange);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EventRange).apply(this, arguments));
+	    }
+
+	    _createClass(EventRange, [{
+	        key: 'getMinYear',
+	        value: function getMinYear() {
+	            return Math.min.apply(Math, this.props.generations.map(function (x) {
+	                return x.start;
+	            }));
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var events = this.props.events;
+
+	            var firstEvent = void 0,
+	                lastEvent = void 0;
+	            if (events.length >= 2) {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 'event-range' },
+	                    _react2.default.createElement(HeaderEvent, events[0]),
+	                    _react2.default.createElement(HeaderEvent, events[events.length - 1])
+	                );
+	            }
+	            var minYear = this.getMinYear();
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'event-range' },
+	                minYear >= 2016 && events.length === 0 ? _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Out of history'
+	                ) : ''
+	            );
+	        }
+	    }]);
+
+	    return EventRange;
+	}(_react2.default.Component);
+
+	/**
+	 * Displays list of events in range.
+	 */
+
+
+	var EventList = function (_React$Component4) {
+	    _inherits(EventList, _React$Component4);
+
+	    function EventList(props) {
+	        _classCallCheck(this, EventList);
+
+	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(EventList).call(this, props));
+
+	        _this4.state = {
+	            expanded: false
+	        };
+	        return _this4;
+	    }
+
+	    _createClass(EventList, [{
+	        key: 'getEvents',
+	        value: function getEvents() {
+	            var range = generations.getRange(this.props.generations, 0, 1);
+	            return (0, _events2.default)(range.start, range.end);
+	        }
+	    }, {
+	        key: 'filterEvents',
+	        value: function filterEvents() {
+	            var events = this.getEvents();
+	            var sampleSize = 5;
+
+	            var out = [];
+	            var used = {};
+	            for (var i = 0; i <= sampleSize; ++i) {
+	                if (!used[i] && events[i]) {
+	                    used[i] = true;
+	                    out.push(events[i]);
+	                }
+	            }
+
+	            for (var _i = events.length - sampleSize; _i < events.length; ++_i) {
+	                if (!used[_i] && events[_i]) {
+	                    used[_i] = true;
+	                    out.push(events[_i]);
+	                }
+	            }
+
+	            return out;
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var events = this.getEvents();
+
+	            var eventItems = this.filterEvents().map(function (x) {
+	                return _react2.default.createElement(Event, _extends({ key: x.i }, x));
+	            });
+
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(EventRange, { events: events, generations: this.props.generations }),
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: 'event-list' },
+	                    eventItems
+	                )
+	            );
+	        }
+	    }]);
+
+	    return EventList;
+	}(_react2.default.Component);
+
+	exports.default = EventList;
+
+/***/ },
+/* 180 */
+/***/ function(module, exports) {
+
+	module.exports = [
+		{
+			"start": {
+				"year": -776
+			},
+			"event": "First recorded Olympic Games"
+		},
+		{
+			"start": {
+				"year": -753
+			},
+			"event": "Founding of Rome "
+		},
+		{
+			"start": {
+				"year": -745
+			},
+			"event": "Tiglath-Pileser III becomes the new king of Assyria. With time he conquers neighboring countries and turns Assyria into an empire"
+		},
+		{
+			"start": {
+				"year": -728
+			},
+			"event": "Rise of the Median Empire"
+		},
+		{
+			"start": {
+				"year": -722
+			},
+			"event": "Spring and Autumn Period begins in China; Zhou Dynasty's power is diminishing; the era of the Hundred Schools of Thought"
+		},
+		{
+			"start": {
+				"year": -700
+			},
+			"event": "the construction of Marib Dam in Arabia Felix"
+		},
+		{
+			"start": {
+				"year": -660
+			},
+			"event": "purported date of the accession of Jimmu, the mythical first Emperor of Japan"
+		},
+		{
+			"start": {
+				"year": -653
+			},
+			"event": "Rise of Persian Empire"
+		},
+		{
+			"start": {
+				"year": -612
+			},
+			"event": "An alliance between the Babylonians, Medes, and Scythians succeeds in destroying Nineveh and causing subsequent fall of the Assyrian empire"
+		},
+		{
+			"start": {
+				"year": -600
+			},
+			"event": "Sixteen Maha Janapadas ('GreatRealms' or 'GreatKingdoms') emerge in India"
+		},
+		{
+			"start": {
+				"year": -600
+			},
+			"event": "Evidence of writing system appear in Oaxaca used by the Zapotec civilization"
+		},
+		{
+			"start": {
+				"year": -600
+			},
+			"event": "Pandyan kingdom in South India"
+		},
+		{
+			"start": {
+				"year": -586
+			},
+			"event": "Destruction of the First Temple in Jerusalem (Solomon's Temple) by the Babylonians"
+		},
+		{
+			"start": {
+				"year": -563
+			},
+			"event": "Siddhartha Gautama (Buddha), founder of Buddhism is born as a prince of the Shakya tribe, which ruled parts of Magadha, one of the Maha Janapadas"
+		},
+		{
+			"start": {
+				"year": -551
+			},
+			"event": "Confucius, founder of Confucianism, is born"
+		},
+		{
+			"start": {
+				"year": -550
+			},
+			"event": "Foundation of the Persian Empire by Cyrus the Great"
+		},
+		{
+			"start": {
+				"year": -549
+			},
+			"event": "Mahavira, founder of Jainism is born"
+		},
+		{
+			"start": {
+				"year": -546
+			},
+			"event": "Cyrus the Great overthrows Croesus King of Lydia"
+		},
+		{
+			"start": {
+				"year": -544
+			},
+			"event": "Rise of Magadha as the dominant power under Bimbisara"
+		},
+		{
+			"start": {
+				"year": -539
+			},
+			"event": "The Fall of the Babylonian Empire and liberation of the Jews by Cyrus the Great"
+		},
+		{
+			"start": {
+				"year": -529
+			},
+			"event": "Death of Cyrus"
+		},
+		{
+			"start": {
+				"year": -525
+			},
+			"event": "Cambyses II of Persia conquers Egypt"
+		},
+		{
+			"start": {
+				"year": -512
+			},
+			"event": "Darius I (Darius the Great) of Persia, subjugates eastern Thrace, Macedonia submits voluntarily, and annexes Libya, Persian Empire at largest extent"
+		},
+		{
+			"start": {
+				"year": -509
+			},
+			"event": "Expulsion of the last King of Rome, founding of Roman Republic (traditional date)"
+		},
+		{
+			"start": {
+				"year": -508
+			},
+			"event": "Democracy instituted at Athens"
+		},
+		{
+			"start": {
+				"year": -500
+			},
+			"event": "completion of Euclid's Elements"
+		},
+		{
+			"start": {
+				"year": -500
+			},
+			"event": "Panini standardizes the grammar and morphology of Sanskrit in the text Ashtadhyayi. Panini's standardized Sanskrit is known as Classical Sanskrit"
+		},
+		{
+			"start": {
+				"year": -500
+			},
+			"event": "Pingala uses zero and binary numeral system"
+		},
+		{
+			"start": {
+				"year": -499
+			},
+			"event": "King Aristagoras of Miletus incites all of Hellenic Asia Minor to rebel against the Persian Empire, beginning the Greco-Persian Wars"
+		},
+		{
+			"start": {
+				"year": -490
+			},
+			"event": "Greek city-states defeat Persian invasion at Battle of Marathon"
+		},
+		{
+			"start": {
+				"year": -483
+			},
+			"event": "Death of Gautama Buddha"
+		},
+		{
+			"start": {
+				"year": -480
+			},
+			"event": "Persian invasion of Greece by Xerxes; Battles of Thermopylae and Salamis"
+		},
+		{
+			"start": {
+				"year": -479
+			},
+			"event": "Death of Confucius"
+		},
+		{
+			"start": {
+				"year": -475
+			},
+			"event": "Warring States period begins in China as the Zhou king became a mere figurehead; China is annexed by regional warlords"
+		},
+		{
+			"start": {
+				"year": -470
+			},
+			"event": "Birth of Socrates"
+		},
+		{
+			"start": {
+				"year": -465
+			},
+			"event": "Murder of Xerxes"
+		},
+		{
+			"start": {
+				"year": -458
+			},
+			"event": "The Oresteia by Aeschylus, the only surviving trilogy of ancient Greek plays, is performed"
+		},
+		{
+			"start": {
+				"year": -449
+			},
+			"event": "The Greco-Persian Wars end"
+		},
+		{
+			"start": {
+				"year": -447
+			},
+			"event": "Building of the Parthenon at Athens started"
+		},
+		{
+			"start": {
+				"year": -432
+			},
+			"event": "Construction of the Parthenon is completed"
+		},
+		{
+			"start": {
+				"year": -431
+			},
+			"event": "Beginning of the Peloponnesian war between the Greek city-states"
+		},
+		{
+			"start": {
+				"year": -429
+			},
+			"event": "Sophocles's play Oedipus the King is first performed"
+		},
+		{
+			"start": {
+				"year": -427
+			},
+			"event": "Birth of Plato"
+		},
+		{
+			"start": {
+				"year": -424
+			},
+			"event": "Nanda dynasty comes to power"
+		},
+		{
+			"start": {
+				"year": -404
+			},
+			"event": "End of the Peloponnesian War"
+		},
+		{
+			"start": {
+				"year": -400
+			},
+			"event": "Zapotec culture flourishes around city of Monte Albán"
+		},
+		{
+			"start": {
+				"year": -399
+			},
+			"event": "Death of Socrates"
+		},
+		{
+			"start": {
+				"year": -384
+			},
+			"event": "Birth of Aristotle"
+		},
+		{
+			"start": {
+				"year": -331
+			},
+			"event": "Alexander the Great defeats Darius III of Persia in the Battle of Gaugamela, completing his conquest of Persia"
+		},
+		{
+			"start": {
+				"year": -326
+			},
+			"event": "Alexander the Great defeats Indian king Porus in the Battle of the Hydaspes River"
+		},
+		{
+			"start": {
+				"year": -323
+			},
+			"event": "Death of Alexander the Great at Babylon"
+		},
+		{
+			"start": {
+				"year": -321
+			},
+			"event": "Chandragupta Maurya overthrows the Nanda Dynasty of Magadha"
+		},
+		{
+			"start": {
+				"year": -300
+			},
+			"event": "Construction of the Great Pyramid of Cholula, the world's largest pyramid by volume, begins in Cholula, Puebla, Mexico"
+		},
+		{
+			"start": {
+				"year": -273
+			},
+			"event": "Ashoka the Great becomes the emperor of the Mauryan Empire"
+		},
+		{
+			"start": {
+				"year": -261
+			},
+			"event": "Kalinga war"
+		},
+		{
+			"start": {
+				"year": -257
+			},
+			"event": "Thục Dynasty takes over Việt Nam (then Kingdom of Âu Lạc)"
+		},
+		{
+			"start": {
+				"year": -250
+			},
+			"event": "Rise of Parthia (Ashkâniân), the second native dynasty of ancient Persia"
+		},
+		{
+			"start": {
+				"year": -232
+			},
+			"event": "Death of Emperor Ashoka the Great; Decline of the Mauryan Empire"
+		},
+		{
+			"start": {
+				"year": -230
+			},
+			"event": "Emergence of Satavahanas in South India"
+		},
+		{
+			"start": {
+				"year": -221
+			},
+			"event": "Qin Shi Huang unifies China, end of Warring States period; Construction of the Great Wall by the Qin Dynasty begins"
+		},
+		{
+			"start": {
+				"year": -207
+			},
+			"event": "Kingdom of Nan Yueh extends from Canton to North Việt Nam "
+		},
+		{
+			"start": {
+				"year": -206
+			},
+			"event": "Han Dynasty established in China, after the death of Qin Shi Huang; China in this period officially becomes a Confucian state and opens trading connections with the West, i.e. the Silk Road"
+		},
+		{
+			"start": {
+				"year": -202
+			},
+			"event": "Scipio Africanus defeats Hannibal at Battle of Zama"
+		},
+		{
+			"start": {
+				"year": -200
+			},
+			"event": "El Mirador, largest early Maya city, flourishes"
+		},
+		{
+			"start": {
+				"year": -200
+			},
+			"event": "Paper is invented in China"
+		},
+		{
+			"start": {
+				"year": -200
+			},
+			"event": "Chera dynasty in South India"
+		},
+		{
+			"start": {
+				"year": -185
+			},
+			"event": "Shunga Empire founded"
+		},
+		{
+			"start": {
+				"year": -149
+			},
+			"event": "Third Punic War between Rome and Carthage. War ends with the complete destruction of Carthage, allowing Rome to conquer modern day Tunisia and Libya"
+		},
+		{
+			"start": {
+				"year": -146
+			},
+			"event": "Roman conquest of Greece, see Roman Greece"
+		},
+		{
+			"start": {
+				"year": -129
+			},
+			"event": "Roman conquest of Turkey"
+		},
+		{
+			"start": {
+				"year": -121
+			},
+			"event": "Roman armies enter Gaul for the first time"
+		},
+		{
+			"start": {
+				"year": -111
+			},
+			"event": "First Chinese domination of Việt Nam in the form of the Nanyue Kingdom"
+		},
+		{
+			"start": {
+				"year": -100
+			},
+			"event": "Chola dynasty rises in prominence"
+		},
+		{
+			"start": {
+				"year": -80
+			},
+			"event": "The city of Florence is founded"
+		},
+		{
+			"start": {
+				"year": -49
+			},
+			"event": "Roman Civil War between Julius Caesar and Pompey the Great"
+		},
+		{
+			"start": {
+				"year": -44
+			},
+			"event": "Julius Caesar murdered by Marcus Brutus and others; End of Roman Republic; beginning of Roman Empire"
+		},
+		{
+			"start": {
+				"year": -40
+			},
+			"event": "Roman conquest of Egypt"
+		},
+		{
+			"start": {
+				"year": -27
+			},
+			"event": "Formation of Roman Empire: Octavius is given titles of Princeps and Augustus by Roman Senate - beginning of Pax Romana"
+		},
+		{
+			"start": {
+				"year": -18
+			},
+			"event": "Three Kingdoms period begins in Korea. The temple of Jerusalem is reconstructed"
+		},
+		{
+			"start": {
+				"year": -6
+			},
+			"event": "Earliest theorized date for birth of Jesus of Nazareth. Roman succession: Gaius Caesar and Lucius Caesar groomed for the throne"
+		},
+		{
+			"start": {
+				"year": -4
+			},
+			"event": "Widely accepted date (Ussher) for birth of Jesus Christ"
+		},
+		{
+			"start": {
+				"year": 9
+			},
+			"event": "Battle of the Teutoburg Forest, the Imperial Roman Army's bloodiest defeat"
+		},
+		{
+			"start": {
+				"year": 14
+			},
+			"event": "Death of Emperor Augustus (Octavian), ascension of his adopted son Tiberius to the throne"
+		},
+		{
+			"start": {
+				"year": 30
+			},
+			"event": "Crucifixion of Jesus Christ, exact date unknown"
+		},
+		{
+			"start": {
+				"year": 37
+			},
+			"event": "Death of Emperor Tiberius, ascension of his nephew Caligula to the throne"
+		},
+		{
+			"start": {
+				"year": 40
+			},
+			"event": "Rome conquers Morocco"
+		},
+		{
+			"start": {
+				"year": 41
+			},
+			"event": "Emperor Caligula is assassinated by the Roman senate. His uncle Claudius succeeds him"
+		},
+		{
+			"start": {
+				"year": 43
+			},
+			"event": "Rome enters Britain for the first time"
+		},
+		{
+			"start": {
+				"year": 54
+			},
+			"event": "Emperor Claudius dies and is succeeded by his grand nephew Nero"
+		},
+		{
+			"start": {
+				"year": 68
+			},
+			"event": "Emperor Nero commits suicide"
+		},
+		{
+			"start": {
+				"year": 70
+			},
+			"event": "Destruction of Jerusalem by the armies of Titus"
+		},
+		{
+			"start": {
+				"year": 79
+			},
+			"event": "Destruction of Pompeii by the volcano Vesuvius"
+		},
+		{
+			"start": {
+				"year": 106
+			},
+			"event": "Roman Empire at largest extent under Emperor Trajan"
+		},
+		{
+			"start": {
+				"year": 117
+			},
+			"event": "Trajan dies of natural causes. His adopted son Hadrian succeeds him. Hadrian pulls out of Iraq and Armenia"
+		},
+		{
+			"start": {
+				"year": 126
+			},
+			"event": "Hadrian completes the Pantheon in Rome"
+		},
+		{
+			"start": {
+				"year": 138
+			},
+			"event": "Hadrian dies of natural causes. His adopted son Antoninus Pius succeeds him"
+		},
+		{
+			"start": {
+				"year": 161
+			},
+			"event": "Death of Antoninus Pius. His rule was the only one in which Rome did not fight in a war"
+		},
+		{
+			"start": {
+				"year": 192
+			},
+			"event": "Kingdom of Champa in Central Việt Nam"
+		},
+		{
+			"start": {
+				"year": 200
+			},
+			"event": "The Buddhist Srivijaya Empire established in Maritime Southeast Asia"
+		},
+		{
+			"start": {
+				"year": 220
+			},
+			"event": "Three Kingdoms period begins in China after the fall of Han Dynasty"
+		},
+		{
+			"start": {
+				"year": 226
+			},
+			"event": "Fall of the Parthian Empire and Rise of the Sassanian Empire"
+		},
+		{
+			"start": {
+				"year": 238
+			},
+			"event": "Defeat of Gordian III (238–244), Philip the Arab (244–249), and Valerian (253–260), by Shapur I of Persia, (Valerian was captured by the Persians)"
+		},
+		{
+			"start": {
+				"year": 280
+			},
+			"event": "Emperor Wu established Jin Dynasty providing a temporary unity of China after the devastating Three Kingdoms period"
+		},
+		{
+			"start": {
+				"year": 285
+			},
+			"event": "Diocletian becomes emperor of Rome and splits the Roman Empire into Eastern and Western Empires"
+		},
+		{
+			"start": {
+				"year": 285
+			},
+			"event": "Diocletian begins a large-scale persecution of Christians"
+		},
+		{
+			"start": {
+				"year": 292
+			},
+			"event": "The capital of the Roman empire is officially moved from Rome to Mediolanum (modern day Milan)"
+		},
+		{
+			"start": {
+				"year": 301
+			},
+			"event": "Diocletian's edict on prices"
+		},
+		{
+			"start": {
+				"year": 313
+			},
+			"event": "Edict of Milan declared that the Roman Empire would tolerate all forms of religious worship"
+		},
+		{
+			"start": {
+				"year": 325
+			},
+			"event": "Constantine I organizes the First Council of Nicaea"
+		},
+		{
+			"start": {
+				"year": 330
+			},
+			"event": "Constantinople is officially named and becomes the capital of the eastern Roman Empire"
+		},
+		{
+			"start": {
+				"year": 335
+			},
+			"event": "Samudragupta becomes the emperor of the Gupta empire"
+		},
+		{
+			"start": {
+				"year": 337
+			},
+			"event": "Emperor Constantine I dies, leaving his sons Constantius II, Constans I, and Constantine II as the emperors of the Roman empire"
+		},
+		{
+			"start": {
+				"year": 350
+			},
+			"event": "Constantius II is left sole emperor with the death of his two brothers"
+		},
+		{
+			"start": {
+				"year": 354
+			},
+			"event": "Birth of Augustine of Hippo"
+		},
+		{
+			"start": {
+				"year": 361
+			},
+			"event": "Constantius II dies, his cousin Julian succeeds him"
+		},
+		{
+			"start": {
+				"year": 378
+			},
+			"event": "Battle of Adrianople, Roman army is defeated by the Germanic tribes"
+		},
+		{
+			"start": {
+				"year": 380
+			},
+			"event": "Roman Emperor Theodosius I declares the Arian faith of Christianity heretical"
+		},
+		{
+			"start": {
+				"year": 395
+			},
+			"event": "Theodosius I outlaws all religions other than Catholic Christianity"
+		},
+		{
+			"start": {
+				"year": 406
+			},
+			"event": "Romans are expelled from Britain"
+		},
+		{
+			"start": {
+				"year": 407
+			},
+			"event": "Visigoths and other Germanic tribes cross into Roman-Gaul for the first time"
+		},
+		{
+			"start": {
+				"year": 410
+			},
+			"event": "Visigoths sacks Rome for the first time since 390 BC"
+		},
+		{
+			"start": {
+				"year": 415
+			},
+			"event": "Germanic tribes enter Spain"
+		},
+		{
+			"start": {
+				"year": 429
+			},
+			"event": "Vandals enter North Africa from Spain for the first time"
+		},
+		{
+			"start": {
+				"year": 439
+			},
+			"event": "Vandals have conquered the land stretching from Morocco to Tunisia by this time"
+		},
+		{
+			"start": {
+				"year": 455
+			},
+			"event": "Vandals sack Rome, capture Sicily and Sardinia"
+		},
+		{
+			"start": {
+				"year": 455
+			},
+			"event": "Skandagupta repels an Indo-Hephthalite attack on India"
+		},
+		{
+			"start": {
+				"year": 476
+			},
+			"event": "Romulus Augustus, last Western Roman Emperor is forced to abdicate by Odoacer, a chieftain of the Germanic Heruli"
+		}
+	];
+
+/***/ },
+/* 181 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = [{ "year": 70, "description": "Kandake Amanikhatashan sends Kushite cavalry to aid Roman Emperor in Jerusalem revolt" }, { "year": 100, "description": "rise of the Aksum" }, { "year": 100, "description": "Khoekhoe reach southern coast of Africa" }, { "year": 50, "description": "Pyramid of the Sun began" }, { "year": 25, "description": "Han Dynasty reestablished under Guangwu" }, { "year": 33, "description": "Christianity begins" }, { "year": 47, "description": "London founded" }, { "year": 79, "description": "Pompeii destroyed" }, { "year": 150, "description": "Rhapta, hint of pre-Swahili, Periplus of the Erythraean Sea" }, { "year": 200, "description": "Bantu reach east Africa" }, { "year": 200, "description": "Nok culture ends" }, { "year": 150, "description": "Cahuachi becomes dominant ceremonial site in southern Peru" }, { "year": 184, "description": "Yellow Turban Rebellion" }, { "year": 106, "description": "Dacia becomes a Roman province" }, { "year": 166, "description": "Siege of Aquileia" }, { "year": 180, "description": "End of the Macromannic Wars" }, { "year": 212, "description": "Egyptians granted Roman citizenship" }, { "year": 230, "description": "Aksum wars with Himyar and Saba alliance" }, { "year": 300, "description": "Aksum prints own coins" }, { "year": 250, "description": "Rise of Laguna de los Cerros" }, { "year": 300, "description": "Tikàl conquers El Mirador" }, { "year": 208, "description": "Battle of Red Cliffs during the decline of the Han Dynasty" }, { "year": 280, "description": "Jin reunifies China" }, { "year": 212, "description": "Roman citizenship extended to all free people in the empire" }, { "year": 214, "description": "Hispania divided into Gallaecia, Tarraconensis, Baetica and Lusitania" }, { "year": 286, "description": "Diocletian divides the empire East and West" }, { "year": 300, "description": "Eastern Polynesian culture develops" }, { "year": 350, "description": "Meroe comes to an end" }, { "year": 378, "description": "Teotihuacan conquers Waka, Tikal, and Uaxactun, the beginning of its conquest of the Maya" }, { "year": 319, "description": "Rise of Gupta Empire in South Asia" }, { "year": 383, "description": "Battle of Fei River" }, { "year": 393, "description": "Last Olympic Games" }, { "year": 313, "description": "Edict of Milan" }, { "year": 370, "description": "Huns invade Eastern Europe" }, { "year": 396, "description": "Alaric and the Visigoths invade Greece" }, { "year": 401, "description": "c. camel main transport for trans-Sahara" }, { "year": 429, "description": "Vandal invasion" }, { "year": 500, "description": "Nubia split into Nobadia, Makuria, Alodia" }, { "year": 420, "description": "Southern and Northern Dynasties period begins" }, { "year": 407, "description": "Vandals enter Iberia" }, { "year": 421, "description": "Romans defeat Persians" }, { "year": 476, "description": "Fall of Roman Empire" }, { "year": 500, "description": "Settlement of Hawaii, Easter Island, Society Islands, Tuamotus and Mangareva" }, { "year": 520, "description": "Kaleb attacks Yemen" }, { "year": 533, "description": "Belisarius invades Africa" }, { "year": 540, "description": "Nubia converts to monophysite Christianity" }, { "year": 600, "description": "Wari' conquer Peru" }, { "year": 600, "description": "Construction of Palenque" }, { "year": 538, "description": "Buddhism introduced in Japan." }, { "year": 570, "description": "Birth of the Islamic prophet Muhammad" }, { "year": 507, "description": "Battle of Vouillé" }, { "year": 535, "description": "Byzantine army invades Italy" }, { "year": 585, "description": "Visigoths conquer Suevi kingdom" }, { "year": 641, "description": "Muslims invade Africa" }, { "year": 690, "description": "Za Dynasty founded" }, { "year": 697, "description": "Carthage destroyed" }, { "year": 650, "description": "Settlement of Xochitecatl and Cacaxtla" }, { "year": 700, "description": "Teotihuacan destroyed" }, { "year": 618, "description": "Tang Dynasty established" }, { "year": 632, "description": "Rise of Islam" }, { "year": 651, "description": "Islamic conquest of Persiac." }, { "year": 680, "description": "Bulgarian Empire was founded" }, { "year": 700, "description": "Settlement of the Cook Islands" }, { "year": 702, "description": "Aksum attacks Arabia" }, { "year": 706, "description": "Arabic in Egypt" }, { "year": 789, "description": "Independent Morocco" }, { "year": 738, "description": "Quiriguá becomes independent of Copan" }, { "year": 750, "description": "Sacred Cenote built at Chichén Itzá" }, { "year": 780, "description": "Murals at Bonampak abandoned" }, { "year": 738, "description": "Battle of Rajasthan and invasion of India by Umayyad Caliphate was averted" }, { "year": 755, "description": "An Shi Rebellion" }, { "year": 717, "description": "Siege of Constantinople" }, { "year": 718, "description": "Islamic conquest of Spain" }, { "year": 801, "description": "c. Kanem Empire founded" }, { "year": 835, "description": "Ganlu Incident" }, { "year": 872, "description": "Norway unites" }, { "year": 874, "description": "Settlement of Iceland" }, { "year": 896, "description": "Hungarians invade Carpathia" }, { "year": 900, "description": "Settlement of New Zealand" }, { "year": 905, "description": "Tulunids ejected" }, { "year": 909, "description": "Fatimid established" }, { "year": 969, "description": "Fustat captured" }, { "year": 950, "description": "Great Serpent Mound constructed" }, { "year": 990, "description": "Toltecs conquer Chichén Itzá" }, { "year": 907, "description": "Political upheaval of the Five Dynasties begins" }, { "year": 960, "description": "Song dynasty established" }, { "year": 958, "description": "Denmark unites" }, { "year": 985, "description": "Erik the Red founds colony in Greenland" }, { "year": 1000, "description": "Polynesians build stone temples" }];
 
 /***/ }
 /******/ ]);

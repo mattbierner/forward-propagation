@@ -14,7 +14,8 @@ const yearLabel = year =>
 export default class YearLabel extends React.Component {
     render() {
         return (
-            <span {...this.props}>{yearLabel(this.props.value)}</span>
+            <span {...this.props}
+                className={"year-label " + (this.props.className || '') }>{yearLabel(this.props.value) }</span>
         );
     }
 }

@@ -47,15 +47,14 @@ $timeline-height: 60px;
     bottom: 0;
     margin: auto;
 
-    .year-label {
+    .generation-range-label {
         display: none;
         white-space: nowrap;
         width: 100%;
         text-align: center;
-        background: white;
     }
     
-    &:hover .year-label {
+    &:hover .generation-range-label {
         position: absolute;
         display: block;
         width: 100%;

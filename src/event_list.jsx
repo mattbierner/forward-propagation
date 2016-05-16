@@ -8,11 +8,8 @@ import * as generations from './generations';
 
 class Event extends React.Component {
     render() {
-        const even = this.props.generations.some(x => x % 2) ? 'even' : ' ';
-        const odd = this.props.generations.some(x => !(x % 2)) ? 'odd' : ' ';
-
         return (
-            <li className={"event " + even + ' ' + odd}>
+            <li className="event">
                 <YearLabel value={this.props.year} /> - {this.props.description}
             </li>);
     }
@@ -21,26 +18,40 @@ class Event extends React.Component {
 class HeaderEvent extends React.Component {
     render() {
         return (
-            <div {...this.props}>
-                <YearLabel value={this.props.year} /> - {this.props.description}
+            <div {...this.props} className="header-event">
+                <h2><YearLabel value={this.props.year} /></h2>
+                <p>{this.props.description}</p>
             </div>);
     }
 }
 
+/**
+ * Displays first and last event in range.
+ */
 class EventRange extends React.Component {
+    getMinYear() {
+        return Math.min.apply(Math, this.props.generations.map(x => x.start));
+    }
+
     render() {
         const events = this.props.events;
-        
+
         let firstEvent, lastEvent;
         if (events.length >= 2) {
-            firstEvent = <HeaderEvent {...events[0]} />;
-            lastEvent = <HeaderEvent {...events[events.length - 1]} />;
+            return (
+                <div className="event-range">
+                    <HeaderEvent {...events[0]} />
+                    <HeaderEvent {...events[events.length - 1]} />
+                </div>);
         }
+        const minYear = this.getMinYear();
         return (
             <div className="event-range">
-                {firstEvent}
-                {lastEvent}
-            </div>);
+                {minYear >= 2016 && events.length === 0
+                    ?<p>Out of history</p>
+                    :''}
+            </div>
+        );
     }
 }
 
@@ -48,37 +59,51 @@ class EventRange extends React.Component {
  * Displays list of events in range.
  */
 export default class EventList extends React.Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            expanded: false
+        }
+    }
+    
     getEvents() {
         const range = generations.getRange(this.props.generations, 0, 1);
         return events(range.start, range.end);
     }
 
-    getGenerations(year) {
+    filterEvents() {
+        const events = this.getEvents();
+        const sampleSize = 5;
+
         const out = [];
-        let i = 0;
-        for (const g of this.props.generations) {
-            if (year >= g.start && year <= g.end) {
-                out.push(i);
+        const used = {};
+        for (let i = 0; i <= sampleSize; ++i) {
+            if (!used[i] && events[i]) {
+                used[i] = true;
+                out.push(events[i]);
             }
-            ++i;
         }
+
+        for (let i = events.length - sampleSize; i < events.length; ++i) {
+            if (!used[i] && events[i]) {
+                used[i] = true;
+                out.push(events[i]);
+            }
+        }
+
         return out;
     }
 
     render() {
         const events = this.getEvents();
-        const eventItems = events.map(x =>
-            <Event key={x.i} {...x} generations={this.getGenerations(x.year) } />);
 
-        let firstEvent, lastEvent;
-        if (events.length >= 2) {
-            firstEvent = <HeaderEvent {...events[0]} />;
-            lastEvent = <HeaderEvent {...events[events.length - 1]} />;
-        }
+        const eventItems = this.filterEvents().map(x =>
+            <Event key={x.i} {...x} />);
+
         return (
             <div>
-                <EventRange events={events} />
-                
+                <EventRange events={events} generations={this.props.generations} />
                 <ul className="event-list">
                     {eventItems}
                 </ul>

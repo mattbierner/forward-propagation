@@ -1,13 +1,14 @@
 <div align="center" >
-    <img src="https://raw.githubusercontent.com/mattbierner/forward-propagation/master/images/logo.png" alt="Forward Propagation" />
+    <img src="https://raw.githubusercontent.com/mattbierner/forward-propagation/gh-pages/images/logo.png" alt="Forward Propagation" />
 </div>
 
 *Forward Propagation* is a simple tool for looking at recent human history in terms of generations instead of years.
 
 ## Usage
 Play around with the controls to explore the distance between historical events and how much can change in a generation.
+
 <div align="center" >
-    <img src="https://raw.githubusercontent.com/mattbierner/forward-propagation/master/documentation/example.png" alt="Forward Propagation" />
+    <img src="https://raw.githubusercontent.com/mattbierner/forward-propagation/gh-pages/documentation/example.png" alt="Forward Propagation" />
 </div>
 
 #### Mode

@@ -41,7 +41,7 @@ $timeline-height: 60px;
 .timeline .generation {
     position: absolute;
     border-radius: 100px;
-    border: 1px solid white;
+    border: 1px solid $background-color;
     height: 8px;
     top: calc(50% + 10px);
     bottom: 0;
@@ -73,12 +73,12 @@ $timeline-height: 60px;
     height: 6px;
     border-radius: 100px;
     background: #ed9270;
-    border: 1px solid white;
+    border: 1px solid $background-color;
     
     .event-label {
         display: none;
         width: 15em;
-        background: white;
+        background: $background-color;
         border: 1px solid $text-color;
         z-index: 99;
         position: absolute;

@@ -204,6 +204,10 @@ export default [
         "description": "Pasteur's experiments lead to germ theory; Salon des Refusés introduces impressionism"
     },
     {
+        "year": 1865,
+        "description": "End of the American Civil War."
+    },
+    {
         "year": 1867,
         "description": "Japan ends 675-year shogun rule"
     },

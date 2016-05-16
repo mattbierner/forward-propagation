@@ -24463,6 +24463,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	/**
+	 * Single event in the event list.
+	 */
+
 	var Event = function (_React$Component) {
 	    _inherits(Event, _React$Component);
 
@@ -24488,6 +24492,11 @@
 	    return Event;
 	}(_react2.default.Component);
 
+	/**
+	 * Summary of event for header range.
+	 */
+
+
 	var HeaderEvent = function (_React$Component2) {
 	    _inherits(HeaderEvent, _React$Component2);
 
@@ -24502,7 +24511,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                _extends({}, this.props, { className: 'header-event' }),
+	                { className: 'header-event' },
 	                _react2.default.createElement(
 	                    'h3',
 	                    null,
@@ -24578,7 +24587,7 @@
 	}(_react2.default.Component);
 
 	/**
-	 * Displays list of events in range.
+	 * Displays expandable list of events in range.
 	 */
 
 
@@ -24597,15 +24606,9 @@
 	    }
 
 	    _createClass(EventList, [{
-	        key: 'getEvents',
-	        value: function getEvents() {
-	            var range = generations.getRange(this.props.generations, 0, 1);
-	            return (0, _events2.default)(range.start, range.end);
-	        }
-	    }, {
 	        key: 'filterEvents',
 	        value: function filterEvents() {
-	            var events = this.getEvents();
+	            var events = this.props.events;
 	            var sampleSize = 5;
 
 	            var out = [];
@@ -24629,21 +24632,14 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var events = this.getEvents();
-
 	            var eventItems = this.filterEvents().map(function (x) {
 	                return _react2.default.createElement(Event, _extends({ key: x.i }, x));
 	            });
 
 	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(EventRange, { events: events, generations: this.props.generations }),
-	                _react2.default.createElement(
-	                    'ul',
-	                    { className: 'event-list' },
-	                    eventItems
-	                )
+	                'ul',
+	                { className: 'event-list' },
+	                eventItems
 	            );
 	        }
 	    }]);
@@ -24651,7 +24647,43 @@
 	    return EventList;
 	}(_react2.default.Component);
 
-	exports.default = EventList;
+	/**
+	 * Displays information about events.
+	 */
+
+
+	var EventDisplay = function (_React$Component5) {
+	    _inherits(EventDisplay, _React$Component5);
+
+	    function EventDisplay() {
+	        _classCallCheck(this, EventDisplay);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EventDisplay).apply(this, arguments));
+	    }
+
+	    _createClass(EventDisplay, [{
+	        key: 'getEvents',
+	        value: function getEvents() {
+	            var range = generations.getRange(this.props.generations, 0, 1);
+	            return (0, _events2.default)(range.start, range.end);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var events = this.getEvents();
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(EventRange, { events: events, generations: this.props.generations }),
+	                _react2.default.createElement(EventList, { events: events })
+	            );
+	        }
+	    }]);
+
+	    return EventDisplay;
+	}(_react2.default.Component);
+
+	exports.default = EventDisplay;
 
 /***/ },
 /* 180 */

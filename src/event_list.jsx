@@ -6,6 +6,9 @@ import YearLabel from './year_label';
 import events from './events';
 import * as generations from './generations';
 
+/**
+ * Single event in the event list.
+ */
 class Event extends React.Component {
     render() {
         return (
@@ -15,10 +18,13 @@ class Event extends React.Component {
     }
 }
 
+/**
+ * Summary of event for header range.
+ */
 class HeaderEvent extends React.Component {
     render() {
         return (
-            <div {...this.props} className="header-event">
+            <div className="header-event">
                 <h3>{this.props.label}</h3>
                 <h2><YearLabel value={this.props.year} /></h2>
                 <p>{this.props.description}</p>
@@ -57,9 +63,9 @@ class EventRange extends React.Component {
 }
 
 /**
- * Displays list of events in range.
+ * Displays expandable list of events in range.
  */
-export default class EventList extends React.Component {
+class EventList extends React.Component {
     constructor(props) {
         super(props);
 
@@ -68,13 +74,8 @@ export default class EventList extends React.Component {
         }
     }
 
-    getEvents() {
-        const range = generations.getRange(this.props.generations, 0, 1);
-        return events(range.start, range.end);
-    }
-
     filterEvents() {
-        const events = this.getEvents();
+        const events = this.props.events;
         const sampleSize = 5;
 
         const out = [];
@@ -97,17 +98,32 @@ export default class EventList extends React.Component {
     }
 
     render() {
-        const events = this.getEvents();
-
         const eventItems = this.filterEvents().map(x =>
             <Event key={x.i} {...x} />);
 
         return (
+            <ul className="event-list">
+                {eventItems}
+            </ul>);
+    }
+}
+
+
+/**
+ * Displays information about events.
+ */
+export default class EventDisplay extends React.Component {
+    getEvents() {
+        const range = generations.getRange(this.props.generations, 0, 1);
+        return events(range.start, range.end);
+    }
+
+    render() {
+        const events = this.getEvents();
+        return (
             <div>
                 <EventRange events={events} generations={this.props.generations} />
-                <ul className="event-list">
-                    {eventItems}
-                </ul>
+                <EventList events={events} />
             </div>);
     }
 }

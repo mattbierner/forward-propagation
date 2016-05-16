@@ -19,6 +19,7 @@ class HeaderEvent extends React.Component {
     render() {
         return (
             <div {...this.props} className="header-event">
+                <h3>{this.props.label}</h3>
                 <h2><YearLabel value={this.props.year} /></h2>
                 <p>{this.props.description}</p>
             </div>);
@@ -40,16 +41,16 @@ class EventRange extends React.Component {
         if (events.length >= 2) {
             return (
                 <div className="event-range">
-                    <HeaderEvent {...events[0]} />
-                    <HeaderEvent {...events[events.length - 1]} />
+                    <HeaderEvent label="earliest" {...events[0]} />
+                    <HeaderEvent label="latest" {...events[events.length - 1]} />
                 </div>);
         }
         const minYear = this.getMinYear();
         return (
             <div className="event-range">
                 {minYear >= 2016 && events.length === 0
-                    ?<p>Out of history</p>
-                    :''}
+                    ? <p>Out of history</p>
+                    : ''}
             </div>
         );
     }
@@ -61,12 +62,12 @@ class EventRange extends React.Component {
 export default class EventList extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             expanded: false
         }
     }
-    
+
     getEvents() {
         const range = generations.getRange(this.props.generations, 0, 1);
         return events(range.start, range.end);

@@ -29,7 +29,6 @@
 }
 
 .event-list .event {
-    font-size: 0.9em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
 }
@@ -44,11 +43,18 @@
     float: left;
     text-align: center;
     
-    .year-label {
-        font-weight: lighter;
+    h3 {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #777;
+        margin-bottom: -0.2em;
+    }
+    
+    h2 {
+        margin-bottom: 0.1em;
     }
     
     p {
-        padding: 0.4em;
+        padding: 0 0.4em;
     }
 }

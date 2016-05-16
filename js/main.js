@@ -24504,6 +24504,11 @@
 	                'div',
 	                _extends({}, this.props, { className: 'header-event' }),
 	                _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    this.props.label
+	                ),
+	                _react2.default.createElement(
 	                    'h2',
 	                    null,
 	                    _react2.default.createElement(_year_label2.default, { value: this.props.year })
@@ -24552,8 +24557,8 @@
 	                return _react2.default.createElement(
 	                    'div',
 	                    { className: 'event-range' },
-	                    _react2.default.createElement(HeaderEvent, events[0]),
-	                    _react2.default.createElement(HeaderEvent, events[events.length - 1])
+	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'earliest' }, events[0])),
+	                    _react2.default.createElement(HeaderEvent, _extends({ label: 'latest' }, events[events.length - 1]))
 	                );
 	            }
 	            var minYear = this.getMinYear();

@@ -72,12 +72,18 @@ $timeline-height: 60px;
     width: 6px;
     height: 6px;
     border-radius: 100px;
-    background: rgba(0, 0, 0, 0.4);
+    background: #ed9270;
+    border: 1px solid white;
     
     .event-label {
         display: none;
-        white-space: nowrap;
-        width: 20em;
+        width: 15em;
+        background: white;
+        border: 1px solid $text-color;
+        z-index: 99;
+        position: absolute;
+        top: 8px;
+        padding: 0.4em;
     }
     
     &:hover .event-label {

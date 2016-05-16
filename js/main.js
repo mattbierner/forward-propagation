@@ -25606,11 +25606,13 @@
 	                ),
 	                ' ',
 	                _react2.default.createElement(_year_label2.default, { value: range.start }),
+	                ' ',
 	                _react2.default.createElement(
 	                    'i',
 	                    null,
 	                    'to'
 	                ),
+	                ' ',
 	                _react2.default.createElement(_year_label2.default, { value: range.end })
 	            );
 	        }

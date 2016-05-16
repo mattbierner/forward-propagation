@@ -14,7 +14,7 @@ export default class Summary extends React.Component {
         return (
             <span className="summary">
                 {this.props.generations.length} generations <i>of</i> {this.props.generationLength} years <i>with</i> {this.props.overlap} year overlaps<br/>
-                <i>spanning</i> <YearLabel value={range.start}/><i>to</i><YearLabel value={range.end} />
+                <i>spanning</i> <YearLabel value={range.start}/> <i>to</i> <YearLabel value={range.end} />
             </span>
         );
     }

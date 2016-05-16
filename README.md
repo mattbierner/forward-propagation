@@ -35,6 +35,10 @@ For *generational telephone* (i.e. knowledge transfer or passing down stories), 
 For genetic/familial generations, overlap is a proxy for when the current generation produces the next generation: `next generation produced = generation length - overlap`. For example, with `generation length = 50` and `overlap = 30`, each generation produces the next generation at age `20` and then continues along for `30` more years, alongside their offspring. From age `40` to `50` of the original generation, the offspring now have produced an offspring generation of their own.
 
 
+## Event Sources
+* [All of Human History](https://github.com/mattbierner/all-of-human-history) npm package.
+* `all-of-human-history` has too many events once you get into the second millennium, so I swapped in a more selective set of second millennium events [from here](http://www.infoplease.com/ipa/A0781458.html). Who the hell knows how they came up with that set.
+
 ## Building and Running
 The website uses [Jekyll](http://jekyllrb.com/) and [Webpack](http://webpack.github.io/) for building:
 

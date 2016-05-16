@@ -129,7 +129,7 @@ export default class TimeLine extends React.Component {
             }));
 
         const events = (this.state.events).map(x =>
-            <Event key={x.year} {...x} range={this.state.range} />);
+            <Event key={x.i} {...x} range={this.state.range} />);
 
 
         const bodyStyle = {};

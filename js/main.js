@@ -20856,7 +20856,7 @@
 	            }));
 
 	            var events = this.state.events.map(function (x) {
-	                return _react2.default.createElement(Event, _extends({ key: x.year }, x, { range: _this4.state.range }));
+	                return _react2.default.createElement(Event, _extends({ key: x.i }, x, { range: _this4.state.range }));
 	            });
 
 	            var bodyStyle = {};
@@ -24574,10 +24574,14 @@
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'event-range' },
-	                minYear >= 2016 && events.length === 0 ? _react2.default.createElement(
+	                events.length === 0 ? minYear >= 2016 ? _react2.default.createElement(
 	                    'p',
 	                    null,
 	                    'Out of history'
+	                ) : _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'No events found'
 	                ) : ''
 	            );
 	        }
@@ -24597,7 +24601,11 @@
 	    function EventList(props) {
 	        _classCallCheck(this, EventList);
 
+	        // Number of
+
 	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(EventList).call(this, props));
+
+	        _this4.sampleSize = 5;
 
 	        _this4.state = {
 	            expanded: false
@@ -24606,40 +24614,69 @@
 	    }
 
 	    _createClass(EventList, [{
-	        key: 'filterEvents',
-	        value: function filterEvents() {
-	            var events = this.props.events;
-	            var sampleSize = 5;
-
+	        key: 'getPre',
+	        value: function getPre(events, used) {
 	            var out = [];
-	            var used = {};
-	            for (var i = 0; i <= sampleSize; ++i) {
+	            for (var i = 0; i <= this.sampleSize; ++i) {
 	                if (!used[i] && events[i]) {
 	                    used[i] = true;
 	                    out.push(events[i]);
 	                }
 	            }
-
-	            for (var _i = events.length - sampleSize; _i < events.length; ++_i) {
-	                if (!used[_i] && events[_i]) {
-	                    used[_i] = true;
-	                    out.push(events[_i]);
+	            return out;
+	        }
+	    }, {
+	        key: 'getPost',
+	        value: function getPost(events, used) {
+	            var out = [];
+	            for (var i = events.length - this.sampleSize; i < events.length; ++i) {
+	                if (!used[i] && events[i]) {
+	                    used[i] = true;
+	                    out.push(events[i]);
 	                }
 	            }
-
 	            return out;
+	        }
+	    }, {
+	        key: 'onExpand',
+	        value: function onExpand() {
+	            this.setState({ expanded: !this.state.expanded });
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var eventItems = this.filterEvents().map(function (x) {
+	            var toItem = function toItem(x) {
 	                return _react2.default.createElement(Event, _extends({ key: x.i }, x));
-	            });
+	            };
+
+	            var events = this.props.events;
+
+	            var items = void 0;
+	            if (this.state.expanded) {
+	                items = events.map(toItem);
+	            } else {
+	                var used = {};
+	                var pre = this.getPre(this.props.events, used).map(toItem);
+	                var post = this.getPost(this.props.events, used).map(toItem);
+
+	                var mid = [];
+	                if (events.length > pre.length + post.length) mid = _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.onExpand.bind(this) },
+	                        'Show all events'
+	                    )
+	                );
+
+	                items = [].concat(pre, mid, post);
+	            }
 
 	            return _react2.default.createElement(
 	                'ul',
 	                { className: 'event-list' },
-	                eventItems
+	                items
 	            );
 	        }
 	    }]);

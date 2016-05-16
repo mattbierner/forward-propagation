@@ -54,8 +54,8 @@ class EventRange extends React.Component {
         const minYear = this.getMinYear();
         return (
             <div className="event-range">
-                {minYear >= 2016 && events.length === 0
-                    ? <p>Out of history</p>
+                {events.length === 0
+                    ? (minYear >= 2016 ? <p>Out of history</p> : <p>No events found</p>)
                     : ''}
             </div>
         );
@@ -69,42 +69,62 @@ class EventList extends React.Component {
     constructor(props) {
         super(props);
 
+        // Number of 
+        this.sampleSize = 5;
+
         this.state = {
             expanded: false
         }
     }
 
-    filterEvents() {
-        const events = this.props.events;
-        const sampleSize = 5;
-
+    getPre(events, used) {
         const out = [];
-        const used = {};
-        for (let i = 0; i <= sampleSize; ++i) {
+        for (let i = 0; i <= this.sampleSize; ++i) {
             if (!used[i] && events[i]) {
                 used[i] = true;
                 out.push(events[i]);
             }
         }
-
-        for (let i = events.length - sampleSize; i < events.length; ++i) {
-            if (!used[i] && events[i]) {
-                used[i] = true;
-                out.push(events[i]);
-            }
-        }
-
         return out;
     }
 
+    getPost(events, used) {
+        const out = [];
+        for (let i = events.length - this.sampleSize; i < events.length; ++i) {
+            if (!used[i] && events[i]) {
+                used[i] = true;
+                out.push(events[i]);
+            }
+        }
+        return out;
+    }
+
+    onExpand() {
+        this.setState({ expanded: !this.state.expanded });
+    }
+
     render() {
-        const eventItems = this.filterEvents().map(x =>
-            <Event key={x.i} {...x} />);
+        const toItem = x => (<Event key={x.i} {...x} />);
+
+        const events = this.props.events;
+
+        let items;
+        if (this.state.expanded) {
+            items = events.map(toItem);
+        } else {
+            const used = {}
+            const pre = this.getPre(this.props.events, used).map(toItem);
+            const post = this.getPost(this.props.events, used).map(toItem);
+
+            let mid = [];
+            if (events.length > pre.length + post.length)
+                mid = (<li><button onClick={this.onExpand.bind(this) }>Show all events</button></li>);
+
+            items = [].concat(pre, mid, post);
+        }
 
         return (
-            <ul className="event-list">
-                {eventItems}
-            </ul>);
+            <ul className="event-list">{items}</ul>);
     }
 }
 
